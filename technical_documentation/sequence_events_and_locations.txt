@@ -1,0 +1,100 @@
+title Concept 2.0
+
+participantgroup #lightgreen **KT App**
+actor WebApp user
+participant WebApp
+end 
+
+participantgroup #lightgreen **App Provider**
+participant AppProvider Frontend
+participant AppProvider Backend
+participant AppProvider EPS
+end
+
+
+participantgroup #pink **IRIS central services**
+database Service Directory
+database Location Service
+participant Location Service EPS
+database Broker Proxy (incl. EPS)
+end 
+
+participantgroup #lightblue **Health Department**
+participant Proxy
+participant HD EPS
+participant HD Client (BFF)
+participant HD Frontend
+end 
+
+note over Service Directory: - providerName = CN/SAN in Cert\n- Provider Endpoint
+
+==Push Locations==
+AppProvider Backend ->AppProvider EPS: location details
+AppProvider EPS -> Location Service EPS: location details
+Location Service EPS ->Location Service EPS: check app provider certificate
+Location Service EPS ->Location Service: location details, added providerName from cert
+box over Location Service: Adds location to index\nfor providerName from Cert
+
+==Create Request for guest list data==
+
+activate HD Frontend
+HD Frontend->HD Client (BFF):search location
+HD Client (BFF)->HD EPS: search request
+HD EPS->Location Service EPS: search location
+Location Service EPS ->Location Service EPS: check HD certificate
+Location Service EPS->Location Service: search location
+Location Service-->Location Service EPS: location details, providerName
+Location Service EPS -->HD EPS: location details, providerName
+HD EPS ->HD EPS: check location service certificate
+HD EPS -->HD Client (BFF): location details, providerName
+HD Client (BFF) -->HD Frontend: location details, providerName
+HD Frontend ->HD Client (BFF): data request for location and providerId
+box over HD Client (BFF): persist request\ncreate connection-auth-token,\ndata-auth-token
+HD Client (BFF) ->Broker Proxy (incl. EPS): sends connection-auth-token for authorization
+HD Client (BFF) ->HD EPS:data request to provider by providerName
+HD EPS ->Service Directory: lookup endpoint for providerName
+Service Directory-->HD EPS: endpoint
+HD EPS->AppProvider EPS: data request
+AppProvider EPS->AppProvider EPS: check HD cert
+AppProvider EPS->AppProvider Backend: request,\nattach HD identifier from cert
+
+
+alt data accessible in backend
+box over AppProvider Backend: collect guest list data\nincl. data-auth-token\nflag "gl data"
+AppProvider Backend-->AppProvider EPS: gl data submission identified by token
+AppProvider EPS -->HD EPS: gl data submission
+HD EPS->HD EPS: check AppProvider cert
+HD EPS-->HD Client (BFF): gl data submission,\nattach app provider identifier from cert, , authorized by data-auth-token
+box over HD Client (BFF): persist data submission\nflag "gl data"
+
+
+else data needs to be decrypted by location
+AppProvider Backend ->AppProvider Frontend:request 
+box over AppProvider Frontend: location decrypts data\ndata submission includes data-auth-token
+AppProvider Frontend --> Broker Proxy (incl. EPS):data submission, HD endpoint extracted from token
+box over Broker Proxy (incl. EPS): provides connection to HD\nbased on endpoint\authorized by connection-auth-token
+Broker Proxy (incl. EPS) -->HD EPS:  data submission
+HD EPS -->HD Client (BFF): datasubmission, authorized by data-auth-token
+box over HD Client (BFF): persist data submission\nflag "gl data"
+
+end
+HD Frontend ->HD Client (BFF): persisted gl data for request
+HD Client (BFF) -->HD Frontend: gl data
+
+deactivate HD Frontend
+
+==Create Request for contact diary data==
+activate HD Frontend
+HD Frontend ->HD Client (BFF): data request 
+box over HD Client (BFF): persist request\ncreate connection-auth-token,\ndata-auth-token
+HD Client (BFF) ->Broker Proxy (incl. EPS): sends connection-auth-token for authorization
+HD Client (BFF) ->WebApp user: tokens by QR, Mail...
+WebApp user->WebApp: opens link to "Digitales Wartezimmer"\nwith tokens as params
+box over WebApp: creates or releases\ncontact diary data\incl. data-auth-token
+WebApp --> Broker Proxy (incl. EPS):data submission, HD endpoint extracted from token
+box over Broker Proxy (incl. EPS): provides connection to HD\nbased on endpoint\nauthorized by connection-auth-token
+Broker Proxy (incl. EPS) -->HD EPS:  data submission
+HD EPS -->HD Client (BFF): datasubmission, authorized by data-auth-token
+box over HD Client (BFF): persist data submission\nflag "cd data"
+HD Frontend ->HD Client (BFF):persisted diary data for request
+HD Client (BFF) -->HD Frontend: diary data

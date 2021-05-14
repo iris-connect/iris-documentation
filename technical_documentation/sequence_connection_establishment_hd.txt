@@ -1,0 +1,43 @@
+title Connectiion Establishment to Health Department
+
+participant Client
+
+
+
+
+participantgroup #pink **IRIS central services**
+participant Public Proxy
+participant Public Proxy EPS
+end
+
+participantgroup #lightblue **Health Department**
+participant Private Proxy EPS
+participant Private Proxy
+participant IRIS Client
+end
+
+
+IRIS Client -> Private Proxy EPS: Announce Connection <Regex/Token> [jsonRPC]
+Private Proxy EPS -> Public Proxy EPS: Announce Connection <Regex/Token> [gRPC]
+Public Proxy EPS -> Public Proxy: Announce Connection <Regex/Token> [jsonRPC]
+Public Proxy ->Public Proxy: Cache announcement (handleInternalConnection)
+
+Client ->Public Proxy: Client Request/TLS ClientHello <Token> [HTTPS]
+Public Proxy ->Public Proxy: handleTlsConnection()\nCache ClientHello
+note over Public Proxy: Passthrough to HD either directly based on Token parsed from ClientHello SNI\nor by matching the submitted (announced) auth token
+
+
+Public Proxy ->Public Proxy EPS: Passthrough request
+Public Proxy EPS ->Private Proxy EPS: Notify about incomming client request
+Private Proxy EPS->Private Proxy: Notify
+Private Proxy->Public Proxy:Init TCP/IP session
+note right of Private Proxy: Model potential MitM threat scenario.
+Public Proxy->Public Proxy: handleInternalConnection()\nRetrieve ClientHello
+Public Proxy-->Private Proxy: ClientHello
+note right of Private Proxy: Does not terminate Client TLS
+
+
+Private Proxy-->IRIS Client: ClientHello
+Private Proxy<--IRIS Client:ServerHello
+Public Proxy<--Private Proxy:ServerHello
+Client<--Public Proxy: ServerHello
