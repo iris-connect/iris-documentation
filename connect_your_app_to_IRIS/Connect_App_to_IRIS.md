@@ -1,11 +1,11 @@
 # How to Connect an Application to IRIS
 
 
-[] [TODO] set up wiki
-[] [TODO] set up a donations section
-[] [TODO] set up help session schedule
-[] [TODO] set up a space to store Apps documents
-[] [TODO] add badge? >>Is connected to IRIS<<
+[ ] [TODO] set up wiki    
+[ ] [TODO] set up a donations section    
+[ ] [TODO] set up help session schedule    
+[ ] [TODO] set up a space to store Apps documents    
+[ ] [TODO] add badge? >>Is connected to IRIS<<    
 
 Welcome! The following will describe the requirements and process on how to connect to IRIS. It may seem complex, but we hope that this overview and step by step guide will help to ease you through the process.
 
