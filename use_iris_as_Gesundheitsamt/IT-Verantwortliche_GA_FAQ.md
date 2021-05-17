@@ -1,4 +1,4 @@
-# FAQ für Techniker / Anwender in den Gesundheitsämtern
+# FAQ für TechnikerInnen in den Gesundheitsämtern zu Funktionsweise, Einrichtung und Betrieb
 
 ## Wie wird IRIS betrieben?
 Bestimmte Teile der Infrastruktur müssen nur einmal betrieben werden. Eine länderübergreifende Bereitstellung ist jedoch abhängig von politischen 
@@ -62,7 +62,7 @@ Von der Location zum Gesundheitsamt:
 `Wird nachgereicht und offen in der Dokumentation dargestellt`
 
 ## Ist IRIS 3-Tier fähig?
-Aus Applications Sicht spricht nichts dagegen. 
+Aus Applikations-Sicht spricht nichts dagegen. 
 
 ## Welche Betriebssysteme werden unterstützt?
 Nur relevant für Betriebsmodus “Java”. Jedes System das Open JDK unterstützt ist geeignet. Die aktuelle IRIS Staging Umgebung läuft auf Ubuntu LTS.
@@ -120,24 +120,23 @@ kommunalen verantwortlichen IT-Stelle bereitstellen. Gleiches gilt für die Betr
 Apps/Anbieter sind über Client Zertifikate eindeutig zuordenbar. Es gibt einen Onboarding Prozess, der die Bereitstellung verschiedener relevanter Dokumente erfordert. Außerdem werden entsprechende zu integrierende Komponente zur Verfügung gestellt. Das Prozedere ist im Repositorium beschrieben.
 
 ## Welche Auslastung mit welchen Leistungsspitzen sind zu erwarten?
-Dies hängt vom Infektionsgeschehen und der Intensität des öffentlichen Lebens ab. Bei hoher Inzidenz und wenig geöffneten Stätten sind von 3–5 Kontaktpersonen pro Indexfall auszugehen. Das bedeutet bei einer 7-Tage-Inzidenz von 200 Fällen/100.000 EW ca. 33.000 Anfragen bzw. 170.000 Kontaktdatensätze pro Wochenarbeitstag. Bei mehr sozialem Leben (50 Kontaktpersonen pro Fall) und eher niedriger 7-Tage-Inzidenz (10/100.000) sind es 1.660 Anfragen pro Wochenarbeitstag und 83.000 Kontaktdatensätze.
+Dies hängt vom Infektionsgeschehen und der Intensität des öffentlichen Lebens ab. Bei hoher Inzidenz und Kontaktbeschränkungen sind von 3–5 Kontaktpersonen pro Indexfall auszugehen. Das bedeutet bei einer 7-Tage-Inzidenz von 200 Fällen/100.000&#8239;EW ca. 33.000 Anfragen bzw. 170.000 Kontaktdatensätze pro Wochenarbeitstag. Bei mehr sozialem Leben (50 Kontaktpersonen pro Fall) und eher niedriger 7-Tage-Inzidenz (10/100.000&#8239;EW) sind es 1.660 Anfragen pro Wochenarbeitstag und 83.000 Kontaktdatensätze.
 
 ## Wie werden die Zertifikate des IRIS Client verwaltet?
 Die Verwaltung der Zertifikate ist aktuell noch in Klärung, werden aber durch einen Dienstleister zur Verfügung gestellt. Hier ist aktuell vorgesehen, diese 
 alle 12 Monate zu erneuern. Weitere Fragen zum Prozess werden beim Onboarding geklärt.
 
-## Wie wird die Usability auf Seiten der Gesundheitsämter sichergestellt? Können z.B. Feature-Wünsche zurückgespielt werden?
-Grundsätzlich besteht ein hohes Interesse an einer bestmöglichen Usability. Dazu wurden bereits mehrere Gespräche und Tests mit Gesundheitsämtern durchgeführt. 
-IRIS wird im sogenannten Open-Development-Prozess entwickelt. Es können also direkt Feature-Requests gestellt und innerhalb der Community diskutiert werden. 
-Falls weitere Features gewünscht werden, können diese auch extern beauftragt werden. Diese Module werden dann ebenfalls Open-Source bereitgestellt und können von 
-allen genutzt werden. 
+## Wie wird die Usability auf Seiten der Gesundheitsämter sichergestellt? Können z.B. Feature-Wünsche, bzw. Änderungswünsche zurückgespielt werden?
+Grundsätzlich besteht ein hohes Interesse an einer bestmöglichen Nutzbarkeit. Dazu wurden bereits mehrere Gespräche und Tests mit Gesundheitsämtern durchgeführt. 
+IRIS wird im sogenannten Open-Development-Prozess entwickelt. Es können also direkt Feature-Requests gestellt und innerhalb der Community diskutiert werden.    
+Falls weitere Features gewünscht werden, können diese auch extern beauftragt werden. Diese Module werden dann ebenfalls Open-Source bereitgestellt und können von allen genutzt werden. 
 
 ## Gibt es einen Barrierefreiheits-Test nach BITV (Standard nach welchen Kriterien Barrierefreiheits-Tests erfolgen soll)?
 Zunächst nicht. Ziel ist es, im Zuge der Pandemie zunächst schnell eine Lösung bereitzustellen. Im weiteren Verlauf der Entwicklung wird dies natürlich 
 berücksichtigt werden.
 
-## Was ist wenn sich jemand nicht ausloggt aus dem Gästebuch - kann der Betreiber das manuell machen? Sprich: ist das durch dritte manipulierbar?
-Dies obliegt der App und muss im entsprechenden Hygienekonzept der Veranstaltenden berücksichtigt werden.
+## Was ist wenn sich jemand nicht ausloggt aus dem Gästebuch - können Einrichtungs-Betreibende das manuell machen? Sprich: ist das durch Dritte manipulierbar?
+Dies obliegt der App und muss im entsprechenden Hygienekonzept der Veranstaltung berücksichtigt werden.
 
 ## Ergänzung zur PKI: Wird eine Certificate Revokation List (CRL) gepflegt/genutzt, um die Nutzung kompromittierter Zertifikate zu unterbinden?
 Ja.
@@ -157,7 +156,7 @@ Die Installationsanleitung für den Client im öffentlichen Repositorium einsehb
 `wird nachgereicht`
 
 ## Was für Proxies werden für den Zugriff auf den Client verwendet?
-Das Gateway stellt keine Verbindung zum Client her. Client stellt Verbindung zum Client her.
+Das Gateway stellt keine Verbindung zum Client her. Der Client stellt Verbindung zum Client her.
 
 ## Wie sieht das Rollen- und Rechtekonzept aus?
 Siehe Zugangsverwaltung. Grundsätzlich dürfen angemeldete Nutzende Anfragen stellen und die erhaltenen Daten verarbeiten.
