@@ -26,9 +26,18 @@ Please find below and overview of the IRIS system and its actors as well as the 
 
 ## Request a certificate
 
-ToDo: Describe process how to contact the rollout team and what information is expected in the CSR. 
-
 Generate your certificate signing request 
+
+    O="COSYNUS GmbH"
+    ST="Europaplatz 5"
+    L="64293 Darmstadt"
+    C="DE"
+    OU="IT"
+    CN="smartmeeting"
+    # using less than 1024 here will result in a TLS handshake failure in Go
+    # using less than 2048 will cause e.g. 'curl' to complain that the ciper is too weak
+    LEN="2048"
+
 
     openssl genrsa -out "${cert}.key" 2048;
   	openssl rsa -in "${cert}.key" -pubout -out "${cert}.pub";
