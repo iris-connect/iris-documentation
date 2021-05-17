@@ -27,13 +27,26 @@ Please find below and overview of the IRIS system and its actors as well as the 
 ## Request a certificate
 
 ToDo: Describe process how to contact the rollout team and what information is expected in the CSR. 
+
+Generate your certificate signing request 
+
+    openssl genrsa -out "${cert}.key" 2048;
+  	openssl rsa -in "${cert}.key" -pubout -out "${cert}.pub";
+  	openssl req -new -sha256 -key "${cert}.key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${cert}" -addext "subjectAltName = DNS:${cert},DNS:*.${cert}.local" -out "${cert}.csr";
+
+with your information in subject and your app name as ${cert}. Please use your app name as CN (for example CN=smartmeeting). Don't use spaces. 
+ 
+Send the .csr to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
+  	
+
 ## Install and configure EPS
 
-First, the EPS is installed and configured locally. Then messages can be sent to and received from IRIS via the EPS.
+You can start a local eps with
 
-The EPS server can be cloned and created from [https://github.com/iris-gateway/eps](https://github.com/iris-gateway/eps). We will later also provide an executable, versioned binary for all common environments.
-
+    docker run -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/dev/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level tracing server run
  
+`[yourapp]` corresponds to the app name you chose for CN in your certificate. 
+
 ### Config files and certificates
 
 ToDo
@@ -57,9 +70,9 @@ You can find the specification of the respective methods and destinations [here]
 
 ### Location search index
 
-Location search index can be reached at `iris-location-service` as [destination-identifier].
+Location search index can be reached at `ls-1`.
 
-Possible methods and there structure are
+Possible methods and their structure are
 
 #### postLocationsToSearchIndex
 
@@ -68,7 +81,6 @@ Possible methods and there structure are
 Example parameters:
 
     "params": {
-            "providerId": "6b3f5dee-acb0-11eb-8529-0242ac130003",
             "locations": [
                 {
                     "id": "5eddd61036d39a0ff8b11fdb",
@@ -90,7 +102,6 @@ Example parameters:
         
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
-| `providerId` | your unique ProviderId | Caution: this will change and will not be required in the future.
 | `locations` | array of locations | 
 
 Location parameters:
@@ -122,8 +133,7 @@ Contact parameters:
 
 Example parameters:
     
-    "params": {            
-        "providerId": "6b3f5dee-acb0-11eb-8529-0242ac130003"        
+    "params": {                  
     }
 
 | Parameter | Description | Annotations |
@@ -148,13 +158,11 @@ Array of `id` and `name` pairs, where id is your unique identfier and `name` the
 Example parameters:
 
     "params": {
-        "providerId": "6b3f5dee-acb0-11eb-8529-0242ac130003", 
         "locationId":"5eddd61036d39a0ff8b11fdb"
     }
 
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
-| `providerId` | your unique ProviderId | Caution: this will change and will not be required in the future.
 | `locationId` | your internal location identifier | | 
 
 ##### Response 
