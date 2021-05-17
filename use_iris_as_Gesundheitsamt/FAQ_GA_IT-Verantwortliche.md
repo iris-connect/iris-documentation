@@ -1,14 +1,12 @@
 # FAQ für TechnikerInnen in den Gesundheitsämtern zu Funktionsweise, Einrichtung und Betrieb
 
 ## Wie wird IRIS betrieben?
-Bestimmte Teile der Infrastruktur müssen nur einmal betrieben werden. Eine länderübergreifende Bereitstellung ist jedoch abhängig von politischen 
-Entscheidung und muss im Rahmen der Vertragserstellung diskutiert werden. Aktuell wird geklärt, die singulären Strukturen für den Pilot redundant 
-bei der AKDB zu hosten und von dort aus bereitzustellen.
+Bestimmte Teile der Infrastruktur werden nur einmal bundesweit betrieben und enthalten die sogenannten "Zentralen Services". Diese zentralen IRIS Services werden redundant bei der AKDB gehostet und von dort aus bereitgestellt.
 
-`finale Antwort steht aus`
+Kern von IRIS ist der IRIS Client, der pro Gesundheitsamt betrieben wird. 
 
 ## Wer stellt das »IRIS Onboarding Team« zur Unterstützung bei der Einrichtung eines neuen Gesundheitsamtes?
-Das »IRIS Onboarding Team« wird aus einem Teil des Kern-Teams des IRIS Projekts gebildet werden.
+Das »IRIS Onboarding Team« wird aus einem Teil des Kern-Teams des IRIS Projekts gebildet werden. Das Team unterstützt primär Pilotinstallationen, um die Installationsanleitungen bestmöglich vorzuhalten.
 
 ## Wie bekommt man das entsprechende Zertifikat für die Registrierung eines Gesundheitsamtes?
 Es gibt einen gesonderten Prozeß, der die Bestellung und Einrichtung des Zertifikats von der Bundesdruckerei (Public-Key-Infrastruktur (PKI)) beschreibt. (TODO)
@@ -21,11 +19,11 @@ OpenJDK. Corretto wäre alternativ auch möglich.
 Clients der Gesundheitsämter von je ca. 50 GB.
 
 ## Warum werden Daten zwischengespeichert?
-Es findet keine Vorratsspeicherung statt. Die Daten werden nur im Bedarfsfall angefragt. Dann wird eine dezentrale Verbindung mit dem Client 
+Das ursprüngliche Konzept des IRIS Gateways sah eine maximal 15 Minuten dauernde Zwischenspeicherung der angefragten Daten vor. Im Rahmen eines Sicherheitsaudits wurde dieser Ansatz verworfen und die Daten werden vom Anbieter der digitalen Kontaktdatenerfassung direkt an den anfragenden IRIS Client gesendet. Es findet keine Vorratsspeicherung statt. Die Daten werden nur im Bedarfsfall angefragt. Dann wird eine dezentrale Verbindung mit dem Client 
 des jeweiligen Gesundheitsamts aufgebaut.
 
 ## Wie sieht die Backup Strategie für IRIS aus?
-Die zentralen Strukturen werden redundant betrieben, dort werden keine Daten vorgehalten. Daten, die im Gesundheitsamt ankommen unterliegen der 
+Die zentralen Strukturen werden redundant betrieben, dort werden keine Daten vorgehalten. Daten, die im Gesundheitsamt ankommen, unterliegen der 
 dortigen Datenhaltung.
 
 `finale Antwort steht aus`
