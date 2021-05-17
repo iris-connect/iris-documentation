@@ -35,7 +35,7 @@ We will keep this, and make this available to the responsible data protection ag
 We will keep this, and make this available to the responsible data protection agencies upon request. We will not be responsible for review or qualitative assessment. We will also not be responsible for accidental disclosure of this document.
 
 ### Whitepaper
-As described in the Code of Conduct, you will have to publish a whitepaper about your solution. For more description on the content see Code of Conduct but also you can find examples in diverse repos. The [CWA](https://github.com/corona-warn-app) or [Zilp-Zalp](https://github.com/adewes/zilpzalp/tree/master) are linked as an example.
+As described in the [Code of Conduct](https://github.com/iris-gateway/iris-documentation/blob/main/connect_your_app_to_IRIS/code_of_conduct_apps_for_IRIS_draft.md), you will have to publish a whitepaper about your solution. For more description on the content see [Code of Conduct](https://github.com/iris-gateway/iris-documentation/blob/main/connect_your_app_to_IRIS/code_of_conduct_apps_for_IRIS_draft.md) but also you can find examples in diverse repos. The [CWA](https://github.com/corona-warn-app) or [Zilp-Zalp](https://github.com/adewes/zilpzalp/tree/master) are linked as an example.
 
 
 ### Signed code of conduct
