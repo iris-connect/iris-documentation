@@ -52,7 +52,7 @@ Send the .csr to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get you
 
 You can start a local eps with
 
-    docker run -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/dev/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level tracing server run
+    docker run -exp-v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level trace server run
  
 `[yourapp]` corresponds to the app name you chose for CN in your certificate. 
 

@@ -34,3 +34,10 @@ channels: # defines all the channels that we want to open when starting the serv
     type: jsonrpc_client
     settings:
       endpoint: http://[your-host]:[your-port]/[your-endpoint]
+  - name: main gRPC client
+    type: grpc_client
+    settings:
+      tls:
+        ca_certificate_file: "$DIR/../../certs/staging-root.crt"
+        certificate_file: "$DIR/../../certs/[yourapp].crt"
+        key_file: "$DIR/../../certs/[yourapp].key"
