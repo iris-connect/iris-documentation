@@ -28,31 +28,33 @@ Please find below and overview of the IRIS system and its actors as well as the 
 
 Generate your certificate signing request 
 
+Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*.
+
     O="COSYNUS GmbH"
     ST="Europaplatz 5"
     L="64293 Darmstadt"
     C="DE"
     OU="IT"
-    CN="smartmeeting"
+    CN=[yourappname]
     # using less than 1024 here will result in a TLS handshake failure in Go
     # using less than 2048 will cause e.g. 'curl' to complain that the ciper is too weak
     LEN="2048"
 
 
-    openssl genrsa -out "${cert}.key" 2048;
-  	openssl rsa -in "${cert}.key" -pubout -out "${cert}.pub";
-  	openssl req -new -sha256 -key "${cert}.key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${cert}" -addext "subjectAltName = DNS:${cert},DNS:*.${cert}.local" -out "${cert}.csr";
+    openssl genrsa -out "[yourappname].key" 2048;
+  	openssl rsa -in "[yourappname].key" -pubout -out "[yourappname].pub";
+  	openssl req -new -sha256 -key "[yourappname].key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:[yourappname],DNS:*.[yourappname].local" -out "[yourappname].csr";
 
-with your information in subject and your app name as ${cert}. Please use your app name as CN (for example CN=smartmeeting). Don't use spaces. 
  
-Send the .csr to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
+ 
+Send the .csr and your domain and external port (default 4444, example: `api.meineapp.de:4444`) to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
   	
 
 ## Install and configure EPS
 
 You can start a local eps with
 
-    docker run --name iris-eps -expose 5556 -p 5556:5556 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level trace server run
+    docker run --name iris-eps -expose 5556 -expose 4444 -p 5556:5556 -p 4444:4444 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level trace server run
  
 `[yourapp]` corresponds to the app name you chose for CN in your certificate. 
 
