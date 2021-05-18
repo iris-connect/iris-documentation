@@ -52,13 +52,11 @@ Send the .csr to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get you
 
 You can start a local eps with
 
-    docker run -expose 5556 -p 5556:5556 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level trace server run
+    docker run --name iris-eps -expose 5556 -p 5556:5556 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level trace server run
  
 `[yourapp]` corresponds to the app name you chose for CN in your certificate. 
 
-### Config files and certificates
-
-ToDo
+Requests will then be sent to `POST https://localhost:5556/jsonrpc` 
 
 ## Push your locations to IRIS
 

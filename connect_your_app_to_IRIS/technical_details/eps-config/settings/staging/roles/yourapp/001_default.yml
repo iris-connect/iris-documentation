@@ -30,6 +30,7 @@ channels: # defines all the channels that we want to open when starting the serv
         ca_certificate_file: "$DIR/../../certs/staging-root.crt"
         certificate_file: "$DIR/../../certs/[yourapp].crt"
         key_file: "$DIR/../../certs/[yourapp].key"
+        verify_client: false
   - name: main JSON-RPC client # creates outgoing JSONRPC connections to deliver and receive messages
     type: jsonrpc_client
     settings:
