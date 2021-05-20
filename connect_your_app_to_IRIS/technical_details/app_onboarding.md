@@ -241,6 +241,14 @@ The request can be saved and edited locally. The functions for transmitting the 
 
 ToDo
 
+## Test your implementation
+
+To test your implementation, visit [https://iris.staging.iris-gateway.de:9443](https://iris.staging.iris-gateway.de:9443) 
+
+You can find the password and access data in the slack channel.
+
+There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
+
 ## Changelog
 
 ### [0.0.3] - 2021-05-20
@@ -248,6 +256,7 @@ ToDo
 #### Added
 - Receiving data requests
 - Improved setup instructions
+- Test your implementation
 
 ### [0.0.2] - 2021-05-08
 
