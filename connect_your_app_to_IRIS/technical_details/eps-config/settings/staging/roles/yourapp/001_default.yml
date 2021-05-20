@@ -17,7 +17,7 @@ channels: # defines all the channels that we want to open when starting the serv
   - name: main gRPC server # accepts incoming gRPC connections to deliver and receive messages
     type: grpc_server
     settings:
-      bind_address: "0.0.0.0:4444"
+      bind_address: "0.0.0.0:4444" # do not change port.
       tls:
         ca_certificate_file: "$DIR/../../certs/staging-root.crt"
         certificate_file: "$DIR/../../certs/[yourapp].crt"

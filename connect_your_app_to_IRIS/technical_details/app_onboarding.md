@@ -22,7 +22,9 @@ Please find below and overview of the IRIS system and its actors as well as the 
 |4|The health authority employees can use the IRIS client (having ints own EPS) in order to search for locations.|
 |5|The IRIS client connects to your app through the EPS layer and requests guest lists for a specific date and time. In order to know the endpoint IRIS internally keeps a record of which location is owned by which app. Your app returns the contact information using EPS.|
 
+## Prerequisites
 
+You need to open port 4444 for incoming connections. 
 
 ## Request a certificate
 
@@ -47,10 +49,14 @@ Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*
 
  
  
-Send the .csr and your domain and external port (default 4444, example: `api.meineapp.de:4444`) to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
+Send the .csr and your domain to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
   	
 
 ## Install and configure EPS
+
+The settings folder below eps-config must be copied to your own server. The files must be adapted according to this document and the comments in the respective files. The certificate issued by us and the corresponding key must be stored in the certs folder.
+
+The settings folder is then referenced in the docker call as ``[your-local-settings-path]`` as an absolute path.
 
 You can start a local eps with
 
@@ -58,9 +64,13 @@ You can start a local eps with
  
 `[yourapp]` corresponds to the app name you chose for CN in your certificate. 
 
+Port 4444 is mandatory for staging environment. You can change port 5556 to your needs.  
+
 Requests will then be sent to `POST https://localhost:5556/jsonrpc` 
 
-## Push your locations to IRIS
+## Interacting with EPS
+
+### Sending messages
 
 Sending messages to IRIS is done with JSON-RPC. 
 
@@ -184,12 +194,60 @@ Example parameters:
 
 ## Process IRIS Client data requests
 
-ToDo
+You need to provide a json-rpc endpoint on your server. The exact endpoint can be configured in your EPS configuration file. 
+    
+    - name: main JSON-RPC client # creates outgoing JSONRPC connections to deliver and receive messages
+        type: jsonrpc_client
+        settings:
+          endpoint: http://[your-host]:[your-port]/[your-endpoint]
+          
+To receive incoming DataRequests, you need to implement a method `createDataRequest` on your Endpoint. 
+
+The method has to accept the following paramters:
+
+createDataRequest parameters:
+
+| Parameter | Description | Annotations |
+| --- | --- | --- |    
+| `_client` | Calling EPS details |  
+| `dataRequest` | DataRequest details |
+
+_client object:
+
+| Parameter | Description | Annotations |
+| --- | --- | --- |    
+| `name` | Calling eps | You will use this name to reach the endpoint for data submissions  
+
+dataRequest object:
+
+| Parameter | Description | Annotations |
+| --- | --- | --- |    
+| `start` | Start of requested time period | 
+| `end` | End of requested time period | You will use this name to reach the endpoint for data submissions  
+| `requestDetails` | Additional message (optional) | May contain additional information about the request   
+| `dataAuthorizationToken` | Identifies the request to the health department | Used in submission to ensure that the data has been requested by the HD.   
+| `connectionAuthorizationToken` | Identifies the connection to public proxy | Will be necessary in the future to be able to send submissions from the browser.
+| `locationID` | Your location identifier | The identifier you used when creating the location.
+
+Response:
+
+| Parameter | Value | 
+| --- | --- |  
+| `_` | ``OK`` | 
+
+The request can be saved and edited locally. The functions for transmitting the data to the health authorities are next on the roadmap.
+
 ## Send data submissions
 
 ToDo
 
 ## Changelog
+
+### [0.0.3] - 2021-05-20
+
+#### Added
+- Receiving data requests
+- Improved setup instructions
 
 ### [0.0.2] - 2021-05-08
 
