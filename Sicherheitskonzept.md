@@ -20,6 +20,10 @@ Teile der nachfolgend beschriebenen Komponenten, Prozesse und Maßnahmen sind be
 Manche befinden sich aktuell in der Umsetzung. Andere sind erst geplant und sollen zeitnah umgesetzt werden. 
 Eine Kenntlichmachung diesbezüglich ist aktuell nicht vorgesehen.
 
+|Version|Datum|Erläuterung|
+|---|---|---|
+|v0.1|17.05.2021|Übermitteln an die HiSolutions AG im Zuge des Onboardings
+|v0.2| |
 Contributions welcome!
 
 ---
@@ -108,10 +112,10 @@ Nachfolgend werden die Akteure aufgeführt und erläutert, die im IRIS-System ve
 |ID|Erläuterung|
 |---|---|
 |A.HealthDepartment| Gesundheitsamt (GA)
-|A.HealthDepartmentAdmin| Administrator:innen des GA
-|A.HealthDepartmentEmployee| Mitarbeitende des GA (ex Administrator:innen)
-|A.HealthDepartmentSrvProv| IT-Dienstleister eines GA
-|A.AKDB| Anstalt für Kommunale Datenverarbeitung in Bayern (AKDB)
+|A.HealthDepartment.Admin| Administrator:innen des GA
+|A.HealthDepartment.Employee| Mitarbeitende des GA (ex Administrator:innen)
+|A.HealthDepartment.SrvProv| IT-Dienstleister eines GA
+|A.IRISSrvProvider| IT-Dienstleister (Hoster) von IRIS
 |A.DTrust| D-Trust GmbH / Bundesdruckerei GmbH
 |A.ExtSecurityAuditor| Externer IT-Sicherheitsprüfer
 |A.Callcenter| Support-Callcenter
@@ -128,16 +132,16 @@ Gesundheitsämter nutzen IRIS, um bei verschiedenen anderen Akteuren digital vor
 Diese Daten verwenden sie direkt oder in einer digitalen Fachanwendung (z.B. SORMAS), zum Abwickeln einer Kontakt-Nachverfolgung oder Ereignis-Nachverfolgung.
 
 In einem GA können verschiedene Personengruppen unterschieden werden, die im Kontext von Zugriffsrechten gesondert zu betrachten sind:
-#### A.HealthDepartmentAdmin - Administrator:innen des GA
-#### A.HealthDepartmentEmployee - Mitarbeitende des GA (ex Administrator:innen)
+#### A.HealthDepartment.Admin - Administrator:innen des GA
+#### A.HealthDepartment.Employee - Mitarbeitende des GA (ex Administrator:innen)
 Unter den Mitarbeitenden kann ggf. weiter zwischen *internen Mitarbeitenden* und *externen Mitarbeitenden* (z.B. vorübergehend unterstützende Soldat:innen der Bundeswehr) unterschieden werden.
 
 ### A.ServiceProvider - Dienstleister
-#### A.HealthDepartmentSrvProv - IT-Dienstleister eines GA
+#### A.HealthDepartment.SrvProv - IT-Dienstleister eines GA
 Viele Gesundheitsämter betreiben ihre IT-Infrastruktur nicht im eigenen Haus, sondern greifen dafür auf einen IT-Dienstleister zurück.
 Das kann ein IT-Dienstleister auf kommunaler, Landes- oder Bundesebene sein, der dem Gesundheitsamt Hosting- und PKI-Dienstleistungen anbietet.
-#### A.AKDB - Anstalt für Kommunale Datenverarbeitung in Bayern (AKDB)
-Die [AKDB](https://www.akdb.de/) ist eine Anstalt des öffentlichen Rechts und ein deutscher IT-Dienstleister für Kommunalverwaltungen.
+#### A.IRISSrvProvider - IT-Dienstleister (Hoster) von IRIS
+Die Infrastruktur von IRIS wird von einem externen Dienstleister - der AKDB - betrieben. Die [AKDB](https://www.akdb.de/) ist eine Anstalt des öffentlichen Rechts und ein deutscher IT-Dienstleister für Kommunalverwaltungen.
 Sie hostet die Produktiv- und Entwicklungssysteme des IRIS-Systems. Darunter fallen die zentralen Komponenten und Dienste, die nicht von den Lösungsanbieter:innen oder GÄ bzw. dessen IT-Dienstleister
 betrieben werden.
 #### A.DTrust - D-Trust GmbH / Bundesdruckerei GmbH
@@ -147,8 +151,9 @@ entschlüsseln und digital signieren können.
 #### A.ExtSecurityAuditor - Externer IT-Sicherheitsprüfer
 Die [Hisolutions AG](https://www.hisolutions.com/) ist ein erfahrener Beratungsspezialist für Security und IT-Management.
 Sie prüft das IT-Sicherheitskonzept und versucht ggf. noch nicht identifizierte Risiken aufzudecken, die dokumentiert und anschließend durch angemessenen Maßnahmen mitigiert werden.
-#### A.Callcenter - Support-Callcenter (Details tbd)
-Je nach Auftragsumfang kann den GÄ ein Callcenter bereitgestellt werden, das einen 1st-Level-Support über eine Telefon-Hotline anbietet.
+#### A.Callcenter - Support-Callcenter
+Je nach Auftragsumfang kann den GÄ ein Callcenter bereitgestellt werden, das einen 1st-Level-Support über eine Telefon-Hotline anbietet. 
+Dieser Kundenservice wird über die Dienstleistungs-GmbH der Björn Steiger Stiftung angeboten.
 
 ### A.IRIS - Die IRIS-Organisation
 #### A.OnboardingTeam - Onboarding Team der IRIS-Organisation
@@ -196,7 +201,7 @@ Ausgehend von der Art der Lösung, die bereitgestellt wird gibt es
   Ein Anbieter, der eine Lösung zur Erfassung des Aufenthalts von Privatpersonen in einer Einrichtung (z.B. einem Restaurant) oder anderweitigen Örtlichkeit bereitstellt. Diese werden von Einrichtungsbetreibenden (z.B. Restaurantinhaber:in und Angestellten) genutzt.
 
 Ausgehend von der Art der Datenhaltung gibt es Anbieter, bei denen
-* Daten zentral (in einem BAckend) gespeichert werden
+* Daten zentral (in einem Backend) gespeichert werden
 * Daten dezentral (z.B. in einer App) gespeichert werden
 * Daten in einem Browser eingegeben werden
 
@@ -209,61 +214,95 @@ Es ergeben sich entsprechend:
   Ein Anbieter (Gästeliste), bei dem die Endgeräte der Nutzer:innen direkt mit dem GA kommunizieren.
 
 ### A.SolutionUser - Endnutzer:in einer digitalen Lösung
-Endnutzer einer Lösung können Privatpersonen oder Einrichtungsbetreibende (z.B. Restaurantinhaber:in und Angestellte) sein.
+Endnutzer:innen einer Lösung können Privatpersonen oder Einrichtungsbetreibende (z.B. Restaurantinhaber:in und Angestellte) sein.
 Sie können analog zu den Lösungsanbietern daran genauer unterschieden werden, welchen Art der Datenhaltung und des Endgeräts die von ihnen genutzte Lösung vorsieht. Also mobile App, Browser oder mittelbar über ein zentrales Backend.
 
 ## Komponenten (Components)
-### C.0.1 IRIS Produktivsystem
-Das Produktivsystem läuft auf einem eigenen Kubernetes Cluster bei der AKDB. Es beinhaltet alle unter "IRIS Gateway"
-aufgeführten Komponenten.
+### C.IRIS.ProdEnv - Produktivsystem von IRIS
+Das Produktivsystem läuft auf einem eigenen Kubernetes Cluster beim IT-Dienstleister von IRIS. Es beinhaltet die zentralen Komponenten und Dienste. 
+Diese sind in [C.IRIS.CentralServices](#ciriscentralservices---zentrale-komponenten-und-dienste-iris-gateway) beschrieben.
 
-### C.0.2 IRIS Entwicklungssystem
-Das Entwicklungssystem läuft auf einem eigenen Kubernetes Cluster bei der AKDB. Es beinhaltet die gleichen Komponenten wie das Produktivsystem.
+### C.IRIS.StagingEnv - Das Stangingsystem von IRIS
+Das Stangingsystem läuft auf einem eigenen Kubernetes Cluster beim IT-Dienstleister von IRIS. Es beinhaltet die gleichen Komponenten wie das Produktivsystem. 
 
-### C.1 IRIS-Client im Gesundheitsamt
-Wird vom GA bzw. dessen IT-Dienstleister gehostet.
+### C.GA.IRISClient - IRIS-Client eines Gesundheitsamts
+Der IRIS-Client stellt eine Benutzeroberfläche bereit, mit der Mitarbeitenden des GA IRIS aus einem Browser heraus nutzen können. 
+Er wird auf einem Server im Gesundheitsamt (bzw. bei dessen IT-Dienstleister) installiert.
 
-#### C.1.1 IRIS-Client Frontend
-#### C.1.2 IRIS-Client Backend
-#### C.1.3 IRIS-Client Datenbank
-#### C.1.4 Endpoint Server (EPS) / Private Proxy
-Der EPS des Gesundheitsamts kommuniziert mit den EPS-Komponenten des IRIS-Gateways und der Anbieter. Er beinhaltet einen privaten
-Proxy. Dieser nimmt keine TCP-Verbindungen entgegen und verbindet sich stattdessen aktiv mit dem öffentlichen Proxy-Server des IRIS-Gateways, wenn eine Verbindung für ihn verfügbar ist.
-Er leitet diese Verbindung (wiederum ohne TLS zu terminieren) an einen internen Server weiter, der sie dann bearbeitet.
+Der IRIS-Client besteht im weiteren Sinne aus folgenden Komponenten, die später näher betrachtet werden:
+* Einem Frontend-Server
+* Einem Backend-Server
+* Dem Private Proxy des GA
+* Dem EPS des GA
 
-### C.2 Zentrale Komponenten (IRIS Gateway)
-Die zentralen IRIS-Komponenten werden von der AKDB gehostet.
-#### C.2.1 Endpoint Server (EPS) / Public Proxy
+Weiterhin hat er folgende Laufzeit-Abhängigkeiten, die in diesem Dokument nur stellenweise näher betrachtet werden:
+* Eine PostgreSQL-Datenbank: Das Backend benutzt eine PostgreSQL-Datenbank für die Verwaltung der Benutzer und für die Speicherung der offenen Kontaktdaten- und Gästedaten-Anfragen.
+* Einen Webserver: Für die Bereitstellung des Frontends über eine sichere TLS-Verbindung wird ein Webserver benötigt. 
+  Dieser muss in der Lage sein die statische Webanwendung auszuliefern und Anfragen an das Backend weiterzuleiten.
+* Proxy Server: In vielen GÄ werden ausgehende Verbindungen über einen Proxy-Server geroutet. 
+  Der IRIS-Client stellt eine Konfigurationsmöglichkeit dafür zur Verfügung.
+
+#### C.GA.IRISClient.FE - Frontend des IRIS-Clients
+#### C.GA.IRISClient.BE - Backend des IRIS-Clients
+#### C.GA.PrivateProxy - Private Proxy eines GA
+Jedes GA verfügt über einen Private Proxy.
+Dieser nimmt keine TCP-Verbindungen entgegen und verbindet sich stattdessen aktiv mit dem öffentlichen Proxy-Server des IRIS-Gateways, wenn eine Verbindung für ihn verfügbar ist.
+Er leitet diese Verbindung (wiederum ohne TLS zu terminieren) an einen internen Server des GA weiter, der sie dann bearbeiten kann.
+
+### C.IRIS.CentralServices - Zentrale Komponenten und Dienste (IRIS-Gateway)
+Die zentralen IRIS-Komponenten und -Dienste werden vom externen IT-Dienstleister von IRIS gehostet.
+#### C.IRIS.EPS - Endpoint Server und Public Proxy
 Der EPS des IRIS-Gateways kommuniziert mit den EPS-Komponenten der Gesundheitsämter und Anbietern bzw. Clients. Er bietet einen TLS-Passthrough-Proxy-Dienst, der eingehende TLS-Verbindungen von öffentlichen Clients an einen internen Server in einem Gesundheitsamt weiterleiten kann, ohne die TLS-Verbindung zu terminieren.
 Der EPS beinhaltet einen öffentlichen Proxy, der im IRIS-Gateway steht. Dieser nimmt auf einem öffentlich zugänglichen TCP-Port eingehende TLS-Verbindungen entgegen, und auf einem anderen TCP-Port Verbindungen von privaten Proxy-Servern.
 
-#### C.2.3 Service Directory (Anbieterverzeichnis)
-Das Anbieterverzeichnis weiß jederzeit, welche Dienstleister an IRIS angeschlossen sind, und unter welcher Domain diese zu erreichen sind.
-Später wird dieser Dienst auch die Revocation List für zurückgezogene Zertifikate verwalten und and die Gesundheitsämter weiterleiten, um zu verhindern, dass gesperrte App Anbieter weiterhin Anfragen erhalten oder Locations hochladen.
-#### C.2.4 Location Service (Örtlichkeitsverzeichnis)
+#### C.IRIS.ServiceDir - Service Directory (Serviceverzeichnis)
+##### Allgemeines
+Das Service Directory ist ein zentraler Dienst mit angeschlossener Datenbank, die Informationen darüber enthält, welche Anbieter und GÄ an IRIS angeschlossen sind, wie diese erreicht werden können und welche Dienste sie anbieten. 
+Es ist aus einer Reihe von Änderungsdatensätzen aufgebaut. Jeder Änderungssatz enthält den Namen eines Akteurs, einen Abschnitt und die eigentlichen Daten, die geändert werden sollen.
+
+Mithilfe des Service Directory können Betreiber von EPS-Komponenten (GÄ, Anbieter, zentrale IRIS-Dienste) feststellen, ob und wie sie sich mit einem anderen EPS-Server verbinden können. 
+Betreiber, die nur über ausgehende Verbindungen verfügen - in der Regel GÄ -, können das Service Directory nutzen, um zu erfahren, dass sie möglicherweise asynchrone Antworten von anderen EPS-Betreibern (z.B. dem Location Service) erhalten und dann ausgehende Verbindungen zu diesen herstellen, über die sie Antworten erhalten können. 
+Betreiber können das Service Directory auch verwenden, um festzustellen, ob sie eine Nachricht von einem bestimmten anderen Betreiber annehmen sollen.
+
+Der EPS des Service Directory stellt einen JSON-RPC-Server bereit, der als Kommunikationsschnittstelle für alle Betreiber dient. 
+Neue Datensätze können über dessen JSON-RPC-API an das Service Directory übermittelt und bestehende darüber abgerufen werden.
+
+##### Sicherheit
+Alle Änderungen im Service Directory werden **kryptografisch signiert**. Dazu besitzt jeder Akteur im EPS-System ein Paar ECDSA-Schlüssel und ein dazugehöriges Zertifikat. 
+Das Service Directory akzeptiert Änderungen nur dann, wenn sie vom richtigen Akteur signiert worden sind. 
+Umgekehrt müssen auch Akteure, die Daten vom Service Directory abrufen zunächst deren Signatur verifizieren, bevor sie sie weiter verarbeiten.
+Genaueres zu den Schlüsseln und dem Signieren erläutern [M.PKI](#mpki---einsatz-von-pki) und [P.UpdateSvcDir](#psvcdirupdate---aktualisieren-des-datenbestands-des-service-directory).
+
+Zusätzlich implementiert das Service Directory einen **gruppenbasierten Berechtigungsmechanismus**. 
+Derzeit existieren nur Ja/Nein-Berechtigungen (d.h. ein Mitglied einer bestimmten Gruppe kann eine bestimmte Dienstmethode entweder aufrufen oder nicht). 
+Feinkörnigere Berechtigungen (z.B. damit ein Anbieter von Kontaktverfolgungen nur seine eigenen Einträge im Dienst "location" bearbeiten kann) müssen von den Diensten selbst (in iesem Fall vom Locations Service) implementiert werden. 
+Zu diesem Zweck stellt jeder EPS dem jeweils angeschlossenen Dienst Informationen über die aufrufende Gegenstelle zur Verfügung. 
+Diese enthalten den aktuellen Eintrag des Aufrufers aus dem Service Directory, sodass der aufgerufene Dienst den Aufrufer leicht identifizieren und autorisieren kann.
+
+
+#### C.IRIS.LocationService (Einrichtungsverzeichnis)
 Der Location Service verwaltet einen Index der Örtlichkeiten, die bei den verschiedenen App Anbietern registriert sind.
 Auf diese Weise können die GÄ Anfragen stellen, und den Mitarbeitern eine vereinfachte Suchoberfläche bieten, die die benötigte Zeit für eine Kontaktnachverfolgung reduziert.
-#### C.2.5 Datenbank (Postgres)
-Eine Standard Postgres Datenbank, die als Datenspeicher für den Location Service und das Anbieterverzeichnis dient.
-#### C.2.6 Network File System (NFS)
-tbd
+#### C.IRIS.Datenbank - Datenbank der zentralen Dienste
+Die zentralen Dienste verfügen über seperate oder gemeinsame Datnbanken (PostgreSQL), in denen sie Daten persistieren. 
+Aktuell werden weder die Datenbank, noch die Verbindungen zwischen ihr und den zentralen Diensten verschlüsselt.
 
-### C.3 IRIS-Client beim Anbieter einer Lösung
+#### C.SolProv.EPS - EPS eines Anbieters
 Die Anbieter-Komponenten werden vom Anbieter selbst gehostet und verwaltet.
-#### C.3.1 Anbieter Endpoint Server (EPS)
+
 Der EPS dient dem Anbieter als zentrale Kommunikationsschnittstelle im IRIS-System. Der EPS verwaltet die Authentifikation und Verschlüsselung der Verbindung zu den Gesundheitsämtern auf Transportebene und stellt sicher, dass Zertifikate und Schlüssel korrekt geprüft wurden, bevor Anfragen für den Anbieter überhaupt sichtbar gemacht werden.
 
-#### C.3.2 Anbieter Backend
-Das proprietäre Anbieter Backend ist dem Anbieter überlassen. Hier sollen die eingehenden Anfraen von IRIS bearbeitet werden, unter Umständen werden die Anfragen auch direkt auf Endgeräte der Nutzer weitergeleitet, sodass das Backend nur verschlüsselte Daten sieht.
-Dies hängt vom Sicherheitskonzept der App ab.
-### C.4 GA Fachanwendung
-Eine vom GA eingesetzte digitale Fachanwendung (z.B. Octowear oder SORMAS), in die die Daten, welche durch IRIS
-ermittelt wurden eingespeist werden.
+#### C.SolProv.Backend - Backend eine Anbieters
+Anbieter betreiben in der REgel ein eigenes Backend, das über den [C.SolProv.EPS](#csolproveps---eps-eines-anbieters) an das IRIS-System angeschlossen ist. 
+Das Backend verfügt immer über einen gRPC-Server, mit dem es mit der gRPC-Schnittstelle dem EPS des Anbieters spricht, um eingehende Anfragen anzunehmen und zu bearbeiten oder ausgehende Verbindungen zu anderen EPS-Betreibern aufzubauen.
 
-### C.5 Digitale Lösung eines Anbieters
-#### C.5.1 Lösung mit Backend (lokale oder zentrale Datenhaltung)
+### C.GA.Sol - Fachanwendung eines GA
+Eine vom GA eingesetzte digitale Fachanwendung (z.B. Octowear oder SORMAS), in die die Daten, welche durch IRIS ermittelt wurden eingespeist werden.
+
+### C.SolProv.Sol - Digitale Lösung eines Anbieters
+#### C.SolProv.Sol.Central - Lösung mit Backend (lokale oder zentrale Datenhaltung)
 z.B. Webanwendung wie Digitales Wartezimmer oder das Gäste-Tracing-System der Pizzeria Mio
-#### C.5.2 Mobile App (lokale Datenhaltung)
+#### C.SolProv.Sol.Local - Mobile App (lokale Datenhaltung)
 Mobile Apps und Web-Apps (Kontakttagebücher)
 
 ## Prozesse (Processes)
@@ -275,40 +314,56 @@ Im Folgenden werden die Prozesse beschrieben, die es bei IRIS gibt. Die Übersic
 
 |ID | Prozess| Erläuterung
 |---|---|---|
-|P.OnboardingHD | Onboarding eines GA| Ein GA wird an IRIS angeschlossen.
-|P.OnboardingHD_Certs | Ausgabe von Zertifikaten an ein GA| Das GA beantragt in einem geregelten Verfahren Zertifikate bei der D-Trust. Diese validiert die Identität des GA in einem sogenannten [Extended Validation (EV)](https://en.wikipedia.org/wiki/Extended_Validation_Certificate) Verfahren und übersendet anschließend die ausgestllten Zertifikate.
-|P.OnboardingHD_SvcDir | Eintragen eines GA im Service Directory| Das Onboarding-Team trägt ein GA im Service Directory ein. Anschließend ist es für Anbieter erreichbar.
+|P.Onboarding.HD | Onboarding eines GA| Ein GA wird an IRIS angeschlossen.
+|P.Onboarding.HD.Certs | Ausgabe von Zertifikaten an ein GA| Das GA beantragt in einem geregelten Verfahren Zertifikate bei der D-Trust. Diese validiert die Identität des GA in einem sogenannten [Extended Validation (EV)](https://en.wikipedia.org/wiki/Extended_Validation_Certificate) Verfahren und übersendet anschließend die ausgestllten Zertifikate.
+|P.Onboarding.HD.SvcDir | Eintragen eines GA im Service Directory| Das Rollout-Team trägt ein GA im Service Directory ein. Anschließend ist es für Anbieter erreichbar.
 | | |
-|P.OnboardingSolProv | Onboarding eines Lösungsanbieters| Ein Lösungsanbieter wird an IRIS angeschlossen.
-|P.OnboardingSolProv_Org | Organisatorisches Onboarding eines Anbieters| Das Onboarding-Team und der Anbieter führen gemeinsam den ersten (organisatorischen) Teil des Onboardings durch. Der Anbieter übergibt dabei die von IRIS angeforderten Unterlagen: Unterschriebene AGB und Code of Conduct, ein Whitepaper, sowie Dokumentation zum Datenschutz- und dem IT-Sicherheitskonzept der Lösung.
-|P.OnboardingSolProv_Certs | Ausgabe von Zertifikaten an einen Anbieter| Das Onboarding-Team stellt Zertifikate für einen Anbieter aus. Dabei übermittelt der Anbieter eine Anfrage mit kryptographischem Schlüsselmaterial, für das er Zertifikate zurückerhält.
-|P.OnboardingSolProv_SvcDir | Eintragen eines Anbieters im Service Directory| Das Onboarding-Team trägt einen Anbieter im Service Directory ein. Anschließend ist dieser für GÄ erreichbar.   
+|P.Onboarding.SolProv | Onboarding eines Lösungsanbieters| Ein Lösungsanbieter wird an IRIS angeschlossen.
+|P.Onboarding.SolProv.Org | Organisatorisches Onboarding eines Anbieters| Das Rollout-Team und der Anbieter führen gemeinsam den ersten (organisatorischen) Teil des Onboardings durch. Der Anbieter übergibt dabei die von IRIS angeforderten Unterlagen: Unterschriebene AGB und Code of Conduct, ein Whitepaper, sowie Dokumentation zum Datenschutz- und dem IT-Sicherheitskonzept der Lösung.
+|P.Onboarding.SolProv.Certs | Ausgabe von Zertifikaten an einen Anbieter| Das Rollout-Team stellt Zertifikate für einen Anbieter aus. Dabei übermittelt der Anbieter eine Anfrage mit kryptographischem Schlüsselmaterial, für das er Zertifikate zurückerhält.
+|P.Onboarding.SolProv.SvcDir | Eintragen eines Anbieters im Service Directory| Das Rollout-Team trägt einen Anbieter im Service Directory ein. Anschließend ist dieser für GÄ erreichbar.   
 | | |
-|P.UpdateSvcDir | Aktualisieren des Datenbestands des Service Directory | Das Hinzufügen, Ändern oder Entfernen von Einträgen im Service Directory. Dieser Prozess kann von einem GA, Anbieter oder der IRIS-Organisation initiiert werden.
-|P.UpdateLocations | Aktualisieren des Datenbestands des Location Service | Das Hinzufügen, Ändern oder Entfernen von Locations, für die ein Lösungsanbieter Dienste erbringt. Dieser Prozess kann von nur von einem Anbieter initiiert werden.
-|P.QuerySvcDir | Abrufen des Service Directory| Ein GA fordert das Übersenden von Kontaktdaten an. Dieser Prozess wird von GÄ und Anbietern initiiert.
+|P.SvcDir.Query | Abrufen des Service Directory| Ein GA fordert das Übersenden von Kontaktdaten an. Dieser Prozess wird von GÄ und Anbietern initiiert.
+|P.SvcDir.Update | Aktualisieren des Datenbestands des Service Directory | Das Hinzufügen, Ändern oder Entfernen von Einträgen im Service Directory. Dieser Prozess kann von einem GA, Anbieter oder der IRIS-Organisation initiiert werden.
+|P.LocationsSvc.Update | Aktualisieren des Datenbestands des Location Service | Das Hinzufügen, Ändern oder Entfernen von Locations, für die ein Lösungsanbieter Dienste erbringt. Dieser Prozess kann von nur von einem Anbieter initiiert werden.
 |P.HDRequestData | Stellen einer Anfrage zur Datenübermittlung | Ein GA fordert das Übersenden von Kontaktdaten bei Anbietern an. Dieser Prozess wird nur von GÄ initiiert.
-|P.RevokeCert | Zurückziehen von Zertifikaten |  
-|P.OrgSecIncident | Behandeln sicherheitsrelevanter Ereignisse | 
+|P.RevokeCert | Widerruf von Zertifikaten | Die IRIS-Organisation widerruft eines ihrer Zertifikate.
+|P.OrgSecIncident | Behandeln sicherheitsrelevanter Ereignisse | Das Anstoßen eines geregelten sogenannten Incident Response-Prozesses. Dieser kann durch unterschiedliche Sicherheitsereignisse ausgelöst werden, z.B. durch das Melden einer kritischen Sicherheitslücke oder einen Angriff auf IRIS. 
 
 ### Beschreibung der Prozesse
-#### P.OnboardingHD
-##### P.OnboardingHD_Certs
-##### P.OnboardingHD_SvcDir
+#### P.Onboarding.HD
+Im Rahmen des Onboardings werden organisatorische und technische Schritte durchgeführt, an deren Ende ein GA in der Lage ist, IRIS vollumfänglich zu benutzen. 
+Dazu zählen
+* Das Beantragen der nötigen Zertifikate beim Vertrauensdiensteanbieter für GÄ in Form eines sogenannten [Extended Validation (EV)](https://en.wikipedia.org/wiki/Extended_Validation_Certificate) Verfahrens
+* Das Installieren und Konfigurieren des IRIS-Clients beim GA, sowie zugehöriger Zugriffsrechte und Zertifikate
+* Das initiale Registrieren des GA im Service Directory
 
-#### P.OnboardingSolProv
+##### P.Onboarding.HD.Certs
+##### P.Onboarding.HD.SvcDir
+
+#### P.Onboarding.SolProv
+Im Rahmen des Onboardings werden organisatorische und technische Schritte durchgeführt, an deren Ende ein Anbieter in der Lage ist, IRIS vollumfänglich zu benutzen.
+Dazu zählen
+* Das Beantragen der nötigen Zertifikate bei der IRIS-Organisation in Form eines sogenannten [Certificate Signing Requests (CSR)](https://de.wikipedia.org/wiki/Certificate_Signing_Request)
+* Das Installieren und Konfigurieren einer EPS-Komponente beim Anbieter, sowie zugehöriger Zugriffsrechte und Zertifikate
+* Das initiale Registrieren des Anbieters im Service Directory durch das Rollout-Team
+* Bei Anbietern von Lösungen zur Besuchsdatenerfassung das initiale Eintragen der Einrichtungen, für die Daten verwaltet werden, in den Location Index
+
+*Schaubild des Onboardings für eine Lösung zur Besuchsdatenerfassung und anschließender Anfrage durch ein GA*
 ![Technische Sicht des Onboardings eines Anbieters](./Resources/connect_your_app_to_IRIS/technical_details/iris-system.jpg)
-##### P.OnboardingSolProv_Org
-##### P.OnboardingSolProv_Certs
-##### P.OnboardingSolProv_SvcDir
-### P.UpdateSvcDir
-### P.UpdateLocations
-### P.QuerySvcDir
+
+##### P.Onboarding.SolProv.Org
+##### P.Onboarding.SolProv.Certs
+##### P.Onboarding.SolProv.SvcDir
+### P.SvcDir.Query - Abrufen des Service Directory
+### P.SvcDir.Update - Aktualisieren des Datenbestands des Service Directory
+### P.LocationsSvc.Query - Abrufen des Location Service
+### P.LocationsSvc.Update - Aktualisieren des Datenbestands des Location Service
 
 ### P.HDRequestData
-#### HDRequestData_Request - Stellen der Anfrage durch ein GA (Hinweg)
+#### HDRequestData.Request - Stellen der Anfrage durch ein GA (Hinweg)
 
-#### HDRequestData_Response - Beantworten der Anfrage durch einen Anbieter (Rückweg)
+#### HDRequestData.Response - Beantworten der Anfrage durch einen Anbieter (Rückweg)
 Es hat sich eine Vielzahl von Anbietern mit einer breiten Lösungspalette zur digitalen Kontakt- und Gästedatenerfassung
 etabliert. Da es verschiedene Konzepte gibt, wie die Daten gespeichert (zentral oder dezentral) und verschlüsselt
 (symmetrisch oder asymmetrisch) bzw. wie die Schlüssel verwaltet werden (PKI, manuell, etc.) kann keine allgemeingültige
@@ -389,7 +444,7 @@ Damit ähnliche Datenobjekte später gemeinsam adressiert werden können, werden
 
 In der folgenden Übersicht werden die Datenobjekte in den verschiedenen Komponenten zusammengetragen.
 
-> Hinweis: Die Übersicht verwendet die Begriffe "Gruppe" und "Untergruppe". Diesee sind nicht deckungsgleich mit den zuvor
+> Hinweis: Die Übersicht verwendet die Begriffe "Gruppe" und "Untergruppe". Diese sind nicht deckungsgleich mit den zuvor
 > definierten "Datenklassen" und sollen nur eine bessere Übersicht ermöglichen.
 
 |ID| Gruppe|Untergruppe| Datenobjekte||
@@ -458,12 +513,20 @@ In der folgenden Übersicht werden die Datenobjekte in den verschiedenen Kompone
 > definierende Kommunikationsverbindungen darstellen.
 
 ## Prozessobjekte (Process Objects)
-|ID|Gruppe|Prozessobjekte|
-|---|---|---|
-|PO.||
+### Kurzübersicht
+|ID|Erläuterung|
+|---|---|
+|PO.TLSConnEst| Aufbau einer TLS-Verbindung (TLS-Handshake) zwischen Client und GA
+|PO.EPSConnEst| Aufbau einer mTLS-Verbindung zwischen zwei EPS-Komponenten
 
-Aufbau einer TLS-Verbindung vom Client (Browser oder mobile App) in ein GA
+### Erläuterungen
+### PO. TLSConnEst - Aufbau einer TLS-Verbindung (TLS-Handshake) zwischen Client und GA
+Das folgende Sequenzdiagramm veranschaulicht den genauen technischen Ablauf des TLS-Handshakes unter Beteiligung der EPS- und Proxy-Komponenten des GA und der zentralen IRIS-Dienste.
+
+*Darstellung des Aufbaus einer TLS-Verbindung vom Client (Browser oder mobile App) in ein GA*
 ![Darstellung des TLS-Handshakes zwischen Client (Broser oder mobile App) und einem GA über den Public Proxy](./Resources/technical_documentation/sequence_connection_establishment_hd.svg)
+
+### PO.EPSConnEst - Aufbau einer mTLS-Verbindung zwischen zwei EPS-Komponenten
 
 # Angreifer, Bedrohungen und Annahmen
 
@@ -732,25 +795,27 @@ Annahmen zu:
 
 
 # Sicherheitsanforderungen (Requirements)
-* R.RegProvider Anbieter können IRIS erst nach einer Registrierung der Organisation nutzen
-* R.RegHD Gesundheitsämter können IRIS erst nach einer Registrierung der Organisation nutzen
-* R.AuthIRIS Die Identität des IRIS-Gateways muss von Gesundheitsämtern, Anbietern und Clients eindeutig authentifiziert werden können
-* R.AuthEPSGA Die Identität des öffentlichen Endpunkts eines Gesundheitsamts (der Proxy) muss von Anbietern, Clients und dem IRIS-Gateway eindeutig authentifiziert werden können
-* R.TransportConfPers Die über IRIS übermittelten personenbezogenen Daten dürfen weder am IRIS-Gateway noch im Transit einsehbar sein
-* R.6 TransportConfNonPers Die über IRIS übermittelten nicht-personenbezogenen Daten dürfen nicht im Transit einsehbar sein
-  * R.TransportConfNonPers_HD Prov Die über IRIS an ein Gesundheitsamt übermittelten Daten können erst beim Betreiber der GA-IT entschlüsselt werden
-  * R.TransportConfNonPers_HD Die über IRIS an ein Gesundheitsamt übermittelten Daten können erst im GA entschlüsselt werden
-* R.DataEconomy IRIS-Dienste dürfen nur das notwendige Minimum an Daten zur Verfügung stellen, von einem Gesundheitsamt oder Anbieter zur sachgerechte Erfüllung der jeweiligen Aufgabe benötigt wird (Datensparsamkeit)
-* R.SpoofingHD Es muss unmöglich sein, dass die IRIS-Organisation einen GA-Verschlüsselungsendpunkt erstellen und an IRIS-System anbinden kann
-* R.AuthDataHD Die Daten, die in ein Gesundheitsamt eingeliefert werden, müssen einem Vorgang im GA zugeordnet und darüber authentifiziert werden können
-* R.HighAvailability Die (zentralen) IRIS-Dienste müssen hochverfügbar sein und dürfen nur innerhalb festgelegter Zeiten oder zur Hauptbetriebszeit minimal unterbrochen werden.
-* R.AbuseDetection Missbrauch (z.B. Übermitteln falscher Daten an ein Gesundheitsamt) muss detektierbar sein
-* R.SecRiskHDApps Durch den Einsatz von IRIS darf sich kein Sicherheitsrisiko für andere Anwendungen ergeben, die neben IRIS im Gesundheitsamt eingesetzt werden
-* R.AccessAuthAut Zugriff auf schützenswerte Daten und Funktionen darf nur nach erfolgreicher Authentifizierung und Autorisierung erfolgen
-* R.SecEventLogging Sicherheitsrelevante Ereignisse müssen protokolliert werden
-* R.MandatoryAcccessControl Der Zugang zu Daten und Verwaltungsschnittstellen muss durch Zugangskontrolle geschützt werden
-* R.BackupRestore Es muss ein Datensicherungskonzept (Backup/Restore) implementiert sein
-* R.UserRoleMngmnt Verantwortungsbereiche müssen durch ein Rechte- und Rollenkonzept getrennt werden
+|ID|Erläuterung|
+|---|---|
+| R.RegProvider| Anbieter können IRIS erst nach einer Registrierung der Organisation nutzen
+| R.RegHD| Gesundheitsämter können IRIS erst nach einer Registrierung der Organisation nutzen
+| R.AuthIRIS| Die Identität des IRIS-Gateways muss von Gesundheitsämtern, Anbietern und Clients eindeutig authentifiziert werden können
+| R.AuthEPSGA| Die Identität des öffentlichen Endpunkts eines Gesundheitsamts (der Proxy) muss von Anbietern, Clients und dem IRIS-Gateway eindeutig authentifiziert werden können
+| R.TransportConfPers| Die über IRIS übermittelten personenbezogenen Daten dürfen weder am IRIS-Gateway noch im Transit einsehbar sein
+| R.TransportConfNonPers| Die über IRIS übermittelten nicht-personenbezogenen Daten dürfen nicht im Transit einsehbar sein
+| R.TransportConfNonPers_HDProv| Die über IRIS an ein Gesundheitsamt übermittelten Daten können erst beim Betreiber der GA-IT entschlüsselt werden 
+| R.TransportConfNonPers_HD| Die über IRIS an ein Gesundheitsamt übermittelten Daten können erst im GA entschlüsselt werden
+| R.DataEconomy| IRIS-Dienste dürfen nur das notwendige Minimum an Daten zur Verfügung stellen, von einem Gesundheitsamt oder Anbieter zur sachgerechte Erfüllung der jeweiligen Aufgabe benötigt wird (Datensparsamkeit)
+| R.SpoofingHD| Es muss unmöglich sein, dass die IRIS-Organisation einen GA-Verschlüsselungsendpunkt erstellen und an IRIS-System anbinden kann
+| R.AuthDataHD| Die Daten, die in ein Gesundheitsamt eingeliefert werden, müssen einem Vorgang im GA zugeordnet und darüber authentifiziert werden können
+| R.HighAvailability| Die (zentralen) IRIS-Dienste müssen hochverfügbar sein und dürfen nur innerhalb festgelegter Zeiten oder zur Hauptbetriebszeit minimal unterbrochen werden.
+| R.AbuseDetection| Missbrauch (z.B. Übermitteln falscher Daten an ein Gesundheitsamt) muss detektierbar sein
+| R.SecRiskHDApps| Durch den Einsatz von IRIS darf sich kein Sicherheitsrisiko für andere Anwendungen ergeben, die neben IRIS im Gesundheitsamt eingesetzt werden
+| R.AccessAuthAutor| Zugriff auf schützenswerte Daten und Funktionen darf nur nach erfolgreicher Authentifizierung und Autorisierung erfolgen
+| R.SecEventLogging| Sicherheitsrelevante Ereignisse müssen protokolliert werden
+| R.MandatoryAcccessControl| Der Zugang zu Daten und Verwaltungsschnittstellen muss durch Zugangskontrolle geschützt werden
+| R.BackupRestore| Es muss ein Datensicherungskonzept (Backup/Restore) implementiert sein
+| R.UserRoleMngmnt| Verantwortungsbereiche müssen durch ein Rechte- und Rollenkonzept getrennt werden
 
 # Maßnahmen (Mitigations)
 Im folgenden Kapitel werden Maßnahmen ermittelt und beschrieben, um die Bedrohungen aus den vorherigen Kapiteln
@@ -842,7 +907,7 @@ Beim Design von IRIS wurde an mehreren Stellen eine organisationelle Trennung vo
    So wird sichergestellt, dass selbst im Falle einer Kompromittierung des Service Directory die darin enthaltenen Einträge nicht unbemerkt manipuliert werden können.
 
 #### M.ExtDataCenter - Externes Rechenzentrum
-Die Produktiv- und Entwicklungssysteme werden in einem externen Rechenzentrum der AKDB mit Standort in Deutschland betrieben. Das Rechenzentrum hat redundante Stromversorgung und Internet-Verbindung, sowie mehrere Brandzonen.
+Die Produktiv- und Entwicklungssysteme werden in einem externen Rechenzentrum der des IT-Dienstleisters von IRIS mit Standort in Deutschland betrieben. Das Rechenzentrum hat redundante Stromversorgung und Internet-Verbindung, sowie mehrere Brandzonen.
 
 Optimierungspotential:
 * Geo-Redundanz: Alles läuft in einem Rechenzentrum. Es gibt zwar noch einen zweiten Standort, dessen Infrastruktur ist aber noch nicht angeschlossen.
@@ -869,11 +934,11 @@ Ersteres bedeutet, dass unterschiedliche Funktionen unterschiedlichen Rollen zug
 Insgesamt wird darauf geachtet, dass keine unverhältnismäßige Konzentration von Berechtigungen in einer einzelnen Rolle bzw. bei einer einzelnen Organisationseinheit stattfindet.
 
 Zu den geschützten Komponenten und Prozessen zählen:
-* Der administrative Zugriff auf die Infrastruktur bei der AKDB durch Mitglieder der IRIS-Organisation
+* Der administrative Zugriff auf die Infrastruktur beim IT-Dienstleister von IRIS durch Mitglieder der IRIS-Organisation
 * Das Ausrollen eines neuen Software-Release auf der Produktivumgebung durch die IRIS-Organisation
 * Das Veröffentlichen eines neuen Software-Release durch das Entwicklungs-Team von IRIS
-* Das Ausstellen von Zertifikaten für Anbieter durch das Onboarding-Team von IRIS
-* Das Registrieren von Gesundheitsämtern und Anbietern im Service Directory durch das Onboarding-Team von IRIS
+* Das Ausstellen von Zertifikaten für Anbieter durch das Rollout-Team von IRIS
+* Das Registrieren von Gesundheitsämtern und Anbietern im Service Directory durch das Rollout-Team von IRIS
 
 
 #### M.SecEventLogging - Protokollieren sicherheitsrelevanter Ereignisse
