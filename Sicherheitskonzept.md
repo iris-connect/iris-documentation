@@ -35,7 +35,7 @@ Contributions welcome!
   * [Akteure (Actors)](#akteure-actors)
   * [Komponenten (Components)](#komponenten-components)
   * [Prozesse (Processes)](#prozesse-processes)
-  * [Assets](#assets-)
+  * [Sicherheit](#sicherheit)
 - [Zu schützende Werte](#zu-schützende-werte)
   * [Datenobjekte (Data Objects)](#datenobjekte-data-objects)
   * [Prozessobjekte (Process Objects)](#prozessobjekte-process-objects)
@@ -148,6 +148,23 @@ betrieben werden.
 Die [D-Trust GmbH](https://www.d-trust.net/) ist der Vertrauensdiensteanbieter der Bundesdruckerei-Gruppe und bietet einen Zertifizierungsservice an.
 Sie stellt den an IRIS angeschlossenen Gesundheitsämtern signierte X.509-Zertifikate aus, mit denen sie Daten verschlüsseln,
 entschlüsseln und digital signieren können.
+
+Jedes GA benötigt drei Schlüsselpaare bzw. Zertifikate.
+
+1. Ein TLS-Zertifikat. Dieses erhält das GA im Rahmen des Onboardings von der Bundesdruckerei bzw. dessen Vertrauensdienstanbieter D-Trust.
+   Alle Kommunikationsverbindungen, die im Kontext von IRIS mit einem GA aufgebaut werden, sind damit auf Transport-Schicht geschützt.
+   Die D-Trust wird als CA vorausgesetzt (gepinnt). Andere CAs werden am Ausstellen von Zertifikaten auf die Domain des GA gehindert, indem ein CAA-Record im DNS gesetzt wird.
+   Entspricht ein beim Verbindungsaufbau vorgezeigtes Zertifikat nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
+
+   Details des Zertifikats:
+  * Extended Validation (EV)
+  * Beinhaltet die Domain des GA
+  * Extended key usage: TLS Client Authentication, TLS Server Authentication
+  * Subject Alternative Name (SAN) Extension: Mehrere Einträge, welche die Gruppenrollen des Zertifikatsinhabers attestieren (z.B. Gruppe ```health-departments```)
+2. Ein Signaturzertifikat. Dieses wird vom GA benutzt, um digitale Signaturen zu erstellen. Siehe dazu M.DigitalSignatures.
+3. Ein E2E-Encryption-Zertifikat. Mit dem zugehörigen öffentliche Schlüssel können Daten an ein GA auf Anwendungsebene verschlüsselt werden (Inhaltsverschlüsselung).
+   Eine zweite Verschlüsselungsschicht auf Anwendungsebene zusätzlich zur Transportverschlüsselung mit TLS bringt in bestimmten Use Cases einen Mehrwert.
+
 #### A.ExtSecurityAuditor - Externer IT-Sicherheitsprüfer
 Die [Hisolutions AG](https://www.hisolutions.com/) ist ein erfahrener Beratungsspezialist für Security und IT-Management.
 Sie prüft das IT-Sicherheitskonzept und versucht ggf. noch nicht identifizierte Risiken aufzudecken, die dokumentiert und anschließend durch angemessenen Maßnahmen mitigiert werden.
@@ -157,7 +174,13 @@ Dieser Kundenservice wird über die Dienstleistungs-GmbH der Björn Steiger Stif
 
 ### A.IRIS - Die IRIS-Organisation
 #### A.OnboardingTeam - Onboarding Team der IRIS-Organisation
-DAs Onboarding Team ist eine Organisationseinheit innerhalb der IRIS-Organisation, die dafür zuständig ist, neue GÄ und Lösungsanbieter an IRIS anzuschließen und über den gesamten Anbindungsprozess hinweg zu begleiten.
+Das Onboarding Team ist eine Organisationseinheit innerhalb der IRIS-Organisation, die dafür zuständig ist, neue GÄ und Lösungsanbieter an IRIS anzuschließen und über den gesamten Anbindungsprozess hinweg zu begleiten.
+##### IRIS-CA
+Die IRIS Organisation betreibt eine selbstsignierte Signing-CA. Jeder Lösungsanbieter muss seinen Public-Key, den er einsetzen möchte von dieser CA im Rahmen des Onboardings signieren lassen bzw. sich ein Zertifikat ausstellen lassen.
+Zu jedem Schlüssel hinterlegt der Anbieter einen Identifier (Public-Key-Fingerprint) im Service Directory, wo dieser bspw. von GÄ abgerufen werden kann. Die IRIS-CA wird als CA vom IRIS-Gateway und den GÄ vorausgesetzt (gepinnt).
+Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
+Ebenso wird von den GÄ vorausgesetzt, dass das IRIS Gateway sich beim Aufbau von mTLS-Verbindungen mit einem eigenen, von der IRIS-CA signierten Zertifikat ausweist.
+
 #### A.DevTeam - Das Software-Entwicklungs-Team der IRIS-Organisation
 Das Dev-Team ist eine Organisationseinheit innerhalb der IRIS-Organisation, die dafür zuständig ist, den Code und die Architektur von IRIS ständige weiterzuentwickeln und die Entwicklungstätigkeit der Open Source Community zu koordinieren.
 #### A.OpenSrcCommunity - Open Source Community um IRIS
@@ -212,6 +235,12 @@ Es ergeben sich entsprechend:
   Ein Anbieter (Gästeliste), bei dem die Endgeräte der Nutzer:innen über ein Backend (Server) des Anbieters mit dem GA kommunizieren.
 * Anbieter (Gästeliste, dezentral):  
   Ein Anbieter (Gästeliste), bei dem die Endgeräte der Nutzer:innen direkt mit dem GA kommunizieren.
+
+#### Anbieter:in Schlüssel
+Jeder Lösungsanbieter muss im Rahmen des Onboardings einen Public-Key vorlegen, zu dem er von der IRIS-CA ein signiertes Zertifikat erhält.
+Zu jedem Schlüssel wird ein Identifier (Public-Key-Fingerprint) im Service Directory hinterlegt, wo dieser von GÄ abgerufen werden kann.
+Die IRIS-CA wird beim Aufbau von mTLS-Verbindungen zum IRIS-Gateway und zu den GÄ vorausgesetzt.
+Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
 
 ### A.SolutionUser - Endnutzer:in einer digitalen Lösung
 Endnutzer:innen einer Lösung können Privatpersonen oder Einrichtungsbetreibende (z.B. Restaurantinhaber:in und Angestellte) sein.
@@ -279,7 +308,6 @@ Feinkörnigere Berechtigungen (z.B. damit ein Anbieter von Kontaktverfolgungen n
 Zu diesem Zweck stellt jeder EPS dem jeweils angeschlossenen Dienst Informationen über die aufrufende Gegenstelle zur Verfügung. 
 Diese enthalten den aktuellen Eintrag des Aufrufers aus dem Service Directory, sodass der aufgerufene Dienst den Aufrufer leicht identifizieren und autorisieren kann.
 
-
 #### C.IRIS.LocationService (Einrichtungsverzeichnis)
 Der Location Service verwaltet einen Index der Örtlichkeiten, die bei den verschiedenen App Anbietern registriert sind.
 Auf diese Weise können die GÄ Anfragen stellen, und den Mitarbeitern eine vereinfachte Suchoberfläche bieten, die die benötigte Zeit für eine Kontaktnachverfolgung reduziert.
@@ -315,7 +343,7 @@ Im Folgenden werden die Prozesse beschrieben, die es bei IRIS gibt. Die Übersic
 |ID | Prozess| Erläuterung
 |---|---|---|
 |P.Onboarding.HD | Onboarding eines GA| Ein GA wird an IRIS angeschlossen.
-|P.Onboarding.HD.Certs | Ausgabe von Zertifikaten an ein GA| Das GA beantragt in einem geregelten Verfahren Zertifikate bei der D-Trust. Diese validiert die Identität des GA in einem sogenannten [Extended Validation (EV)](https://en.wikipedia.org/wiki/Extended_Validation_Certificate) Verfahren und übersendet anschließend die ausgestllten Zertifikate.
+|P.Onboarding.HD.Certs | Ausgabe von Zertifikaten an ein GA| Das GA beantragt in einem geregelten Verfahren Zertifikate bei der D-Trust. Diese validiert die Identität des GA in einem sogenannten [Extended Validation (EV)](https://en.wikipedia.org/wiki/Extended_Validation_Certificate) Verfahren und übersendet anschließend die ausgestellten Zertifikate.
 |P.Onboarding.HD.SvcDir | Eintragen eines GA im Service Directory| Das Rollout-Team trägt ein GA im Service Directory ein. Anschließend ist es für Anbieter erreichbar.
 | | |
 |P.Onboarding.SolProv | Onboarding eines Lösungsanbieters| Ein Lösungsanbieter wird an IRIS angeschlossen.
@@ -419,10 +447,108 @@ Ist eine kompatible Anwendung (kA) mit dem E-Mail Token gestartet, werden anschl
 
 Hat die IP ihre Kontakte eingetragen oder abgerufen, werden diese zusammen mit dem Token mit dem GA-Schlüssel verschlüsselt und über die TLS Verbindung an das GA übertragen.
 
-#### Ereignis-Nachverfolgung
+## Sicherheit
+Im folgenden Kapitel werden allgemeine, komponentenübergreifende Sicherheitsmaßnahmen beschrieben. Dazu werden Richtlinien wie der
+OWASP Application Security Verification Standard 4.0 (ASVS) oder technische Richtlinien wie BSI TR-03161 für
+Sicherheitsanforderungen an digitale Gesundheitsanwendungen hinzugezogen.
 
-## Assets (?)
+## S.TLS - Einsatz von Verschlüsselung auf Transportebene
+Alle Kommunikationsverbindungen, die von oder zu IRIS-Komponenten über das Internet aufgebaut werden sind auf der Transportebene mit TLS und starken Cipher-Suites geschützt.
 
+* Direkte Verbindungen zwischen IRIS-Gateway und einem GA
+* Direkte Verbindungen zwischen IRIS-Gateway und einem Lösungsanbieter / Client
+* Direkte Verbindungen zwischen einem GA und einem Lösungsanbieter / Client
+* Indirekte Verbindungen zwischen einem GA und einem Lösungsanbieter / Client über den Broker Proxy
+
+## S.AppLayerEnc - Einsatz von Verschlüsselung auf Anwendungsebene
+Zusätzlich zur Transportverschlüsselung besteht die Möglichkeit, Daten auf Anwendungsebene für ein spezifisches GA zu verschlüsseln.
+
+> Todo: Beschreibung der Fälle, in denen eine Anwendungsverschlüsselung erfolgt
+
+## S.Authentication - Einseitige Authentifizierung von Kommunikationspartnern
+> Siehe auch S.3 Einsatz von PKI.
+> 
+Bei jedem Kommunikationsaufbau im IRIS-Ökosystem wird mindestens eine der Parteien über TLS authentifiziert. Dazu wird die definierte PKI verwendet.
+
+## S.MutualAuthentication - Beidseitige Authentifizierung von Kommunikationspartnern
+> Siehe auch S.3 Einsatz von PKI.
+
+Wo möglich werden bei einem Kommunikationsaufbau die beteiligten Parteien nicht nur einseitig über TLS, sondern beidseitig über mTLS authentifiziert. Dazu wird die in Maßnahme S.3 definierte PKI verwendet.
+
+## S.OrgSeparation - Organisationelle Trennung
+Beim Design von IRIS wurde an mehreren Stellen eine organisationelle Trennung von Vertrauensbereichen angestrebt, um sicherzustellen, dass ein bösartiges Fehlverhalten bzw. die Kompromittierung eines Akteurs alleine nicht ausreicht, um Schaden anzurichten.
+
+1. Organisationelle Trennung beim Ausstellen von Zertifikaten für GÄ:  
+   Die IRIS-Organisation ist Betreiber des Public Proxy, der Kommunikation in die GÄ vermittelt.
+  * Daher werden die TLS-Zertifikate für die GÄ nicht von der IRIS-Organisation ausgestellt, sondern von einer dritten Stelle, der Bundesdruckerei bzw. D-Trust.
+  * Das TLS-Zertifikat wird auf eine Domain ausgestellt, die unter Kontrolle des jeweiligen GA ist.
+  * Zusätzlich setzt jedes GA in ihrem DNS einen sogenannten Certificate Authority Authorization (CAA) Record.
+    Das ist eine Angabe, die alle CAs darüber informiert, dass nur die D-Trust berechtigt ist, TLS-Zertifikate auf die Domain auszustellen, unter welcher das GA erreichbar ist. Alle CAs müssen sisch daran halten.
+  * So wird sichergestellt, dass es selbst im Falle einer Kompromittierung der IRIS-Organisation und des Gateways unmöglich ist, Kommunikation umzuleiten und mit einem TLS-Zertifikat zu entschlüsseln, das von einer anderen CA ausgestellt worden ist, als der D-Trust.
+2. Organisationelle Trennung bei Einträgen ins Service Directory:  
+   Die IRIS-Organisation ist Betreiber des Service Directory, das sensible Informationen über GÄ oder Anbietern beinhaltet (z.B. deren Public-Key-Fingerprints oder Endpunkte).
+   Daher müssen alle darin enthaltenen sensiblen Einträge vom jeweiligen GA bzw. Anbieter mit deren Signaturschlüssel digital signiert werden. Dieser Signaturschlüssel ist ausschließlich dem jeweiligen GA bzw. Anbieter bekannt.
+   So wird sichergestellt, dass selbst im Falle einer Kompromittierung des Service Directory die darin enthaltenen Einträge nicht unbemerkt manipuliert werden können.
+
+## S.ExtDataCenter - Externes Rechenzentrum
+Die Produktiv- und Entwicklungssysteme werden in einem externen Rechenzentrum der des IT-Dienstleisters von IRIS mit Standort in Deutschland betrieben. Das Rechenzentrum hat redundante Stromversorgung und Internet-Verbindung, sowie mehrere Brandzonen.
+
+Optimierungspotential:
+* Geo-Redundanz: Alles läuft in einem RechenzentruS. Es gibt zwar noch einen zweiten Standort, dessen Infrastruktur ist aber noch nicht angeschlossen.
+* Verteilen über Brandzonen: Momentan laufen alle VMs gemeinsam in einer Brandzone.
+
+## S.HASetupProd - Hochverfügbarkeits-Setup der Produktivumgebung
+Die zentralen Komponenten in der Produktivumgebung werden als Kubernetes-Cluster mit Docker-Containern betrieben.
+
+Durch den Einsatz von Kubernetes wird sichergestellt, dass die Container-Anwendungen automatisiert und angepasst auf die aktuelle Lastsituation skaliert und verwaltet werden können. Das Kubernetes-Cluster wird als High-availability (HA) Cluster mit mehrere Coordinators und Nodes betrieben, auf denen die Services redundant laufen können. Ein Multi-Master-Setup schützt vor einer Vielzahl von Fehlermodi, vom Ausfall eines einzelnen Worker Nodes bis hin zum Ausfall des etcd-Dienstes des Master-Nodes. Dabei werden wichtige Komponenten auf mehrere Master repliziert, sodass bei Ausfall eines Master, die anderen den Cluster am Laufen halten.
+
+Optimierungspotential:
+* Die Datenbank ist aktuell nicht im HA-Setup konfiguriert.
+
+## S.AccessControl - Einsatz einer Zugriffsverwaltung
+Es sind an mehreren Stellen Benutzer- und Rollenmanagementsysteme vorgesehen, die sicherstellen, dass nur berechtigte Akteure Zugriff auf kritische Komponenten und Prozesse haben.
+Dabei werden zwei Arten von Zugriffsverwaltungen eingesetzt:
+
+1. Eine Passwort-basierte Zugriffskontrolle, ggf. mit einer Zwei-Faktor-Authentifizierung für den Zugriff auf Admin-Konsolen bei Dienstleistern der IRIS-Organisation (z.B. beim Zugang Webhosting-Konsolen oder GitHub-Accounts)
+2. Eine rollenbasierte Zugriffskontrolle für den Zugriff auf IRIS-Dienste (z.B. beim Ändern von Informationen zu angebotenen Diensten durch einen Anbieter im Service Directory)
+
+Die Vergabe der Berechtigungen erfolgt basierend auf einer Funktionstrennung (Segregation of Duties) und dem Least Privilege-Prinzip.
+Ersteres bedeutet, dass unterschiedliche Funktionen unterschiedlichen Rollen zugeordnet werden. Letzteres bedeutet, dass eine Rolle nur die zur Ausübung ihrer Funktion wirklich notwendigen Berechtigungen besitzt.
+Insgesamt wird darauf geachtet, dass keine unverhältnismäßige Konzentration von Berechtigungen in einer einzelnen Rolle bzw. bei einer einzelnen Organisationseinheit stattfindet.
+
+Zu den geschützten Komponenten und Prozessen zählen:
+* Der administrative Zugriff auf die Infrastruktur beim IT-Dienstleister von IRIS durch Mitglieder der IRIS-Organisation
+* Das Ausrollen eines neuen Software-Release auf der Produktivumgebung durch die IRIS-Organisation
+* Das Veröffentlichen eines neuen Software-Release durch das Entwicklungs-Team von IRIS
+* Das Ausstellen von Zertifikaten für Anbieter durch das Rollout-Team von IRIS
+* Das Registrieren von Gesundheitsämtern und Anbietern im Service Directory durch das Rollout-Team von IRIS
+
+
+## S.SecEventLogging - Protokollieren sicherheitsrelevanter Ereignisse
+Sicherheitsrelevante Ereignisse werden von allen Komponenten geloggt. Sicherheitsrelevante Ereignisse umfassen bspw.
+* Authentication success / failure
+* Authorization (Access Control) Failures
+* Session Management Failures, z.B. Cookie Session Modification
+* Verwendung von Funktionen mit höherem Risiko, z. B. Hinzufügen oder Löschen von Benutzern, Änderungen von Berechtigungen, Erstellen oder Löschen von Tokens
+
+Sensible Daten wie Passwörter, Schlüsselmaterial oder personenbezogene Daten werden in den Logs nicht vermerkt oder vorher maskiert, gehasht oder verschlüsselt.
+
+## S.SecReview - Externes Review des Sicherheitskonzept
+* Das IT-Sicherheitskonzept wurde in Zusammenarbeit mit Experten aus der Fach-Community erarbeitet.
+* Zusätzlich wurde die [Hisolutions AG](https://www.hisolutions.com/), ein erfahrener Beratungsspezialist für Security und IT-Management damit beauftragt, das IT-Sicherheitskonzept zu prüfen und ggf. noch nicht identifizierte Risiken aufzudecken.
+  Diese werden dokumentiert und durch angemessenen Maßnahmen mitigiert.
+* IRIS ist ein Open Source Projekt und unterliegt dadurch der ständigen Aufmerksamkeit der interessierten Fach-Community. Sicherheitslücken und Probleme können in einem geregelten "Responsible Disclosure"-Prozess an die IRIS-Organisation gemeldet werden. So können Probleme behoben werdern bevor sie offengelegt werden.
+
+## S.PenetrationTesting - Durchführen von Penetration Testing
+Ein Penetration Testing des IRIS-Systems durch einen externen Dienstleister ist geplant. Aufgedeckte Schwachstellen werden dokumentiert, behoben und die Patches durch Re-Tests verifiziert.
+
+Die geprüften Komponenten, sowie die Testergebnisse werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
+
+## S.LoadTesting - Durchführen von Load Testing
+Ein Load- und Performance-Testing ist geplant. Dabei wird eine hohe Nutzlast auf dem System simuliert, um potenzielle Leistungsengpässe (sogenannte Bottlenecks) und Anforderungen an benötigte Resourcen frühzeitig zu identifizieren.
+Die Testergebnisse werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
+
+Die geprüften Komponenten, sowie der Testbericht werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
 
 # Zu schützende Werte
 Im Folgenden werden die durch Gegenmaßnahmen zu schützende Informationen oder Ressourcen beschrieben.
@@ -816,157 +942,6 @@ Annahmen zu:
 | R.MandatoryAcccessControl| Der Zugang zu Daten und Verwaltungsschnittstellen muss durch Zugangskontrolle geschützt werden
 | R.BackupRestore| Es muss ein Datensicherungskonzept (Backup/Restore) implementiert sein
 | R.UserRoleMngmnt| Verantwortungsbereiche müssen durch ein Rechte- und Rollenkonzept getrennt werden
-
-# Maßnahmen (Mitigations)
-Im folgenden Kapitel werden Maßnahmen ermittelt und beschrieben, um die Bedrohungen aus den vorherigen Kapiteln
-zu vermindern oder abzuwenden und so die Sicherheitsziele zu erreichen. Dazu werden Richtlinien wie der
-OWASP Application Security Verification Standard 4.0 (ASVS) oder technische Richtlinien wie BSI TR-03161 für
-Sicherheitsanforderungen an digitale Gesundheitsanwendungen hinzugezogen.
-
-## Definition
-#### M.TLS - Einsatz von Verschlüsselung auf Transportebene
-Alle Kommunikationsverbindungen, die von oder zu IRIS-Komponenten über das Internet aufgebaut werden sind auf der Transportebene mit TLS und starken Cipher-Suites geschützt.
-
-* Direkte Verbindungen zwischen IRIS-Gateway und einem GA
-* Direkte Verbindungen zwischen IRIS-Gateway und einem Lösungsanbieter / Client
-* Direkte Verbindungen zwischen einem GA und einem Lösungsanbieter / Client
-* Indirekte Verbindungen zwischen einem GA und einem Lösungsanbieter / Client über den Broker Proxy
-
-#### M.AppLayerEnc - Einsatz von Verschlüsselung auf Anwendungsebene
-Zusätzlich zur Transportverschlüsselung besteht die Möglichkeit, Daten auf Anwendungsebene für ein spezifisches GA zu verschlüsseln.
-
-> Todo: Beschreibung der Fälle, in denen eine Anwendungsverschlüsselung erfolgt
-
-#### M.PKI - Einsatz von PKI
-##### M.PKIHD - PKI für die GÄ
-Jedes GA benötigt drei Schlüsselpaare bzw. Zertifikate.
-
-1. Ein TLS-Zertifikat. Dieses erhält das GA im Rahmen des Onboardings von der Bundesdruckerei bzw. dessen Vertrauensdienstanbieter D-Trust.
-   Alle Kommunikationsverbindungen, die im Kontext von IRIS mit einem GA aufgebaut werden, sind damit auf Transport-Schicht geschützt.
-   Die D-Trust wird als CA vorausgesetzt (gepinnt). Andere CAs werden am Ausstellen von Zertifikaten auf die Domain des GA gehindert, indem ein CAA-Record im DNS gesetzt wird.
-   Entspricht ein beim Verbindungsaufbau vorgezeigtes Zertifikat nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
-
-   Details des Zertifikats:
-  * Extended Validation (EV)
-  * Beinhaltet die Domain des GA
-  * Extended key usage: TLS Client Authentication, TLS Server Authentication
-  * Subject Alternative Name (SAN) Extension: Mehrere Einträge, welche die Gruppenrollen des Zertifikatsinhabers attestieren (z.B. Gruppe ```health-departments```)
-2. Ein Signaturzertifikat. Dieses wird vom GA benutzt, um digitale Signaturen zu erstellen. Siehe dazu M.DigitalSignatures.
-3. Ein E2E-Encryption-Zertifikat. Mit dem zugehörigen öffentliche Schlüssel können Daten an ein GA auf Anwendungsebene verschlüsselt werden (Inhaltsverschlüsselung).
-   Eine zweite Verschlüsselungsschicht auf Anwendungsebene zusätzlich zur Transportverschlüsselung mit TLS bringt in bestimmten Use Cases einen Mehrwert.
-
-##### M.PKIIRIS - PKI für die IRIS-Organisation
-Die IRIS Organisation betreibt eine selbstsignierte Signing-CA. Jeder Lösungsanbieter muss seinen Public-Key, den er einsetzen möchte von dieser CA im Rahmen des Onboardings signieren lassen bzw. sich ein Zertifikat ausstellen lassen.
-Zu jedem Schlüssel hinterlegt der Anbieter einen Identifier (Public-Key-Fingerprint) im Service Directory, wo dieser bspw. von GÄ abgerufen werden kann. Die IRIS-CA wird als CA vom IRIS-Gateway und den GÄ vorausgesetzt (gepinnt).
-Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
-Ebenso wird von den GÄ vorausgesetzt, dass das IRIS Gateway sich beim Aufbau von mTLS-Verbindungen mit einem eigenen, von der IRIS-CA signierten Zertifikat ausweist.
-
-##### M.PKIAppProvider - PKI für die Lösungsanbieter
-Jeder Lösungsanbieter muss im Rahmen des Onboardings einen Public-Key vorlegen, zu dem er von der IRIS-CA ein signiertes Zertifikat erhält.
-Zu jedem Schlüssel wird ein Identifier (Public-Key-Fingerprint) im Service Directory hinterlegt, wo dieser von GÄ abgerufen werden kann.
-Die IRIS-CA wird beim Aufbau von mTLS-Verbindungen zum IRIS-Gateway und zu den GÄ vorausgesetzt.
-Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
-
-#### M.DigitalSignatures - Einsatz digitaler Signaturen
-Es werden digitale Signaturen eingesetzt, um die Integrität und Authentizität von Daten zu schützen, insbesondere derer im Service Directory.
-
-Gesundheitsämter müssen die Eintröge, die sie im Service Directory ablegen digital signieren. Diese Einträge umfassen z.B. die Angabe des Endpunktes, unter dem der Anbieter für GÄ erreichbar ist.
-Der Fingerprint des Schlüssels, der dafür eingesetzt wird, muss zuvor im Service Directory hinterlegt worden sein.
-
-Auch Lösungsanbieter müssen die einträge, die sie im Service Directory ablegen digital signieren. Diese Einträge umfassen z.B. die Angabe des Endpunktes, unter dem der Anbieter für GÄ erreichbar ist.
-Der Fingerprint des Schlüssels, der dafür eingesetzt wird, muss zuvor im Service Directory hinterlegt worden sein.
-
-Die IRIS Org legt bei Aufnahme eines neune Lösungsanbieters einen Eintrag darüber im Service Directory an. Dieser wird von der IRIS Org digital signiert.
-
-> Was wird von Anbietern und der IRIS Org signiert?
-
-
-#### M.Authentication - Einseitige Authentifizierung von Kommunikationspartnern
-> Siehe auch M.3 Einsatz von PKI.
-
-Bei jedem Kommunikationsaufbau im IRIS-Ökosystem wird mindestens eine der Parteien über TLS authentifiziert. Dazu wird die in Maßnahme M.3 definierte PKI verwendet.
-
-#### M.MutualAuthentication - Beidseitige Authentifizierung von Kommunikationspartnern
-> Siehe auch M.3 Einsatz von PKI.
-
-Wo möglich werden bei einem Kommunikationsaufbau die beteiligten Parteien nicht nur einseitig über TLS, sondern beidseitig über mTLS authentifiziert. Dazu wird die in Maßnahme M.3 definierte PKI verwendet.
-
-#### M.OrgSeparation - Organisationelle Trennung
-Beim Design von IRIS wurde an mehreren Stellen eine organisationelle Trennung von Vertrauensbereichen angestrebt, um sicherzustellen, dass ein bösartiges Fehlverhalten bzw. die Kompromittierung eines Akteurs alleine nicht ausreicht, um Schaden anzurichten.
-
-1. Organisationelle Trennung beim Ausstellen von Zertifikaten für GÄ:  
-   Die IRIS-Organisation ist Betreiber des Public Proxy, der Kommunikation in die GÄ vermittelt.
-  * Daher werden die TLS-Zertifikate für die GÄ nicht von der IRIS-Organisation ausgestellt, sondern von einer dritten Stelle, der Bundesdruckerei bzw. D-Trust.
-  * Das TLS-Zertifikat wird auf eine Domain ausgestellt, die unter Kontrolle des jeweiligen GA ist.
-  * Zusätzlich setzt jedes GA in ihrem DNS einen sogenannten Certificate Authority Authorization (CAA) Record.
-    Das ist eine Angabe, die alle CAs darüber informiert, dass nur die D-Trust berechtigt ist, TLS-Zertifikate auf die Domain auszustellen, unter welcher das GA erreichbar ist. Alle CAs müssen sisch daran halten.
-  * So wird sichergestellt, dass es selbst im Falle einer Kompromittierung der IRIS-Organisation und des Gateways unmöglich ist, Kommunikation umzuleiten und mit einem TLS-Zertifikat zu entschlüsseln, das von einer anderen CA ausgestellt worden ist, als der D-Trust.
-2. Organisationelle Trennung bei Einträgen ins Service Directory:  
-   Die IRIS-Organisation ist Betreiber des Service Directory, das sensible Informationen über GÄ oder Anbietern beinhaltet (z.B. deren Public-Key-Fingerprints oder Endpunkte).
-   Daher müssen alle darin enthaltenen sensiblen Einträge vom jeweiligen GA bzw. Anbieter mit deren Signaturschlüssel digital signiert werden. Dieser Signaturschlüssel ist ausschließlich dem jeweiligen GA bzw. Anbieter bekannt.
-   So wird sichergestellt, dass selbst im Falle einer Kompromittierung des Service Directory die darin enthaltenen Einträge nicht unbemerkt manipuliert werden können.
-
-#### M.ExtDataCenter - Externes Rechenzentrum
-Die Produktiv- und Entwicklungssysteme werden in einem externen Rechenzentrum der des IT-Dienstleisters von IRIS mit Standort in Deutschland betrieben. Das Rechenzentrum hat redundante Stromversorgung und Internet-Verbindung, sowie mehrere Brandzonen.
-
-Optimierungspotential:
-* Geo-Redundanz: Alles läuft in einem Rechenzentrum. Es gibt zwar noch einen zweiten Standort, dessen Infrastruktur ist aber noch nicht angeschlossen.
-* Verteilen über Brandzonen: Momentan laufen alle VMs gemeinsam in einer Brandzone.
-
-#### M.HASetupProd - Hochverfügbarkeits-Setup der Produktivumgebung
-Die zentralen Komponenten in der Produktivumgebung werden als Kubernetes-Cluster mit Docker-Containern betrieben.
-
-Durch den Einsatz von Kubernetes wird sichergestellt, dass die Container-Anwendungen automatisiert und angepasst auf die aktuelle Lastsituation skaliert und verwaltet werden können. Das Kubernetes-Cluster wird als High-availability (HA) Cluster mit mehrere Coordinators und Nodes betrieben, auf denen die Services redundant laufen können. Ein Multi-Master-Setup schützt vor einer Vielzahl von Fehlermodi, vom Ausfall eines einzelnen Worker Nodes bis hin zum Ausfall des etcd-Dienstes des Master-Nodes. Dabei werden wichtige Komponenten auf mehrere Master repliziert, sodass bei Ausfall eines Master, die anderen den Cluster am Laufen halten.
-
-Optimierungspotential:
-* Die Datenbank ist aktuell nicht im HA-Setup konfiguriert.
-
-
-#### M.AccessControl - Einsatz einer Zugriffsverwaltung
-Es sind an mehreren Stellen Benutzer- und Rollenmanagementsysteme vorgesehen, die sicherstellen, dass nur berechtigte Akteure Zugriff auf kritische Komponenten und Prozesse haben.
-Dabei werden zwei Arten von Zugriffsverwaltungen eingesetzt:
-
-1. Eine Passwort-basierte Zugriffskontrolle, ggf. mit einer Zwei-Faktor-Authentifizierung für den Zugriff auf Admin-Konsolen bei Dienstleistern der IRIS-Organisation (z.B. beim Zugang Webhosting-Konsolen oder GitHub-Accounts)
-2. Eine rollenbasierte Zugriffskontrolle für den Zugriff auf IRIS-Dienste (z.B. beim Ändern von Informationen zu angebotenen Diensten durch einen Anbieter im Service Directory)
-
-Die Vergabe der Berechtigungen erfolgt basierend auf einer Funktionstrennung (Segregation of Duties) und dem Least Privilege-Prinzip.
-Ersteres bedeutet, dass unterschiedliche Funktionen unterschiedlichen Rollen zugeordnet werden. Letzteres bedeutet, dass eine Rolle nur die zur Ausübung ihrer Funktion wirklich notwendigen Berechtigungen besitzt.
-Insgesamt wird darauf geachtet, dass keine unverhältnismäßige Konzentration von Berechtigungen in einer einzelnen Rolle bzw. bei einer einzelnen Organisationseinheit stattfindet.
-
-Zu den geschützten Komponenten und Prozessen zählen:
-* Der administrative Zugriff auf die Infrastruktur beim IT-Dienstleister von IRIS durch Mitglieder der IRIS-Organisation
-* Das Ausrollen eines neuen Software-Release auf der Produktivumgebung durch die IRIS-Organisation
-* Das Veröffentlichen eines neuen Software-Release durch das Entwicklungs-Team von IRIS
-* Das Ausstellen von Zertifikaten für Anbieter durch das Rollout-Team von IRIS
-* Das Registrieren von Gesundheitsämtern und Anbietern im Service Directory durch das Rollout-Team von IRIS
-
-
-#### M.SecEventLogging - Protokollieren sicherheitsrelevanter Ereignisse
-Sicherheitsrelevante Ereignisse werden von allen Komponenten geloggt. Sicherheitsrelevante Ereignisse umfassen bspw.
-* Authentication success / failure
-* Authorization (Access Control) Failures
-* Session Management Failures, z.B. Cookie Session Modification
-* Verwendung von Funktionen mit höherem Risiko, z. B. Hinzufügen oder Löschen von Benutzern, Änderungen von Berechtigungen, Erstellen oder Löschen von Tokens
-
-Sensible Daten wie Passwörter, Schlüsselmaterial oder personenbezogene Daten werden in den Logs nicht vermerkt oder vorher maskiert, gehasht oder verschlüsselt.
-
-#### M.SecReview - Externes Review des Sicherheitskonzept
-* Das IT-Sicherheitskonzept wurde in Zusammenarbeit mit Experten aus der Fach-Community erarbeitet.
-* Zusätzlich wurde die [Hisolutions AG](https://www.hisolutions.com/), ein erfahrener Beratungsspezialist für Security und IT-Management damit beauftragt, das IT-Sicherheitskonzept zu prüfen und ggf. noch nicht identifizierte Risiken aufzudecken.
-  Diese werden dokumentiert und durch angemessenen Maßnahmen mitigiert.
-* IRIS ist ein Open Source Projekt und unterliegt dadurch der ständigen Aufmerksamkeit der interessierten Fach-Community. Sicherheitslücken und Probleme können in einem geregelten "Responsible Disclosure"-Prozess an die IRIS-Organisation gemeldet werden. So können Probleme behoben werdern bevor sie offengelegt werden.
-
-#### M.PenetrationTesting - Durchführen von Penetration Testing
-Ein Penetration Testing des IRIS-Systems durch einen externen Dienstleister ist geplant. Aufgedeckte Schwachstellen werden dokumentiert, behoben und die Patches durch Re-Tests verifiziert.
-
-Die geprüften Komponenten, sowie die Testergebnisse werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
-
-#### M.LoadTesting - Durchführen von Load Testing
-Ein Load- und Performance-Testing ist geplant. Dabei wird eine hohe Nutzlast auf dem System simuliert, um potenzielle Leistungsengpässe (sogenannte Bottlenecks) und Anforderungen an benötigte Resourcen frühzeitig zu identifizieren.
-Die Testergebnisse werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
-
-Die geprüften Komponenten, sowie der Testbericht werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
-
 ## Zuordnung zu den Sicherheitszielen
 
 <table>
