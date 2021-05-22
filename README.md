@@ -51,7 +51,7 @@ The technical documentation is split in
 | ------------------------- | ---------------------------------------------------------------------------- |
 | [eps](https://github.com/iris-connect/eps)  | The endpoint sever modules                                 |
 | [iris-client](https://github.com/iris-connect/iris-client)  | The client for public health agencies     |
-| [iris-documentation](https://github.com/iris-connect/iris-documentation)  | The place to collect documentation. Some documents are also inside the respective repositiories. |
+| [iris-documentation](https://github.com/iris-connect/iris-documentation)  | The place to collect documentation. Some documents are also inside the respective repositories. |
 
 
 
