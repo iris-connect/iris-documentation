@@ -5,18 +5,63 @@
 
 
 **Am Samstag ist die Familie unterwegs!**
+<table>
+  <tr>
+   <td>Peter Schmitz bringt Sohn Louis nachmittags zum Fußballtraining und schaut zu. 
+     <p>
+       Mit seinem Handy fotografiert er einen QR Code am Sportplatz und klickt „Check in“.
+   </td>
+   <td> 
 
+<img src="images/checkin_soccer.png" width="" alt="checkin_soccer" title="checkin_soccer">
 
-| Peter Schmitz bringt Sohn Louis nachmittags zum Fußballtraining und schaut zu.     Mit seinem Handy fotografiert er einen QR Code am Sportplatz und klickt „Check in“.  | ![checkin_soccer](images/checkin_soccer.png "CheckIn beim Fussball") |
-| ------------------------- | ---------------------------------------------------------------------------- |
-| ![checkin_cinema](images/checkin_cinema.png "CheckIn im Kino") | Danach geht Peter mit seiner Frau Anouk ins Kino. Mit seinem Handy klickt Peter in der Ticket-App am Sitzplatz im Kino „Platz genommen“. |
-| Abends geht die Familie Pizza-Essen in die Pizzeria Mio. Mit seinem Handy fotografiert Peter einen QR-Code am Tisch und klickt „Check-in“ | ![checkin_restaurant](images/checkin_restaurant.png "CheckIn im Restaurant") |
+   </td>
+  </tr>
+   <tr>
+   <td>
+
+<img src="images/checkin_cinema.png" width="" alt="checkin_cinema" title="checkin_cinema">
+
+   </td>
+   <td>
+  Danach geht Peter mit seiner Frau Anouk ins Kino. Mit seinem Handy klickt Peter in der Ticket-App am Sitzplatz im Kino „Platz genommen“
+   </td>
+  </tr>
+  <tr>
+   <td>Abends geht die Familie Pizza-Essen in die Pizzeria Mio. Mit seinem Handy fotografiert Peter einen QR-Code am Tisch und klickt „Check-in“
+   </td>
+   <td> 
+
+<img src="images/checkin_restaurant.png" width="" alt="checkin_restaurant" title="checkin_restaurant">
+
+   </td>
+  </tr>
+</table>
+>>>>>>> Stashed changes
 
 
 **Sonntag**
+<table>
+  <tr>
+   <td> Am Morgen besucht Peter Schmitz ein Testzentrum und wird Corona-Positiv getestet.
+   </td>
+   <td> 
 
-| Am Morgen besucht Peter Schmitz ein Testzentrum und wird Corona-Positiv getestet. | ![test_positive](images/test_positive.png "Positiv getestet") |
-| ![testresult_to_PHO](images/testresult_to_PHO.png "Testergebnis wird an GA übermittelt") | Über das ans Testzentrum angeschlossene Labor wird das zuständige Gesundheitsamt durch die bestehenden Systeme informiert und im dortigen System als “Indexfall” erfasst. |
+<img src="images/test_positive.png" width="" alt="test_positive" title="test_positive">
+
+   </td>
+  </tr>
+   <tr>
+   <td>
+
+<img src="images/testresult_to_PHO.png" width="" alt="testresult_to_PHO" title="testresult_to_PHO">
+
+   </td>
+   <td>
+  Über das ans Testzentrum angeschlossene Labor wird das zuständige Gesundheitsamt durch die bestehenden Systeme informiert und im dortigen System als “Indexfall” erfasst. 
+   </td>
+  </tr>
+  </table>
 
 ## 4.2 Ablauf: Peter Schmitz ist Corona-positiv 
 
@@ -215,7 +260,7 @@ Ebenfalls im Barbereich waren zur selben Zeit zwei weitere Gäste und der Bar-Mi
    </td>
    <td> 
 
-<img src="images/IRIS_event_datafromlocation_chekced.png" width="" alt="IRIS_event_datafromlocation_chekced" title="IRIS_event_datafromlocation_chekced">
+<img src="images/IRIS_event_datafromlocation_checked.png" width="" alt="IRIS_event_datafromlocation_checked" title="IRIS_event_datafromlocation_checked">
 
    </td>
   </tr>
