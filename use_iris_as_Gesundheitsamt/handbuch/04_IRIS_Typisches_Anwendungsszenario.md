@@ -8,6 +8,7 @@
 
 
 | Peter Schmitz bringt Sohn Louis nachmittags zum Fußballtraining und schaut zu.     Mit seinem Handy fotografiert er einen QR Code am Sportplatz und klickt „Check in“.  | ![checkin_soccer](images/checkin_soccer.png "CheckIn beim Fussball") |
+| ------------------------- | ---------------------------------------------------------------------------- |
 | ![checkin_cinema](images/checkin_cinema.png "CheckIn im Kino") | Danach geht Peter mit seiner Frau Anouk ins Kino. Mit seinem Handy klickt Peter in der Ticket-App am Sitzplatz im Kino „Platz genommen“. |
 | Abends geht die Familie Pizza-Essen in die Pizzeria Mio. Mit seinem Handy fotografiert Peter einen QR-Code am Tisch und klickt „Check-in“ | ![checkin_restaurant](images/checkin_restaurant.png "CheckIn im Restaurant") |
 
