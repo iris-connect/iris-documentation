@@ -13,14 +13,14 @@
    </td>
    <td> 
 
-<img src="images/checkin_soccer.png" width="500" alt="checkin_soccer" title="checkin_soccer">
+<img src="images/checkin_soccer.png" width="400px" alt="checkin_soccer" title="checkin_soccer">
 
    </td>
   </tr>
    <tr>
    <td>
 
-<img src="images/checkin_cinema.png" width="500" alt="checkin_cinema" title="checkin_cinema">
+<img src="images/checkin_cinema.png" width="400px" alt="checkin_cinema" title="checkin_cinema">
 
    </td>
    <td>
@@ -32,7 +32,7 @@
    </td>
    <td> 
 
-<img src="images/checkin_restaurant.png" width="500" alt="checkin_restaurant" title="checkin_restaurant">
+<img src="images/checkin_restaurant.png" width="400px" alt="checkin_restaurant" title="checkin_restaurant">
 
    </td>
   </tr>
@@ -47,14 +47,14 @@
    </td>
    <td> 
 
-<img src="images/test_positive.png" width="500" alt="test_positive" title="test_positive">
+<img src="images/test_positive.png" width="400px" alt="test_positive" title="test_positive">
 
    </td>
   </tr>
    <tr>
    <td>
 
-<img src="images/testresult_to_PHO.png" width="500" alt="testresult_to_PHO" title="testresult_to_PHO">
+<img src="images/testresult_to_PHO.png" width="400px" alt="testresult_to_PHO" title="testresult_to_PHO">
 
    </td>
    <td>
@@ -79,7 +79,7 @@ Hier wird Peter medizinisch zu Symptomen befragt und es findet eine kurze Beratu
     <p style="text-align: right">
 
 
-<img src="images/call_PHO.png" width="500" alt="call_PHO" title="call_PHO">
+<img src="images/call_PHO.png" width="400px" alt="call_PHO" title="call_PHO">
 </p>
 
    </td>
@@ -99,7 +99,7 @@ Peter erhält eine E-Mail, die ihn bittet, Angaben zu Kontakten der letzten Tage
    </td>
    <td><p style="text-align: right">
 
-<img src="images/IRIS_tracing_start.png" width="500" alt="IRIS_tracing_start" title="IRIS_tracing_start">
+<img src="images/IRIS_tracing_start.png" width="400px" alt="IRIS_tracing_start" title="IRIS_tracing_start">
 </p>
 
    </td>
@@ -115,7 +115,7 @@ Peter erhält eine E-Mail, die ihn bittet, Angaben zu Kontakten der letzten Tage
   <tr>
    <td>
 
-<img src="images/IRIS_tracing_senddata.png" width="500" alt="IRIS_tracing_senddata" title="IRIS_tracing_senddata">
+<img src="images/IRIS_tracing_senddata.png" width="400px" alt="IRIS_tracing_senddata" title="IRIS_tracing_senddata">
 
    </td>
    <td>Da Peter keine Kontakttagebuch-App verwendet, kann er alle Informationenüber über ein sicheres Web-Formlar (“Digitales Wartezimmer”) eingeben und die Daten mit seinem Token fürs Gesundheitsamt freigeben. 
@@ -144,7 +144,7 @@ Dies sind in unserem Fall:
    <td><p style="text-align: right">
 
 
-<img src="images/IRIS_tracing_checkIndexdata.png" width="500" alt="IRIS_tracing_checkIndexdata" title="IRIS_tracing_checkIndexdata">
+<img src="images/IRIS_tracing_checkIndexdata.png" width="400px" alt="IRIS_tracing_checkIndexdata" title="IRIS_tracing_checkIndexdata">
 </p>
 
    </td>
@@ -160,7 +160,7 @@ Dies sind in unserem Fall:
   <tr>
    <td>
 
-<img src="images/IRIS_tracing_importdata.png" width="500" alt="IRIS_tracing_importdata" title="IRIS_tracing_importdata">
+<img src="images/IRIS_tracing_importdata.png" width="400px" alt="IRIS_tracing_importdata" title="IRIS_tracing_importdata">
 
    </td>
    <td>Die/der GesundheitsaufseherIn überführt die ausgewählten Daten in das nachgelagerte Software-System. 
@@ -185,7 +185,7 @@ Obwohl an allen Aufenthaltsorten entsprechende Hygienekonzepte umgesetzt sind, i
    </td>
    <td><p style="text-align: right">
 
-<img src="images/IRIS_tracing_event.png" width="500" alt="IRIS_tracing_event" title="IRIS_tracing_event">
+<img src="images/IRIS_tracing_event.png" width="400px" alt="IRIS_tracing_event" title="IRIS_tracing_event">
 </p>
 
    </td>
@@ -202,7 +202,7 @@ Obwohl an allen Aufenthaltsorten entsprechende Hygienekonzepte umgesetzt sind, i
    <td>
 
 
-<img src="images/IRIS_event_request.png" width="500" alt="IRIS_event_request" title="IRIS_event_request">
+<img src="images/IRIS_event_request.png" width="400px" alt="IRIS_event_request" title="IRIS_event_request">
 
    </td>
    <td>Hierzu startet die/der Gesundheits- aufseherIn in IRIS eine neue “Ereignis-Nachverfolgung”. Eine intuitiv zu bedienende Suchmaske ermöglicht das schnelle Finden über den Namen - denn IRIS funktioniert wie eine Internet-Suche: 
@@ -222,7 +222,7 @@ Die digitale Lösung wiederum kontaktiert automatisch die Pizzeria Mio, dass ein
    </td>
    <td>
 
-<img src="images/IRIS_event_handling.png" width="500" alt="IRIS_event_handling" title="IRIS_event_handling">
+<img src="images/IRIS_event_handling.png" width="400px" alt="IRIS_event_handling" title="IRIS_event_handling">
 
    </td>
   </tr>
@@ -237,7 +237,7 @@ Die digitale Lösung wiederum kontaktiert automatisch die Pizzeria Mio, dass ein
   <tr>
    <td>
 
-<img src="images/IRIS_event_datafromlocation.png" width="500" alt="IRIS_event_datafromlocation" title="IRIS_event_datafromlocation">
+<img src="images/IRIS_event_datafromlocation.png" width="400px" alt="IRIS_event_datafromlocation" title="IRIS_event_datafromlocation">
 
    </td>
    <td>Die/der GesundheitsaufseherIn wird nun wieder innerhalb von IRIS informiert, dass die Daten aus der Pizzeria vorliegen. 
@@ -260,7 +260,7 @@ Ebenfalls im Barbereich waren zur selben Zeit zwei weitere Gäste und der Bar-Mi
    </td>
    <td> 
 
-<img src="images/IRIS_event_datafromlocation_checked.png" width="500" alt="IRIS_event_datafromlocation_checked" title="IRIS_event_datafromlocation_checked">
+<img src="images/IRIS_event_datafromlocation_checked.png" width="400px" alt="IRIS_event_datafromlocation_checked" title="IRIS_event_datafromlocation_checked">
 
    </td>
   </tr>
