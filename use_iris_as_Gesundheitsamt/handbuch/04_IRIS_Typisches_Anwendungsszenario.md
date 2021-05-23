@@ -37,8 +37,6 @@
    </td>
   </tr>
 </table>
->>>>>>> Stashed changes
-
 
 **Sonntag**
 <table>
