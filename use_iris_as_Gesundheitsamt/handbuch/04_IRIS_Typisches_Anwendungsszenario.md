@@ -11,7 +11,7 @@
      <p>
        Mit seinem Handy fotografiert er einen QR Code am Sportplatz und klickt „Check in“.
    </td>
-   <td> 
+   <td style="width: 250px;"> 
 
 <img src="images/checkin_soccer.png" width="400px" alt="checkin_soccer" title="checkin_soccer">
 
@@ -30,7 +30,7 @@
   <tr>
    <td>Abends geht die Familie Pizza-Essen in die Pizzeria Mio. Mit seinem Handy fotografiert Peter einen QR-Code am Tisch und klickt „Check-in“
    </td>
-   <td> 
+   <td style="width: 250px;"> 
 
 <img src="images/checkin_restaurant.png" width="400px" alt="checkin_restaurant" title="checkin_restaurant">
 
@@ -43,14 +43,14 @@
   <tr>
    <td> Am Morgen besucht Peter Schmitz ein Testzentrum und wird Corona-Positiv getestet.
    </td>
-   <td> 
+   <td style="width: 250px;"> 
 
 <img src="images/test_positive.png" width="400px" alt="test_positive" title="test_positive">
 
    </td>
   </tr>
    <tr>
-   <td>
+   <td style="width: 250px;">
 
 <img src="images/testresult_to_PHO.png" width="400px" alt="testresult_to_PHO" title="testresult_to_PHO">
 
@@ -73,7 +73,7 @@
 <p>
 Hier wird Peter medizinisch zu Symptomen befragt und es findet eine kurze Beratung statt, Peter wird aber auch um Angabe/Verifikation seiner E-Mail-Adresse gebeten, und er bekommt einen Token mitgeteilt.
    </td>
-   <td>
+   <td style="width: 250px;">
     <p style="text-align: right">
 
 
@@ -95,7 +95,7 @@ Hier wird Peter medizinisch zu Symptomen befragt und es findet eine kurze Beratu
 <p>
 Peter erhält eine E-Mail, die ihn bittet, Angaben zu Kontakten der letzten Tage zu machen. In der E-Mail befindet sich ein Link.
    </td>
-   <td><p style="text-align: right">
+   <td style="width: 250px;"><p style="text-align: right">
 
 <img src="images/IRIS_tracing_start.png" width="400px" alt="IRIS_tracing_start" title="IRIS_tracing_start">
 </p>
@@ -111,7 +111,7 @@ Peter erhält eine E-Mail, die ihn bittet, Angaben zu Kontakten der letzten Tage
 
 <table>
   <tr>
-   <td>
+   <td style="width: 250px;">
 
 <img src="images/IRIS_tracing_senddata.png" width="400px" alt="IRIS_tracing_senddata" title="IRIS_tracing_senddata">
 
@@ -139,7 +139,7 @@ Dies sind in unserem Fall:
 * Direktkontakte: Anouk und Louis 
 * Kontaktorte (Einrichtungen):  Sportplatz, Kino, Pizzeria
    </td>
-   <td><p style="text-align: right">
+   <td style="width: 250px;"><p style="text-align: right">
 
 
 <img src="images/IRIS_tracing_checkIndexdata.png" width="400px" alt="IRIS_tracing_checkIndexdata" title="IRIS_tracing_checkIndexdata">
@@ -156,7 +156,7 @@ Dies sind in unserem Fall:
 
 <table>
   <tr>
-   <td>
+   <td style="width: 250px;">
 
 <img src="images/IRIS_tracing_importdata.png" width="400px" alt="IRIS_tracing_importdata" title="IRIS_tracing_importdata">
 
@@ -181,7 +181,7 @@ Weitere Prozesse werden aus diesem angestoßen: Gespräch mit Anouk, ggfs. Abson
 
 Obwohl an allen Aufenthaltsorten entsprechende Hygienekonzepte umgesetzt sind, interessiert in Peters Fall besonders die Pizzeria, da Peter selbst angegeben hatte, dass es dort an der Theke etwas enger zuging.
    </td>
-   <td><p style="text-align: right">
+   <td style="width: 250px;"><p style="text-align: right">
 
 <img src="images/IRIS_tracing_event.png" width="400px" alt="IRIS_tracing_event" title="IRIS_tracing_event">
 </p>
@@ -197,7 +197,7 @@ Obwohl an allen Aufenthaltsorten entsprechende Hygienekonzepte umgesetzt sind, i
 
 <table>
   <tr>
-   <td>
+   <td style="width: 250px;">
 
 
 <img src="images/IRIS_event_request.png" width="400px" alt="IRIS_event_request" title="IRIS_event_request">
@@ -218,7 +218,7 @@ Alle angebundenen Lösungen stellen ein Register der deutschlandweit digital ang
 <p>
 Die digitale Lösung wiederum kontaktiert automatisch die Pizzeria Mio, dass eine Anfrage vom Gesundheitsamt vorliegt. Pizzeria Mio erteilt gemäß Mitwirkungspflicht eine Freigabe für die Daten – und diese werden mit dem Schlüssel des anfragenden GA verschlüsselt und durch eine von IRIS vermittelte Verbindung übertragen. So sieht auch der Betrieb die Daten nicht, nur das anfragende Gesundheitsamt kann die Daten entschlüsseln.
    </td>
-   <td>
+   <td style="width: 250px;">
 
 <img src="images/IRIS_event_handling.png" width="400px" alt="IRIS_event_handling" title="IRIS_event_handling">
 
@@ -233,7 +233,7 @@ Die digitale Lösung wiederum kontaktiert automatisch die Pizzeria Mio, dass ein
 
 <table>
   <tr>
-   <td>
+   <td style="width: 250px;">
 
 <img src="images/IRIS_event_datafromlocation.png" width="400px" alt="IRIS_event_datafromlocation" title="IRIS_event_datafromlocation">
 
@@ -256,7 +256,7 @@ Durch Anklicken werden diese für die/den GesundheitsaufseherIn entschlüsselt �
 <p>
 Ebenfalls im Barbereich waren zur selben Zeit zwei weitere Gäste und der Bar-Mitarbeitende. Diese wählt die/der GesundheitsaufseherIn aus, um sie ins nachgelagerte System zu überführen.
    </td>
-   <td> 
+   <td style="width: 250px;"> 
 
 <img src="images/IRIS_event_datafromlocation_checked.png" width="400px" alt="IRIS_event_datafromlocation_checked" title="IRIS_event_datafromlocation_checked">
 
