@@ -246,7 +246,7 @@ There are two ways to submit data to IRIS. The two ways result from the two diff
 The data is sent to the custom EPS via JSON-RPC. The method name used is `[hdEndpoint].submitGuestList`. `[hdEnpoint]` corresponds to _client.name from the received DataRequest.
 
     {
-        "dataAuthorizationToken": "2edd34d6-bc7b-11eb-8529-0242ac130003",
+        "requestId": "2edd34d6-bc7b-11eb-8529-0242ac130003",
         "guestList": 
             [
                 {
@@ -275,7 +275,7 @@ Parameters:
 
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
-| `dataAuthorizationToken` | Authorizes data submission | From Request  
+| `requestId` | Authorizes data submission | Equals the dataAuthorizationToken from DataRequest. CAUTION: will be renamed soon.  
 | `guestList` | Guest list |
 
 Guest object:
