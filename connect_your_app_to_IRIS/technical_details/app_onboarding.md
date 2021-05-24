@@ -60,7 +60,7 @@ The settings folder is then referenced in the docker call as ``[your-local-setti
 
 You can start a local eps with
 
-    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] luckylusa/iris-eps-bundle:0.0.1-stable --level trace server run
+    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] inoeg/eps:v0.0.4 --level trace server run
  
 `[yourapp]` corresponds to the app name you chose for CN in your certificate. 
 
@@ -239,7 +239,74 @@ The request can be saved and edited locally. The functions for transmitting the 
 
 ## Send data submissions
 
-ToDo
+There are two ways to submit data to IRIS. The two ways result from the two different types of data management. Apps that can provide data unencrypted in the backend can send data directly to IRIS via EPS from the backend. If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption.
+
+### Send data from app backend
+
+The data is sent to the custom EPS via JSON-RPC. The method name used is `[hdEndpoint].submitGuestList`. `[hdEnpoint]` corresponds to _client.name from the received DataRequest.
+
+    {
+        "dataAuthorizationToken": "2edd34d6-bc7b-11eb-8529-0242ac130003",
+        "guestList": 
+            [
+                {
+                    "firstName": "Hans",
+                    "lastName": "Müller",
+                    "sex": "UNKNOWN",
+                    "email": "p5o50dtktj@temporary-mail.net",
+                    "phone": "0151 47110815",
+                    "mobilePhone": "0151 47110815",
+                    "address": {
+                      "street": "Lietzensee-Ufer",
+                      "houseNumber": "75",
+                      "zipCode": "01657",
+                      "city": "Meißen"
+                    },
+                    "attendanceInformation": {
+                      "attendFrom": "2021-03-28T19:21:28.071Z",
+                      "attendTo": "2021-03-28T19:21:28.071Z",
+                      "additionalInformation": "Tisch 4"
+                    }
+                }
+            ]
+      }
+      
+Parameters:
+
+| Parameter | Description | Annotations |
+| --- | --- | --- |    
+| `dataAuthorizationToken` | Authorizes data submission | From Request  
+| `guestList` | Guest list |
+
+Guest object:
+
+| Parameter | Description | Required | Annotations |
+| --- | --- | --- | --- |   
+| `firstName` | First name | true |   
+| `lastName` | Last list | true |
+| `sex` | Sex | false | `[ MALE, FEMALE, OTHER, UNKNOWN ]` 
+| `email` | E-Mail | false |
+| `phone` | Phone number | false |
+| `mobilePhone` | Mobile number | false |
+| `address` | Address object | false |
+| `attendanceInformation` | Attendance object | true |
+
+Address object:
+
+| Parameter | Description | Required | Annotations |
+| --- | --- | --- | --- |       
+| `street` | Street | false |   
+| `houseNumber` | House number | false |
+| `zipCode` | Zip code | false | 
+| `city` | City | false |
+
+AttendanceInformation object:
+
+| Parameter | Description | Required | Annotations |
+| --- | --- | --- | --- |       
+| `attendFrom` | Attend from | true |   
+| `attendTo` | Attend to | true |
+| `additionalInformation` | Additional attendance information | false | For example table or area 
 
 ## Test your implementation
 
@@ -250,6 +317,14 @@ You can find the password and access data in the slack channel.
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
 ## Changelog
+
+### [0.0.3] - 2021-05-20
+
+#### Added
+- Submit data when accessible in backend
+
+#### Changed
+- Docker command with new eps version
 
 ### [0.0.3] - 2021-05-20
 
