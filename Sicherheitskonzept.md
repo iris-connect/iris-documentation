@@ -285,13 +285,8 @@ Weiterhin hat er folgende Laufzeit-Abhängigkeiten, die in diesem Dokument nur s
 * Proxy Server: In vielen GÄ werden ausgehende Verbindungen über einen Proxy-Server geroutet. 
   Der IRIS-Client stellt eine Konfigurationsmöglichkeit dafür zur Verfügung.
 
-#### C.GA.PrivateProxy - Private Proxy eines GA
-Jedes GA verfügt über einen Private Proxy, der gemeinsam mit seinem EPS das GA-seitige Gegenstück zum Public Proxy des IRIS-Gateways ist. 
-Für das GA ist er das Tor zu den zentralen Diensten von IRIS. Viele GÄ betreiben Whitelisting für eingehende und ausgehende Netzwerkverbindungen, weswegen sie nicht ohne weiteres eingehende Verbindungen annehmen können. 
-Der Private Proxy schafft hier Abhilfe, indem er eine ausgehende TCP/IP-Standleitung zum Public Proxy aktiv offen hält. 
-Über ihn nimmt er eingehende Verbindungen entgegennehmen und leitet sie, wiederumg ohne TLS zu terminieren, an den IRIS-Client zur Bearbeitung weiter.
+##### Sicherheit
 
-#### Sicherheit (allgemein)
 Um den IRIS-Client zu nutzen, müssen sich die Mitarbeitenden des GA zunächst mit einem Benutzernamen und einem Passwort authentisieren.
 Dazu implementiert der IRIS-Client ein Rollensystem mit den Rollen "Normaler Benutzer" und "Administrator".
 
@@ -306,6 +301,12 @@ Die Integrität der des Tokens wird mit HMAC512 (Keyed-Hash Message Authenticati
 > An dieser Stelle werden noch Details zur source of randomness und dem shared secret ausgeführt.
 
 Sollte ein Token nach dem Senden an den Browser manipuliert worden sein (z.B. um eine höhere Berechtigung vorzutäuschen), schlägt die Überprüfung fehlt und die zugehörige Anfrage wird verworfen.
+
+#### C.GA.PrivateProxy - Private Proxy eines GA
+Jedes GA verfügt über einen Private Proxy, der gemeinsam mit seinem EPS das GA-seitige Gegenstück zum Public Proxy des IRIS-Gateways ist. 
+Für das GA ist er das Tor zu den zentralen Diensten von IRIS. Viele GÄ betreiben Whitelisting für eingehende und ausgehende Netzwerkverbindungen, weswegen sie nicht ohne weiteres eingehende Verbindungen annehmen können. 
+Der Private Proxy schafft hier Abhilfe, indem er eine ausgehende TCP/IP-Standleitung zum Public Proxy aktiv offen hält. 
+Über ihn nimmt er eingehende Verbindungen entgegennehmen und leitet sie, wiederumg ohne TLS zu terminieren, an den IRIS-Client zur Bearbeitung weiter.
 
 ### C.IRIS.CentralServices - Zentrale Komponenten und Dienste (IRIS-Gateway)
 Die zentralen IRIS-Komponenten und -Dienste werden vom externen IT-Dienstleister von IRIS gehostet.
@@ -479,7 +480,7 @@ Ist eine kompatible Anwendung (kA) mit dem E-Mail Token gestartet, werden anschl
 
 Hat die IP ihre Kontakte eingetragen oder abgerufen, werden diese zusammen mit dem Token mit dem GA-Schlüssel verschlüsselt und über die TLS Verbindung an das GA übertragen.
 
-## Sicherheit
+## Sicherheit (allgemein)
 Im folgenden Kapitel werden allgemeine, komponentenübergreifende Schutzmaßnahmen beschrieben. Dazu werden Richtlinien wie der
 OWASP Application Security Verification Standard 4.0 (ASVS) oder technische Richtlinien wie BSI TR-03161 für
 Sicherheitsanforderungen an digitale Gesundheitsanwendungen hinzugezogen.
@@ -687,6 +688,7 @@ Das folgende Sequenzdiagramm veranschaulicht den genauen technischen Ablauf des 
 
 *Darstellung des Aufbaus einer TLS-Verbindung vom Client (Browser oder mobile App) in ein GA*
 ![Darstellung des TLS-Handshakes zwischen Client (Broser oder mobile App) und einem GA über den Public Proxy](./Resources/technical_documentation/sequence_connection_establishment_hd.svg)
+
 
 ### PO.EPSConnEst - Aufbau einer mTLS-Verbindung zwischen zwei EPS-Komponenten
 
