@@ -10,11 +10,11 @@ Everything presented here is part of a living open development process. We are a
 
 ## Who We Are
 
-IRIS is an initiative of the [Innovationsverbund Öffentliche Gesundheit] (https://inoeg.de) (Innovation Association Public Health), a network of people who proactively work on interoperability within the public health service. The current focus is Germany but of course we are open for international collaboration.
+IRIS is an initiative of the [Innovationsverbund Öffentliche Gesundheit](https://inoeg.de) (Innovation Association Public Health), a network of people who proactively work on interoperability within the public health service. The current focus is Germany but of course we are open for international collaboration.
 
 Many individuals with many different backgrounds are contributing (IT, public health, communications, design, legal). A lot of work is done on a volunteer or pro bono basis, but of course a project of this magnitude cannot be developed and maintained only on free time alone.
 
-The project is funded mainly by the [Björn Steiger Foundation] (https://steiger-stiftung.de) (Thank You!) who also is responsible for the procedural operation.
+The project is funded mainly by the [Björn Steiger Foundation](https://steiger-stiftung.de) (Thank You!) who also is responsible for the procedural operation.
 
 ## Credits
 
@@ -42,7 +42,7 @@ Target is to provide a software that enables public health services to request a
 ### Technical Documentation
 
 The technical documentation is split in
-* [setup/installation of the client for public health offices] (https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/Installation.md)
+* [setup/installation of the client for public health offices](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/Installation.md)
 * [connecting an application for contact data collection to IRIS](/connect_your_app_to_IRIS) 
 * IT-Security documentation (to be published soon)
 
