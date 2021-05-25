@@ -318,7 +318,7 @@ There you should find your pushed locations in the search when you start a new e
 
 ## Changelog
 
-### [0.0.3] - 2021-05-20
+### [0.0.4] - 2021-05-20
 
 #### Added
 - Submit data when accessible in backend
