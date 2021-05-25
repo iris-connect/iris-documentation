@@ -22,7 +22,7 @@ Many people and organisations have been and are contributing to this project. Ma
 
 ## Code of Conduct
 
-Our [Code of Conduct](/CODE_OF_CONDUCT_community) defines standards for how to engage within our community.
+Our [Code of Conduct](./CODE_OF_CONDUCT_community.md) defines standards for how to engage within our community.
 
 ## Working Language
 
