@@ -38,7 +38,7 @@ Contributions welcome!
   * [Akteure (Actors)](#akteure-actors)
   * [Komponenten (Components)](#komponenten-components)
   * [Prozesse (Processes)](#prozesse-processes)
-  * [Sicherheit](#sicherheit)
+  * [Sicherheit (allgemein)](#sicherheit-allgemein)
 - [Zu schützende Werte](#zu-schützende-werte)
   * [Datenobjekte (Data Objects)](#datenobjekte-data-objects)
   * [Prozessobjekte (Process Objects)](#prozessobjekte-process-objects)
@@ -93,17 +93,23 @@ IRIS besteht aus
   Gesundheitsämter.
 * Einer Benutzerschnittstelle in den Gesundheitsämtern (Client), über die Mitarbeitende die erfassten Daten der
   Bürger:innen und Einrichtungen anfragen und abrufen können.
+* Einem Netzwerk von Endpoint-Servern (EPS), das den verschiedenen Akteueren bei IRIS eine sichere Kommunikation miteinander ermöglicht.
 
-IRIS tritt als Vermittler zwischen den Gesundheitsämtern und den verschiedenen digitalen Lösungen auf.
-Es erfolgt insbesondere keine zentrale Speicherung der übermittelten Daten.
+IRIS tritt als Vermittler zwischen den Gesundheitsämtern und den verschiedenen digitalen Lösungen auf. 
+Es erfolgt insbesondere keine zentrale Speicherung der übermittelten Daten. 
 
 Das Verschlüsseln von personenbezogenen Daten findet direkt in der jeweiligen an IRIS angebundenen Anwendung statt.
-Das Entschlüsseln erfolgt im IRIS-Client-Backend, also quasi im Gesundheitsamt. Hinzu kommt Transportverschlüsselung
-mittels TLS/HTTPS. Im IRIS-Client liegen die Daten dann unverschlüsselt. Vor der Datenabfrage durch ein Gesundheitsamt
-liegen diese ausschließlich bei der angebundenen Anwendung und nicht im IRIS-System.
+Das Entschlüsseln erfolgt im IRIS-Client-Backend, also quasi im Gesundheitsamt.
+Hinzu kommt Transportverschlüsselung mittels TLS/HTTPS. Erst im IRIS-Client liegen die Daten dann unverschlüsselt vor.
+Vor der Datenabfrage durch ein Gesundheitsamt liegen diese ausschließlich bei der angebundenen Anwendung und nicht im IRIS-System.
 
 *Schaubild der Akteure, Komponenten und typischen Use Cases von IRIS*
 ![Schaubild der Akteure, Komponenten und typischen Use Cases](./Resources/technical_documentation/architecture_and_use_case_overview.jpg)
+
+Kommunikation innerhalb des EPS-Netzwerks findet immer in Form von gRPC über mTLS statt.
+Mit seinem zugehörigen Server spricht ein EPS immer pures JSON-RPC.
+Clients (Browser oder Apps), die von Bürger:innen oder Betreibenden einer Einrichtung genutzt werden sprechen mit den IRIS Public Services über HTTPS.
+Das Frontend im GA (oder genauer gesagt der Browser, in dem es läuft) und das Backend des IRIS-Clients sprechen miteinander über HTTPS.
 
 ## Akteure (Actors)
 Nachfolgend werden die Akteure aufgeführt und erläutert, die im IRIS-System vertreten sind:
@@ -117,7 +123,7 @@ Nachfolgend werden die Akteure aufgeführt und erläutert, die im IRIS-System ve
 |A.HealthDepartment.Employee| Mitarbeitende des GA (ex Administrator:innen)
 |A.HealthDepartment.SvcProv| IT-Dienstleister eines GA
 |A.IRISSvcProvider| IT-Dienstleister (Hoster) von IRIS
-|A.TrustProv| Vertrauensdiensteanbieter und Zertifikatsstelle (Certificate Authority, CA)
+|A.TrustProv| Vertrauensdiensteanbieter und Zertifikatsstelle
 |A.ExtSecurityAuditor| Externer IT-Sicherheitsprüfer
 |A.Callcenter| Support-Callcenter
 |A.OnboardingTeam| Onboarding Team der IRIS-Organisation
@@ -134,7 +140,7 @@ Diese Daten verwenden sie direkt oder in einer digitalen Fachanwendung (z.B. SOR
 
 In einem GA können verschiedene Personengruppen unterschieden werden, die im Kontext von Zugriffsrechten gesondert zu betrachten sind:
 #### A.HealthDepartment.Admin - Administrator:innen des GA
-Administrator:innen konfigurieren den [IRIS-Client](cgairisclient---iris-client-eines-gesundheitsamts) und haben umfangreichere Berechtigungen als andere Mitarbeitende, unter anderem Zugriff auf die geheimen Schlüssel (Zertifikate) des GA.
+Administrator:innen konfigurieren den [IRIS-Client](#cgairisclient---iris-client-eines-gesundheitsamts) und haben umfangreichere Berechtigungen als andere Mitarbeitende, unter anderem Zugriff auf die geheimen Schlüssel (Zertifikate) des GA.
 #### A.HealthDepartment.Employee - Mitarbeitende des GA (ex Administrator:innen)
 Unter den Mitarbeitenden kann ggf. weiter zwischen *internen Mitarbeitenden* und *externen Mitarbeitenden* (z.B. vorübergehend unterstützende Soldat:innen der Bundeswehr) unterschieden werden.
 
@@ -153,18 +159,21 @@ entschlüsseln und digital signieren können.
 
 Jedes GA benötigt drei Schlüsselpaare bzw. Zertifikate.
 
-1. Ein TLS-Zertifikat. Dieses erhält das GA im Rahmen des Onboardings von der Bundesdruckerei bzw. dessen Vertrauensdienstanbieter D-Trust.
+1. Ein TLS-Zertifikat.  
+   Dieses erhält das GA im Rahmen des Onboardings von der Bundesdruckerei bzw. dessen Vertrauensdienstanbieter D-Trust.
    Alle Kommunikationsverbindungen, die im Kontext von IRIS mit einem GA aufgebaut werden, sind damit auf Transport-Schicht geschützt.
    Die D-Trust wird als CA vorausgesetzt (gepinnt). Andere CAs werden am Ausstellen von Zertifikaten auf die Domain des GA gehindert, indem ein CAA-Record im DNS gesetzt wird.
    Entspricht ein beim Verbindungsaufbau vorgezeigtes Zertifikat nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
 
    Details des Zertifikats:
-  * Extended Validation (EV)
-  * Beinhaltet die Domain des GA
-  * Extended key usage: TLS Client Authentication, TLS Server Authentication
-  * Subject Alternative Name (SAN) Extension: Mehrere Einträge, welche die Gruppenrollen des Zertifikatsinhabers attestieren (z.B. Gruppe ```health-departments```)
-2. Ein Signaturzertifikat. Dieses wird vom GA benutzt, um digitale Signaturen zu erstellen. Siehe dazu M.DigitalSignatures.
-3. Ein E2E-Encryption-Zertifikat. Mit dem zugehörigen öffentliche Schlüssel können Daten an ein GA auf Anwendungsebene verschlüsselt werden (Inhaltsverschlüsselung).
+      * Extended Validation (EV)
+      * Beinhaltet die Domain des GA
+      * Extended key usage: TLS Client Authentication, TLS Server Authentication
+      * Subject Alternative Name (SAN) Extension: Mehrere Einträge, welche die Gruppenrollen des Zertifikatsinhabers attestieren (z.B. Gruppe ```health-departments```)
+2. Ein Signaturzertifikat.  
+   Dieses wird vom GA benutzt, um digitale Signaturen zu erstellen. Siehe dazu M.DigitalSignatures.
+3. Ein E2E-Encryption-Zertifikat.  
+   Mit dem zugehörigen öffentliche Schlüssel können Daten an ein GA auf Anwendungsebene verschlüsselt werden (Inhaltsverschlüsselung).
    Eine zweite Verschlüsselungsschicht auf Anwendungsebene zusätzlich zur Transportverschlüsselung mit TLS bringt in bestimmten Use Cases einen Mehrwert.
 
 #### A.ExtSecurityAuditor - Externer IT-Sicherheitsprüfer
@@ -178,9 +187,9 @@ Dieser Kundenservice wird über die Dienstleistungs-GmbH der Björn Steiger Stif
 #### A.OnboardingTeam - Onboarding Team der IRIS-Organisation
 Das Onboarding Team ist eine Organisationseinheit innerhalb der IRIS-Organisation, die dafür zuständig ist, neue GÄ und Lösungsanbieter an IRIS anzuschließen und über den gesamten Anbindungsprozess hinweg zu begleiten.
 
-##### S.IRIS-CA
-Die IRIS Organisation betreibt eine selbstsignierte Signing-CA. Jeder Lösungsanbieter muss seinen Public-Key, den er einsetzen möchte von dieser CA im Rahmen des Onboardings signieren lassen bzw. sich ein Zertifikat ausstellen lassen.
-Zu jedem Schlüssel hinterlegt der Anbieter einen Identifier (Public-Key-Fingerprint) im Service Directory, wo dieser bspw. von GÄ abgerufen werden kann. Die IRIS-CA wird als CA vom IRIS-Gateway und den GÄ vorausgesetzt (gepinnt).
+Die IRIS Organisation betreibt eine selbstsignierte Signing-CA (S.IRIS-CA). Jeder Lösungsanbieter muss im Rahmen des Onboardings einen Certificate Signing Request (CSR) an die IRIS-CA stellen. Diese stellt ihm die nötigen Zertifikate aus.
+Die Public-Key-Finderprint der zugehörigen Schlüssel werden im Service Directory hinterlegt, wo sie von den GÄ abgerufen werden können. 
+Die IRIS-CA wird vom IRIS-Gateway und den GÄ als einzig mögliche CA vorausgesetzt (gepinnt).
 Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
 Ebenso wird von den GÄ vorausgesetzt, dass das IRIS Gateway sich beim Aufbau von mTLS-Verbindungen mit einem eigenen, von der IRIS-CA signierten Zertifikat ausweist.
 
@@ -258,28 +267,45 @@ Diese sind in [C.IRIS.CentralServices](#ciriscentralservices---zentrale-komponen
 Das Stangingsystem läuft auf einem eigenen Kubernetes Cluster beim IT-Dienstleister von IRIS. Es beinhaltet die gleichen Komponenten wie das Produktivsystem.
 
 ### C.GA.IRISClient - IRIS-Client eines Gesundheitsamts
-Der IRIS-Client bildet die Benutzerschnittstelle in den GÄ, über die Mitarbeitende die erfassten Daten der Bürger:innen und Einrichtungen anfragen und abrufen können.
-Dafür wird ein herkömmlicher Browser genutzt. Der IRIS-Client wird dabei auf einem Server im Gesundheitsamt oder bei dessen IT-Dienstleister installiert.
+#### Allgemeines
+Der IRIS-Client bildet die Benutzerschnittstelle, die den GÄ Zugang zu allen IRIS-Diensten gibt. 
+Um ihn zu nutzen, verwenden Mitarbeitende des GA einen herkömmlichen Browser, in dem sie die erfassten Daten der Bürger:innen und Einrichtungen anfragen und entgegennehmen können. 
+Der Browser baut dabei eine HTTPS-Verbindung zum IRIS-Client auf, der entweder direkt auf einem Server im Gesundheitsamt oder bei dessen IT-Dienstleister installiert ist. 
+Dieser kommuniziert wiederum über seinen EPS bzw. den Private Proxy des GA nach draußen. 
 
-Der IRIS-Client besteht im weiteren Sinne aus folgenden Komponenten, die später näher betrachtet werden:
-* Einem Frontend-Server
-* Einem Backend-Server
-* Dem Private Proxy des GA
-* Dem EPS des GA
+Der IRIS-Client besteht ausweiteren Sinne aus folgenden Komponenten, die später näher betrachtet werden:
+* einem Frontend-Server
+* einem Backend-Server (inkl. EPS)
+* einem Private Proxy (inkl. EPS)
 
 Weiterhin hat er folgende Laufzeit-Abhängigkeiten, die in diesem Dokument nur stellenweise näher betrachtet werden:
 * Eine PostgreSQL-Datenbank: Das Backend benutzt eine PostgreSQL-Datenbank für die Verwaltung der Benutzer und für die Speicherung der offenen Kontaktdaten- und Gästedaten-Anfragen.
 * Einen Webserver: Für die Bereitstellung des Frontends über eine sichere TLS-Verbindung wird ein Webserver benötigt.
-  Dieser muss in der Lage sein die statische Webanwendung auszuliefern und Anfragen an das Backend weiterzuleiten.
-* Proxy Server: In vielen GÄ werden ausgehende Verbindungen über einen Proxy-Server geroutet.
+  Dieser muss in der Lage sein eine statische Webanwendung auszuliefern und Anfragen an das IRIS-Client-Backend weiterzuleiten.
+* Proxy Server: In vielen GÄ werden ausgehende Verbindungen über einen Proxy-Server geroutet. 
   Der IRIS-Client stellt eine Konfigurationsmöglichkeit dafür zur Verfügung.
 
-#### C.GA.IRISClient.FE - Frontend des IRIS-Clients
-#### C.GA.IRISClient.BE - Backend des IRIS-Clients
 #### C.GA.PrivateProxy - Private Proxy eines GA
-Jedes GA verfügt über einen Private Proxy.
-Dieser nimmt keine TCP-Verbindungen entgegen und verbindet sich stattdessen aktiv mit dem öffentlichen Proxy-Server des IRIS-Gateways, wenn eine Verbindung für ihn verfügbar ist.
-Er leitet diese Verbindung (wiederum ohne TLS zu terminieren) an einen internen Server des GA weiter, der sie dann bearbeiten kann.
+Jedes GA verfügt über einen Private Proxy, der gemeinsam mit seinem EPS das GA-seitige Gegenstück zum Public Proxy des IRIS-Gateways ist. 
+Für das GA ist er das Tor zu den zentralen Diensten von IRIS. Viele GÄ betreiben Whitelisting für eingehende und ausgehende Netzwerkverbindungen, weswegen sie nicht ohne weiteres eingehende Verbindungen annehmen können. 
+Der Private Proxy schafft hier Abhilfe, indem er eine ausgehende TCP/IP-Standleitung zum Public Proxy aktiv offen hält. 
+Über ihn nimmt er eingehende Verbindungen entgegennehmen und leitet sie, wiederumg ohne TLS zu terminieren, an den IRIS-Client zur Bearbeitung weiter.
+
+#### Sicherheit (allgemein)
+Um den IRIS-Client zu nutzen, müssen sich die Mitarbeitenden des GA zunächst mit einem Benutzernamen und einem Passwort authentisieren.
+Dazu implementiert der IRIS-Client ein Rollensystem mit den Rollen "Normaler Benutzer" und "Administrator".
+
+> An dieser Stelle werden noch Details zur sicheren Speicherung der Passwörter aufgeführt.
+
+Die Authentifizierung wird vom Client-Backend-for-Frontend durchgeführt. 
+Ist ein Benutzer erfolgreich authentifiziert, wird er mit einem JSON Web Token (JWT) im Rahmen seiner Rolle autorisiert und erhält eine Sitzung (Session) im Client.
+Informationen für die Authentifikation und Autorisierung werden im weiteren Verlauf der Sitzung mithilfe dieses Tokens ausgetauscht, das bei jeder Anfrage vom Browser mitgeschickt wird.
+Es beinhaltet den Nutzernamen des authentifizierten GA-Mitarbeitenden, die Nutzerrolle und die Gültigkeitsdauer des Tokens, nach deren Ablauf die Sitzung entweder ausläuft oder automatisch verlängert wird. 
+Die Integrität der des Tokens wird mit HMAC512 (Keyed-Hash Message Authentication Code) geschützt und der Hashwert vor jeder Verarbeitung einer Nutzeranfrage vom Client-Backend-for-Frontend überprüft. 
+
+> An dieser Stelle werden noch Details zur source of randomness und dem shared secret ausgeführt.
+
+Sollte ein Token nach dem Senden an den Browser manipuliert worden sein (z.B. um eine höhere Berechtigung vorzutäuschen), schlägt die Überprüfung fehlt und die zugehörige Anfrage wird verworfen.
 
 ### C.IRIS.CentralServices - Zentrale Komponenten und Dienste (IRIS-Gateway)
 Die zentralen IRIS-Komponenten und -Dienste werden vom externen IT-Dienstleister von IRIS gehostet.
@@ -300,11 +326,13 @@ Der EPS des Service Directory stellt einen JSON-RPC-Server bereit, der als Kommu
 Neue Datensätze können über dessen JSON-RPC-API an das Service Directory übermittelt und bestehende darüber abgerufen werden.
 
 ##### Sicherheit
+###### S.ServiceDir.DigitalSigning - Einsatz digitaler Signaturen
 Alle Änderungen im Service Directory werden **kryptografisch signiert**. Dazu besitzt jeder Akteur im EPS-System ein Paar ECDSA-Schlüssel und ein dazugehöriges Zertifikat.
 Das Service Directory akzeptiert Änderungen nur dann, wenn sie vom richtigen Akteur signiert worden sind.
 Umgekehrt müssen auch Akteure, die Daten vom Service Directory abrufen zunächst deren Signatur verifizieren, bevor sie sie weiter verarbeiten.
-Genaueres zu den Schlüsseln und dem Signieren erläutern [M.PKI](#mpki---einsatz-von-pki) und [P.UpdateSvcDir](#psvcdirupdate---aktualisieren-des-datenbestands-des-service-directory).
+Genaueres zu den Schlüsseln und dem Signieren erläutern [A.TrustProv](#atrustprov---vertrauensdiensteanbieter) und [P.UpdateSvcDir](#psvcdirupdate---aktualisieren-des-datenbestands-des-service-directory).
 
+###### S.ServiceDir.AccessControl - Einsatz einer Zugriffsverwaltung
 Zusätzlich implementiert das Service Directory einen **gruppenbasierten Berechtigungsmechanismus**.
 Derzeit existieren nur Ja/Nein-Berechtigungen (d.h. ein Mitglied einer bestimmten Gruppe kann eine bestimmte Dienstmethode entweder aufrufen oder nicht).
 Feinkörnigere Berechtigungen (z.B. damit ein Anbieter von Kontaktverfolgungen nur seine eigenen Einträge im Dienst "location" bearbeiten kann) müssen von den Diensten selbst (in iesem Fall vom Locations Service) implementiert werden.
@@ -470,14 +498,18 @@ Zusätzlich zur Transportverschlüsselung besteht die Möglichkeit, Daten auf An
 > Todo: Beschreibung der Fälle, in denen eine Anwendungsverschlüsselung erfolgt
 
 ## S.Authentication - Einseitige Authentifizierung von Kommunikationspartnern
-> Siehe auch S.3 Einsatz von PKI.
-> 
+Kommunikationsendpunkte müssen sich bei IRIS immer authentifizieren. Wenn möglich wird eine beidseitige Authentifizierung der kommunizierenden Endpunkte präferiert. 
+
+Einseitg authentifiziert werden
+* Die HTTPS-Verbindungen zwischen dem Browser eines Mitarbeitenden im GA und dem IRIS-Client-Frontend
+* Die HTTPS-Verbindung zwischen den Browsern bzw. mobilen Apps von Bürger:innen und dem IRIS-Client-Backend
+
 Bei jedem Kommunikationsaufbau im IRIS-Ökosystem wird mindestens eine der Parteien über TLS authentifiziert. Dazu wird die definierte PKI verwendet.
 
 ## S.MutualAuthentication - Beidseitige Authentifizierung von Kommunikationspartnern
-> Siehe auch S.3 Einsatz von PKI.
+Wo möglich findet beim Aufbau einer Kommunikationsverbindung nicht nur eine einseitige Authentifizierung des angefragten Endpunktes statt (wie bei normalem TLS), sondern eine Authentifizierung beider Endpunkte. 
+Für die Kommunikation im EPS-Netzwerk erfolgt das durch den Einsatz von mTLS ([ref]()) beschrieben, beim Zugriff auf das Produktiv- bzw. Stagingsystem durch SSh.
 
-Wo möglich werden bei einem Kommunikationsaufbau die beteiligten Parteien nicht nur einseitig über TLS, sondern beidseitig über mTLS authentifiziert. Dazu wird die in Maßnahme S.3 definierte PKI verwendet.
 
 ## S.OrgSeparation - Organisationelle Trennung
 Beim Design von IRIS wurde an mehreren Stellen eine organisationelle Trennung von Vertrauensbereichen angestrebt, um sicherzustellen, dass ein bösartiges Fehlverhalten bzw. die Kompromittierung eines Akteurs alleine nicht ausreicht, um Schaden anzurichten.
@@ -521,12 +553,12 @@ Ersteres bedeutet, dass unterschiedliche Funktionen unterschiedlichen Rollen zug
 Insgesamt wird darauf geachtet, dass keine unverhältnismäßige Konzentration von Berechtigungen in einer einzelnen Rolle bzw. bei einer einzelnen Organisationseinheit stattfindet.
 
 Zu den geschützten Komponenten und Prozessen zählen:
-* Der administrative Zugriff auf die Infrastruktur beim IT-Dienstleister von IRIS durch Mitglieder der IRIS-Organisation
-* Das Ausrollen eines neuen Software-Release auf der Produktivumgebung durch die IRIS-Organisation
-* Das Veröffentlichen eines neuen Software-Release durch das Entwicklungs-Team von IRIS
-* Das Ausstellen von Zertifikaten für Anbieter durch das Rollout-Team von IRIS
-* Das Registrieren von Gesundheitsämtern und Anbietern im Service Directory durch das Rollout-Team von IRIS
-
+* Das Ausstellen von Zertifikaten für Anbieter durch das IRIS-Rollout-Team
+* Das Ändern jeglicher Datensätze im Service Directory
+* Der administrative Zugriff auf die Infrastruktur bei den IT-Dienstleistern von IRIS durch Mitglieder der IRIS-Organisation
+* Das Veröffentlichen eines neuen Software-Release durch das IRIS-DevTeam
+* Das Ausrollen eines neuen Software-Release auf dem Produktiv- oder Stagingsystem durch die IRIS-Organisation
+* Das Anfordern von Kontakt- oder Gästedaten durch Mitarbeitende eines GA
 
 ## S.SecEventLogging - Protokollieren sicherheitsrelevanter Ereignisse
 Sicherheitsrelevante Ereignisse werden von allen Komponenten geloggt. Sicherheitsrelevante Ereignisse umfassen bspw.
@@ -650,7 +682,7 @@ In der folgenden Übersicht werden die Datenobjekte in den verschiedenen Kompone
 |PO.EPSConnEst| Aufbau einer mTLS-Verbindung zwischen zwei EPS-Komponenten
 
 ### Erläuterungen
-### PO. TLSConnEst - Aufbau einer TLS-Verbindung (TLS-Handshake) zwischen Client und GA
+### PO.TLSConnEst - Aufbau einer TLS-Verbindung (TLS-Handshake) zwischen Client und GA
 Das folgende Sequenzdiagramm veranschaulicht den genauen technischen Ablauf des TLS-Handshakes unter Beteiligung der EPS- und Proxy-Komponenten des GA und der zentralen IRIS-Dienste.
 
 *Darstellung des Aufbaus einer TLS-Verbindung vom Client (Browser oder mobile App) in ein GA*
