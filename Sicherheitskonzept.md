@@ -705,8 +705,8 @@ Sollte dies nicht der Fall sein, wird die Verbindung terminiert und übermittelt
 Die Verbindungen zwischen den EPS Komponenten sind ausschließlich über mTLS Ende-zu-Ende verschlüsselt.
 Um eine Verbindung aufzubauen, wird eine Authentifikation mit gültigen Zertifikaten von beiden Kommunikationspartnern benötigt. 
 Diese gegenseitige Authentifizierung stellt sicher, dass nur EPS Komponenten unter der Kontrolle der IRIS Akteure überhaupt miteinander kommunizieren können.
-Externe Akteure können Endpunkte und APIs nicht ansprechen, Verbindungsversuche mit ungültigen Zertifikaten werden ausnahmslos terminiert.
- 
+Externe Akteure können Endpunkte und APIs (außer den Public Proxy- siehe PO.TLSConnEst) nicht ansprechen, Verbindungsversuche mit ungültigen Zertifikaten werden ausnahmslos terminiert.
+
 # Angreifer, Bedrohungen und Annahmen
 
 ## Angreifer, Angreiferpotential, Motivation und Ziele
