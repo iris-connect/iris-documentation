@@ -689,9 +689,24 @@ Das folgende Sequenzdiagramm veranschaulicht den genauen technischen Ablauf des 
 *Darstellung des Aufbaus einer TLS-Verbindung vom Client (Browser oder mobile App) in ein GA*
 ![Darstellung des TLS-Handshakes zwischen Client (Broser oder mobile App) und einem GA über den Public Proxy](./Resources/technical_documentation/sequence_connection_establishment_hd.svg)
 
+#### Tokens
+Es werden verschiedene Tokens eingesetzt, um die Autorisierung einer extern verbindendenden Partei sicherzustellen, die Daten an ein Gesundheitsamt übermitteln möchte. 
+Als erste Verteidigung gegen unautorisierte Verbindungsversuche wird vom Gesundheitsamt ein sogenannter "Connection Authorization Token" an den Public Proxy übermittelt (vgl. Sequenzdiagramm oben "Announce Connection").
+Daraufhin legt der Public Proxy eine virtuelle Subdomain an, dessen Name der Connection Authorization Token ist. 
+Dies erlaubt einem Client, den Token direkt beim Aufbau einer TLS Verbindung über die SNI Extension zu präsentieren.
+Sollte dieser nicht mitgeliefert werden oder ungültig sein, wird der Verbindungsversuch sofort terminiert, bevor dieser das GA erreicht. 
+
+Um auch im Falle eines kompromittierten IRIS Public Proxys falsche Datenmeldungen an Gesundheitsämter zu verhindern, wird außerdem  ein zweiter Token ("Data Authorization Token") vor Verbindungsaufbau an den Client und nicht an den Public Proxy geschickt.
+Dieser wird nach dem Aufbau einer TLS Ende-zu-Ende Verbindung durch den Public Proxy verschlüsselt an das GA übertragen (nicht für den Public Proxy einsehbar).
+Das GA kann daraufhin prüfen, ob eingehende Daten für den präsentierten Data Authorization Token erwartet werden.
+Sollte dies nicht der Fall sein, wird die Verbindung terminiert und übermittelte Daten werden verworfen.
 
 ### PO.EPSConnEst - Aufbau einer mTLS-Verbindung zwischen zwei EPS-Komponenten
-
+Die Verbindungen zwischen den EPS Komponenten sind ausschließlich über mTLS Ende-zu-Ende verschlüsselt.
+Um eine Verbindung aufzubauen, wird eine Authentifikation mit gültigen Zertifikaten von beiden Kommunikationspartnern benötigt. 
+Diese gegenseitige Authentifizierung stellt sicher, dass nur EPS Komponenten unter der Kontrolle der IRIS Akteure überhaupt miteinander kommunizieren können.
+Externe Akteure können Endpunkte und APIs nicht ansprechen, Verbindungsversuche mit ungültigen Zertifikaten werden ausnahmslos terminiert.
+ 
 # Angreifer, Bedrohungen und Annahmen
 
 ## Angreifer, Angreiferpotential, Motivation und Ziele
@@ -701,7 +716,6 @@ Angreifertyp 1 hat begrenzte technische Mittel und Fähigkeiten, und nimmt keine
 
 *Fähigkeiten*
 - Web Security Basics (Injection, OWASP Top 10 etc.)
--
 
 *Mögliche Entitäten*
 - neugierige, technisch kompetente Bürger
