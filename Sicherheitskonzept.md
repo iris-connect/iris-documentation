@@ -17,7 +17,7 @@ besteht keine Gewinnerzielungsabsicht.
 Dieses Dokument hat **Entwurfsstatus**. Es wird aktiv erarbeitet.
 
 Hinweis auf laufendes externes Review:
-> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (die HiSolutions AG) darauf geprüft,
 > dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
 >
 > Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
@@ -470,7 +470,7 @@ Vielmehr müssen verschiedene Szenarien unterschieden werden, beispielsweise:
 ### P.RevokeCert
 ### P.OrdSecIncident
 
-#### Indexfall-Nachverfolgung
+### Indexfall-Nachverfolgung
 Bei einer Indexfall-Nachverfolgung möchte ein GA das Kontakttagebuch einer spezifischen Indexfall-Person (IP) anfragen und verarbeiten. Abhängig von den zu Verfügung stehenden Mitteln der IP werden hier folgende Unterprozesse unterschieden:
 Kontakttagebuch-Anfrage über...
 - (1) Smartphone App
@@ -509,9 +509,7 @@ Alle Kommunikationsverbindungen, die von oder zu IRIS-Komponenten über das Inte
 * Indirekte Verbindungen zwischen einem GA und einem Lösungsanbieter / Client über den Broker Proxy
 
 ## S.AppLayerEnc - Einsatz von Verschlüsselung auf Anwendungsebene
-Zusätzlich zur Transportverschlüsselung besteht die Möglichkeit, Daten auf Anwendungsebene für ein spezifisches GA zu verschlüsseln.
-
-> Todo: Beschreibung der Fälle, in denen eine Anwendungsverschlüsselung erfolgt
+Zusätzlich zur Transportverschlüsselung besteht entsprechend in Entsprechung zur Datenschutzkonferenz die Möglichkeit, Daten auf Anwendungsebene für ein spezifisches GA zu verschlüsseln.
 
 ## S.Authentication - Einseitige Authentifizierung von Kommunikationspartnern
 Kommunikationsendpunkte müssen sich bei IRIS immer authentifizieren. Wenn möglich wird eine beidseitige Authentifizierung der kommunizierenden Endpunkte präferiert. 
@@ -807,7 +805,7 @@ Angreifertyp 5 hat enorme technische Kapazität, inklusive der Möglichkeit von 
 ## Bedrohungen (Threats)
 > **Hinweis auf laufendes externes Review**
 >
-> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (die HiSolutions AG) darauf geprüft,
 > dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
 >
 > Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
@@ -926,7 +924,7 @@ Ein Angreifer liest sensible Daten aus dem Location Service aus.
 # Sicherheitsziele (Objectives)
 > **Hinweis auf laufendes externes Review**
 >
-> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (die HiSolutions AG) darauf geprüft,
 > dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
 >
 > Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
@@ -1010,7 +1008,7 @@ Annahmen zu:
 # Sicherheitsanforderungen (Requirements)
 > **Hinweis auf laufendes externes Review**
 >
-> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (die HiSolutions AG) darauf geprüft,
 > dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
 >
 > Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
@@ -1047,7 +1045,7 @@ Annahmen zu:
 # Schlussbemerkungen
 Dieses Dokument ist eine vorläufige zur semi-internen Verwendung einzustufende Unterlage.
 
-Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (die HiSolutions AG) darauf geprüft,
 dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
 
 Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
