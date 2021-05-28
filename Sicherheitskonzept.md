@@ -16,9 +16,14 @@ besteht keine Gewinnerzielungsabsicht.
 ## Status
 Dieses Dokument hat **Entwurfsstatus**. Es wird aktiv erarbeitet.
 
-Teile der nachfolgend beschriebenen Komponenten, Prozesse und Maßnahmen sind bereits umgesetzt.
-Manche befinden sich aktuell in der Umsetzung. Andere sind erst geplant und sollen zeitnah umgesetzt werden.
-Eine Kenntlichmachung diesbezüglich ist aktuell nicht vorgesehen.
+Hinweis auf laufendes externes Review:
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+> dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
+>
+> Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
+>
+> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welches die Ergebnisse und ggf. die Umsetzung zusätzlicher Maßnahmen dokumentieren wird. 
+> Dies betrifft insbesondere die letzten Kapitel "Angreifer, Bedrohungen und Annahmen", "Sicherheitsziele" und "Sicherheitsanforderungen".  
 
 |Version|Datum|Erläuterung|
 |---|---|---|
@@ -519,7 +524,7 @@ Bei jedem Kommunikationsaufbau im IRIS-Ökosystem wird mindestens eine der Parte
 
 ## S.MutualAuthentication - Beidseitige Authentifizierung von Kommunikationspartnern
 Wo möglich findet beim Aufbau einer Kommunikationsverbindung nicht nur eine einseitige Authentifizierung des angefragten Endpunktes statt (wie bei normalem TLS), sondern eine Authentifizierung beider Endpunkte. 
-Für die Kommunikation im EPS-Netzwerk erfolgt das durch den Einsatz von mTLS ([ref]()) beschrieben, beim Zugriff auf das Produktiv- bzw. Stagingsystem durch SSh.
+Für die Kommunikation im EPS-Netzwerk erfolgt das durch den Einsatz von mTLS beschrieben, beim Zugriff auf das Produktiv- bzw. Stagingsystem durch SSh.
 
 
 ## S.OrgSeparation - Organisationelle Trennung
@@ -801,13 +806,14 @@ Angreifertyp 5 hat enorme technische Kapazität, inklusive der Möglichkeit von 
 
 ## Bedrohungen (Threats)
 > **Hinweis auf laufendes externes Review**
-> 
-> Das IRIS-Sicherheitskonzept wird derzeit von einem externer Partner (der HiSolutions AG) darauf geprüft, 
-> dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
-> 
-> Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden. 
 >
-> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welche die Ergebnisse in den folgenden Kapiteln erfasst.
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+> dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
+>
+> Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
+>
+> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welches die Ergebnisse und ggf. die Umsetzung zusätzlicher Maßnahmen dokumentieren wird.
+> Dies betrifft insbesondere die letzten Kapitel "Angreifer, Bedrohungen und Annahmen", "Sicherheitsziele" und "Sicherheitsanforderungen".
 
 ### Klassische Bedrohungen
 |ID|Bedrohung|
@@ -920,12 +926,13 @@ Ein Angreifer liest sensible Daten aus dem Location Service aus.
 # Sicherheitsziele (Objectives)
 > **Hinweis auf laufendes externes Review**
 >
-> Das IRIS-Sicherheitskonzept wird derzeit von einem externer Partner (der HiSolutions AG) darauf geprüft,
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
 > dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
 >
 > Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
 >
-> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welche die Ergebnisse in den folgenden Kapiteln erfasst.
+> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welches die Ergebnisse und ggf. die Umsetzung zusätzlicher Maßnahmen dokumentieren wird.
+> Dies betrifft insbesondere die letzten Kapitel "Angreifer, Bedrohungen und Annahmen", "Sicherheitsziele" und "Sicherheitsanforderungen".
 
 Damit später angemessene Schutzmaßnahmen als Antwort auf die Gefährdungen ergriffen werden können muss zunächst
 definiert werden, welche Sicherheitsziele mit den Maßnahmen erreicht werden sollen. Ebenso muss definiert werden,
@@ -1003,12 +1010,13 @@ Annahmen zu:
 # Sicherheitsanforderungen (Requirements)
 > **Hinweis auf laufendes externes Review**
 >
-> Das IRIS-Sicherheitskonzept wird derzeit von einem externer Partner (der HiSolutions AG) darauf geprüft,
+> Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
 > dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
 >
 > Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
 >
-> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welche die Ergebnisse in den folgenden Kapiteln erfasst.
+> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welches die Ergebnisse und ggf. die Umsetzung zusätzlicher Maßnahmen dokumentieren wird.
+> Dies betrifft insbesondere die letzten Kapitel "Angreifer, Bedrohungen und Annahmen", "Sicherheitsziele" und "Sicherheitsanforderungen".
 
 |ID|Erläuterung|
 |---|---|
@@ -1039,8 +1047,12 @@ Annahmen zu:
 # Schlussbemerkungen
 Dieses Dokument ist eine vorläufige zur semi-internen Verwendung einzustufende Unterlage.
 
-Ein externer Partner (die HiSolutions AG) ist damit beauftragt, das Sicherheitskonzept zu prüfen.
+Das IRIS-Sicherheitskonzept wird derzeit durch einen externen Partner (der HiSolutions AG) darauf geprüft,
+dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
+
 Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
-Im Anschluss an das Review wird es eine neue Version dieser Unterlage geben, die das Ergebnis und ggf. die Umsetzung zusätzlicher Maßnahmen dokumentieren wird.
+
+Im Anschluss wird es eine neue Version dieser Dokumentation geben, welches die Ergebnisse und ggf. die Umsetzung zusätzlicher Maßnahmen dokumentieren wird.
+Dies betrifft insbesondere die letzten Kapitel "Angreifer, Bedrohungen und Annahmen", "Sicherheitsziele" und "Sicherheitsanforderungen".
 
 Die resultierende Fassung sollte die erste Version sein, die öffentlich kommuniziert wird.
