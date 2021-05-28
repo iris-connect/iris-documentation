@@ -800,6 +800,15 @@ Angreifertyp 5 hat enorme technische Kapazität, inklusive der Möglichkeit von 
 
 
 ## Bedrohungen (Threats)
+> **Hinweis auf laufendes externes Review**
+> 
+> Das IRIS-Sicherheitskonzept wird derzeit von einem externer Partner (der HiSolutions AG) darauf geprüft, 
+> dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
+> 
+> Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden. 
+>
+> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welche die Ergebnisse in den folgenden Kapiteln erfasst.
+
 ### Klassische Bedrohungen
 |ID|Bedrohung|
 |---|---|
@@ -909,6 +918,15 @@ Ein Angreifer liest sensible Daten aus dem Location Service aus.
 * Externe CAs sind jederzeit vertrauenswürdig
 
 # Sicherheitsziele (Objectives)
+> **Hinweis auf laufendes externes Review**
+>
+> Das IRIS-Sicherheitskonzept wird derzeit von einem externer Partner (der HiSolutions AG) darauf geprüft,
+> dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
+>
+> Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
+>
+> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welche die Ergebnisse in den folgenden Kapiteln erfasst.
+
 Damit später angemessene Schutzmaßnahmen als Antwort auf die Gefährdungen ergriffen werden können muss zunächst
 definiert werden, welche Sicherheitsziele mit den Maßnahmen erreicht werden sollen. Ebenso muss definiert werden,
 wie hoch die Bedeutung eines jeden Sicherheitsziels ist.
@@ -983,6 +1001,15 @@ Annahmen zu:
 
 
 # Sicherheitsanforderungen (Requirements)
+> **Hinweis auf laufendes externes Review**
+>
+> Das IRIS-Sicherheitskonzept wird derzeit von einem externer Partner (der HiSolutions AG) darauf geprüft,
+> dass alle relevanten Bedrohungen erkannt und angemessene Schutzmaßnahmen ergriffen worden sind.
+>
+> Im fachlichen Review könnten bisher unbeachtete Gefährdungen oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden.
+>
+> Im Anschluss wird es eine neue Version dieser Dokumentation geben, welche die Ergebnisse in den folgenden Kapiteln erfasst.
+
 |ID|Erläuterung|
 |---|---|
 | R.RegProvider| Anbieter können IRIS erst nach einer Registrierung der Organisation nutzen
@@ -1006,40 +1033,6 @@ Annahmen zu:
 | R.UserRoleMngmnt| Verantwortungsbereiche müssen durch ein Rechte- und Rollenkonzept getrennt werden
 
 ## Zuordnung der Sicherheitsvorkehrungen zu den Sicherheitszielen
-<table>
-  <tr>
-    <th>Schutzziel</th>
-    <th colspan="20">Maßnahmen</th>
-  </tr>
-  <tr>
-    <td></td>
-    <td>M.AAA</td>
-    <td>M.BBB</td>
-    <td>M.CCC</td>
-    <td>M.DDD</td>
-  <tr>
-    <td>O.AAA</td>
-    <td>X</td>
-    <td>X</td>
-    <td>X</td>
-    <td>X</td>
-  </tr>
-  <tr>
-    <td>O.BBB</td>
-    <td></td>
-    <td>X</td>
-    <td></td>
-    <td>X</td>
-  </tr>
-  <tr>
-    <td>O.CCC</td>
-    <td>X</td>
-    <td>X</td>
-    <td></td>
-    <td>X</td>
-  </tr>
-</table>
-
 
 ---
 
