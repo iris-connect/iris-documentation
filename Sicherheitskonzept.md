@@ -23,7 +23,7 @@ Eine Kenntlichmachung diesbezüglich ist aktuell nicht vorgesehen.
 |Version|Datum|Erläuterung|
 |---|---|---|
 |v0.1|17.05.2021|Übermitteln an die HiSolutions AG im Zuge des Onboardings. <br><br>Die HiSolutions soll das bestehende Sicherheitskonzept gegenprüfen und bisher unbeachtete Gefährdungen und Risiken oder zu niedrig angesetzte Schutzmaßnahmen identifiziert.
-|v0.2| | Interne/Semi-interne Verwendung. |
+|v0.2| | Interne/Semi-interne Verwendung. Wurde nochmal als Update zu v0.1 an die HiSolutions übermittelt.|
 |v0.3| |
 |v1.0| tba| Version nach Einbeziehen des fachlichen Reviews der HiSolution. <br><br> Im fachlichen Review können möglicherweise bisher unbeachtete Gefährdungen und Risiken oder zu niedrig angesetzte Schutzmaßnahmen identifiziert werden. Im Anschluss an das Review wird es eine neue Version dieser Unterlage geben, die das Ergebnis und ggf. die Notwendigkeit zusätzlicher Absicherung dokumentieren wird. Das sollte die erste Version sein, die öffentlich kommuniziert wird.|
 
@@ -93,7 +93,7 @@ IRIS besteht aus
   Gesundheitsämter.
 * Einer Benutzerschnittstelle in den Gesundheitsämtern (Client), über die Mitarbeitende die erfassten Daten der
   Bürger:innen und Einrichtungen anfragen und abrufen können.
-* Einem Netzwerk von Endpoint-Servern (EPS), das den verschiedenen Akteueren bei IRIS eine sichere Kommunikation miteinander ermöglicht.
+* Einem verteilten Netzwerk von Endpoint-Servern (EPS), das den verschiedenen Akteuren bei IRIS eine sichere Kommunikation miteinander ermöglicht.
 
 IRIS tritt als Vermittler zwischen den Gesundheitsämtern und den verschiedenen digitalen Lösungen auf. 
 Es erfolgt insbesondere keine zentrale Speicherung der übermittelten Daten. 
@@ -106,9 +106,18 @@ Vor der Datenabfrage durch ein Gesundheitsamt liegen diese ausschließlich bei d
 *Schaubild der Akteure, Komponenten und typischen Use Cases von IRIS*
 ![Schaubild der Akteure, Komponenten und typischen Use Cases](./Resources/technical_documentation/architecture_and_use_case_overview.jpg)
 
+| Nummer | Erklärung |
+|---|---|
+|1| IRIS unterteilt sich in *IRIS Central Services* und den *IRIS Client*. Erstere werden zentral im Rechenzentrum der [AKDB](https://www.akdb.de/) gehostet und vom [IRIS Team](https://github.com/iris-connect) verwaltet. Der IRIS-Client wird mitsamt einer Dokumentation zum Download für die IT-Teams der Gesundheitsämter bereitgestellt. |
+|2| Ein weiterer wichtiger Teilnehmer:innen im IRIS-System sind die Kontaktdatenerfassungs-Apps. Diese stammen zum größten Teil aus der Initiative [Wir für Digitaliserung](https://www.wirfuerdigitalisierung.de/). |
+|3| Damit Einrichtungen dei dehnen eine digitale Kontaktdaten Erfassung im Einsatz ist vom Gesundheitsamt gefunden werden können, stellt IRIS ein zentrales Suchregister zur Verfügung. Die Daten im Suchregister werden von den Kontaktdatenerfassungs-Apps bereitgestellt. |
+|4| Das von der IRIS-Organisation verwaltete Service Directory enthält Einträge für alle teilnehmenden Akteure um IRIS-System. Zudem werden die Berechtigungen der Kommunikationsbeziehungen hier hinterlegt. |
+|5| Der IRIS Proxy Service ermöglicht es, Daten aktiv in ein Gesundheitsamt zu schicken. Dafür stellt der Proxy eine autorisierte Verbindung zwischen einer App und einer Proxy Komponente im GA her. Das Gesundheitsamt muss dafür keine eingehenden Verbindungen zulassen. |
+|6| Herzstück der Punkt-zu-Punkt Kommunikation ist das Endpunktserver-System. Dabei handelt es sich um eine Komponente, die dezentral bei allen Akteure des IRIS-Systems installiert wird. Die Kommunikation erfolgt über gRPC mittels mTLS. Die dafür notwendigen Zertifikate werden von der IRIS-Organisation ausgestellt. |
+
 Kommunikation innerhalb des EPS-Netzwerks findet immer in Form von gRPC über mTLS statt.
 Mit seinem zugehörigen Server spricht ein EPS immer pures JSON-RPC.
-Clients (Browser oder Apps), die von Bürger:innen oder Betreibenden einer Einrichtung genutzt werden sprechen mit den IRIS Public Services über HTTPS.
+Clients (Browser oder Apps), die von Bürger:innen oder Betreibenden einer Einrichtung genutzt werden sprechen mit den zentralen Diensten von IRIS über HTTPS.
 Das Frontend im GA (oder genauer gesagt der Browser, in dem es läuft) und das Backend des IRIS-Clients sprechen miteinander über HTTPS.
 
 ## Akteure (Actors)
@@ -310,8 +319,9 @@ Der Private Proxy schafft hier Abhilfe, indem er eine ausgehende TCP/IP-Standlei
 
 ### C.IRIS.CentralServices - Zentrale Komponenten und Dienste (IRIS-Gateway)
 Die zentralen IRIS-Komponenten und -Dienste werden vom externen IT-Dienstleister von IRIS gehostet.
-#### C.IRIS.EPS - Endpoint Server und Public Proxy
-Der EPS des IRIS-Gateways kommuniziert mit den EPS-Komponenten der Gesundheitsämter und Anbietern bzw. Clients. Er bietet einen TLS-Passthrough-Proxy-Dienst, der eingehende TLS-Verbindungen von öffentlichen Clients an einen internen Server in einem Gesundheitsamt weiterleiten kann, ohne die TLS-Verbindung zu terminieren.
+#### C.IRIS.PublicProxy - Endpoint Server und Public Proxy
+
+Der Public Proxy vermittelt Anbietern bzw. Clients. Er bietet einen TLS-Passthrough-Proxy-Dienst, der eingehende TLS-Verbindungen von öffentlichen Clients an einen internen Server in einem Gesundheitsamt weiterleiten kann, ohne die TLS-Verbindung zu terminieren.
 Der EPS beinhaltet einen öffentlichen Proxy, der im IRIS-Gateway steht. Dieser nimmt auf einem öffentlich zugänglichen TCP-Port eingehende TLS-Verbindungen entgegen, und auf einem anderen TCP-Port Verbindungen von privaten Proxy-Servern.
 
 #### C.IRIS.ServiceDir - Service Directory (Serviceverzeichnis)
@@ -326,7 +336,7 @@ Betreiber können das Service Directory auch verwenden, um festzustellen, ob sie
 Der EPS des Service Directory stellt einen JSON-RPC-Server bereit, der als Kommunikationsschnittstelle für alle Betreiber dient.
 Neue Datensätze können über dessen JSON-RPC-API an das Service Directory übermittelt und bestehende darüber abgerufen werden.
 
-##### Sicherheit
+##### Sicherheit (allgemein)
 ###### S.ServiceDir.DigitalSigning - Einsatz digitaler Signaturen
 Alle Änderungen im Service Directory werden **kryptografisch signiert**. Dazu besitzt jeder Akteur im EPS-System ein Paar ECDSA-Schlüssel und ein dazugehöriges Zertifikat.
 Das Service Directory akzeptiert Änderungen nur dann, wenn sie vom richtigen Akteur signiert worden sind.
@@ -390,7 +400,7 @@ Im Folgenden werden die Prozesse beschrieben, die es bei IRIS gibt. Die Übersic
 |P.HDRequestData | Stellen einer Anfrage zur Datenübermittlung | Ein GA fordert das Übersenden von Kontaktdaten bei Anbietern an. Dieser Prozess wird nur von GÄ initiiert.
 |P.RevokeCert | Widerruf von Zertifikaten | Die IRIS-Organisation widerruft eines ihrer Zertifikate.
 |P.OrgSecIncident | Behandeln sicherheitsrelevanter Ereignisse | Das Anstoßen eines geregelten sogenannten Incident Response-Prozesses. Dieser kann durch unterschiedliche Sicherheitsereignisse ausgelöst werden, z.B. durch das Melden einer kritischen Sicherheitslücke oder einen Angriff auf IRIS.
-
+|P.Deployment| Deployment eines neuen Software-Release| Das Herausgeben und Einspielen eines neuen Software-Release durch die IRIS-Organisation. 
 ### Beschreibung der Prozesse
 #### P.Onboarding.HD
 Im Rahmen des Onboardings werden organisatorische und technische Schritte durchgeführt, an deren Ende ein GA in der Lage ist, IRIS vollumfänglich zu benutzen.
