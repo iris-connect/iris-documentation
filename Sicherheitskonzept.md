@@ -39,12 +39,12 @@ Contributions welcome!
 - [Einleitung](#einleitung)
   * [Was ist IRIS?](#was-ist-iris)
   * [Verfolgt IRIS einen zentralen oder dezentralen Ansatz?](#verfolgt-iris-einen-zentralen-oder-dezentralen-ansatz)
-- [Systemübersicht](#systemübersicht)
+- [Systemübersicht](#systemubersicht)
   * [Akteure (Actors)](#akteure-actors)
   * [Komponenten (Components)](#komponenten-components)
   * [Prozesse (Processes)](#prozesse-processes)
   * [Sicherheit (allgemein)](#sicherheit-allgemein)
-- [Zu schützende Werte](#zu-schützende-werte)
+- [Zu schützende Werte](#zu-schutzende-werte)
   * [Datenobjekte (Data Objects)](#datenobjekte-data-objects)
   * [Prozessobjekte (Process Objects)](#prozessobjekte-process-objects)
 - [Angreifer, Bedrohungen und Annahmen](#angreifer-bedrohungen-und-annahmen)
@@ -53,7 +53,7 @@ Contributions welcome!
   * [Annahmen (Assumptions)](#annahmen-assumptions)
 - [Sicherheitsziele (Objectives)](#sicherheitsziele-objectives)
 - [Sicherheitsanforderungen (Requirements)](#sicherheitsanforderungen-requirements)
-- [Zuordnung der Sicherheitsmaßnahmen zu den Sicherheitszielen](#zuordnung-der-sicherheitsmaßnahmen-zu-den-sicherheitszielen)
+- [Zuordnung der Sicherheitsmaßnahmen zu den Sicherheitszielen](#zuordnung-der-sicherheitsmanahmen-zu-den-sicherheitszielen)
 
 ---
 
@@ -1038,7 +1038,7 @@ Annahmen zu:
 | R.BackupRestore| Es muss ein Datensicherungskonzept (Backup/Restore) implementiert sein
 | R.UserRoleMngmnt| Verantwortungsbereiche müssen durch ein Rechte- und Rollenkonzept getrennt werden
 
-## Zuordnung der Sicherheitsvorkehrungen zu den Sicherheitszielen
+## Zuordnung der Sicherheitsmaßnahmen zu den Sicherheitszielen
 
 ---
 
