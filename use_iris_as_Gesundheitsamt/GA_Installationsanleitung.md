@@ -1,17 +1,5 @@
 # Anleitung für die Installation und Einrichtung des IRIS Clients
-
-## Technische Voraussetzungen für die Installation des Docker-Containers
-Hier beschreiben wir:
-
-### Was brauche ich, um den Docker-Container zu betreiben?
-
-### Woher kommt der Docker-Container?
-
-### Wie installiere ich den Docker-Container?
-
-### Wie konfiguriere ich den Docker-Container
-#### Gesundheitsämter, die SORMAS nutzen
-#### Gesundheitsämter, die SORMAS *nicht* nutzen
+Eine Anleitung für die Installation und Einrichtung des IRIS-Client befindet sich direkt im [zugehörigen Repository](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation.md).
 
 ## Zertifikate für den Client
 ### Wofür werden die Zertifikate benötigt?
@@ -60,8 +48,3 @@ Hier der Ablauf, um die ersten beiden Zertifikate zu bekommen:
 > Hinweis:  
 > In Kürze folgen hier weiteren Ausführungen und technische Details.
 > Dazu werden gerade letzte Unschärfen mit der Bundesdruckerei geklärt.
-
-## Updates des IRIS-Clients
-### Woher kommen Updates für den Docker-Container?
-### Wie werden Updates für den Docker-Container installiert?
-Wir empfehlen folgendes Vorgehen...
