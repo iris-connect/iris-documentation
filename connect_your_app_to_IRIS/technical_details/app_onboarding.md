@@ -69,7 +69,7 @@ Service directory location will be set your settings.yml - currently we provide 
   
 You can start a local eps with
 
-    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] inoeg/eps:v0.0.4 --level trace server run
+    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] inoeg/eps:v0.1.4 --level trace server run
  
 `[yourapp]` corresponds to the app name you chose for CN in your certificate. 
 
@@ -359,7 +359,9 @@ There you should find your pushed locations in the search when you start a new e
 
 ### [0.0.5] - 2021-06-02
 
-#### 
+#### Changed
+- Submit data when accessible in backend
+- New eops image version 
 
 ### [0.0.4] - 2021-05-20
 
