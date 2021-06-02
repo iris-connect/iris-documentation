@@ -28,6 +28,8 @@ You need to open port 4444 for incoming connections.
 
 ## Request a certificate
 
+### Staging server
+
 Generate your certificate signing request 
 
 Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*.
@@ -50,7 +52,7 @@ Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*
  
  
 Send the .csr and your domain to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
-  	
+ 	
 
 ## Install and configure EPS
 
@@ -58,6 +60,13 @@ The settings folder below eps-config must be copied to your own server. The file
 
 The settings folder is then referenced in the docker call as ``[your-local-settings-path]`` as an absolute path.
 
+Service directory location will be set your settings.yml - currently we provide a staging environment service-directory. When production is available, you will need to generate new certificates and change the service-directory uri.
+
+    directory:
+      settings:
+        endpoints: [ "https://iris.staging.iris-gateway.de:3322/jsonrpc" ] 
+        
+  
 You can start a local eps with
 
     docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] inoeg/eps:v0.0.4 --level trace server run
@@ -246,37 +255,67 @@ There are two ways to submit data to IRIS. The two ways result from the two diff
 The data is sent to the custom EPS via JSON-RPC. The method name used is `[hdEndpoint].submitGuestList`. `[hdEnpoint]` corresponds to _client.name from the received DataRequest.
 
     {
-        "requestId": "2edd34d6-bc7b-11eb-8529-0242ac130003",
-        "guestList": 
-            [
-                {
-                    "firstName": "Hans",
-                    "lastName": "Müller",
-                    "sex": "UNKNOWN",
-                    "email": "p5o50dtktj@temporary-mail.net",
-                    "phone": "0151 47110815",
-                    "mobilePhone": "0151 47110815",
-                    "address": {
-                      "street": "Lietzensee-Ufer",
-                      "houseNumber": "75",
-                      "zipCode": "01657",
-                      "city": "Meißen"
-                    },
-                    "attendanceInformation": {
-                      "attendFrom": "2021-03-28T19:21:28.071Z",
-                      "attendTo": "2021-03-28T19:21:28.071Z",
-                      "additionalInformation": "Tisch 4"
-                    }
-                }
-            ]
-      }
+    	"dataAuthorizationToken": "2edd34d6-bc7b-11eb-8529-0242ac130003",
+    	"guestList": {
+    		"dataProvider": {
+    			"name": "SmartMeeting",
+    			"address": {
+    				"street": "Europaplatz",
+    				"houseNumber": "5",
+    				"zipCode": "64293",
+    				"city": "Darmstadt"
+    			}
+    		},
+            "startDate": "2021-05-18T10:00:00.000Z",
+            "endDate": "2021-05-19T10:00:00.000Z",
+            "additionalInformation": "",
+    		"guests": [
+    			{
+    				"firstName": "Hans",
+    				"lastName": "Müller",
+    				"sex": "UNKNOWN",
+    				"email": "p5o50dtktj@temporary-mail.net",
+    				"phone": "0151 47110815",
+    				"mobilePhone": "0151 47110815",
+    				"address": {
+    					"street": "Lietzensee-Ufer",
+    					"houseNumber": "75",
+    					"zipCode": "01657",
+    					"city": "Meißen"
+    				},
+    				"attendanceInformation": {
+    					"attendFrom": "2021-03-28T19:21:28.071Z",
+    					"attendTo": "2021-03-28T19:21:28.071Z",
+    					"additionalInformation": "Tisch 4"
+    				}
+    			}
+    		]
+    	}
+    }
       
 Parameters:
 
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
-| `requestId` | Authorizes data submission | Equals the dataAuthorizationToken from DataRequest. CAUTION: will be renamed soon.  
-| `guestList` | Guest list |
+| `dataAuthorizationToken` | Authorizes data submission | 
+| `guestList` | Guest list information |
+
+GuestList object:
+
+| Parameter | Description | Required | Annotations |
+| --- | --- | --- | --- |   
+| `startDate` | GuestList starts | true |   
+| `endDate` | GuestList ends | true |
+| `additionalInformation` | Additonial information | true | Can be left empty for now - is not displayed 
+| `dataProvider` | DataProvider object | true |
+| `guests` | Guest object | true | 
+
+DataProvider object:
+
+| Parameter | Description | Required | Annotations |
+| --- | --- | --- | --- |   
+| `name` | Your name | true |   
+| `address` | Address object | true |
 
 Guest object:
 
@@ -310,13 +349,17 @@ AttendanceInformation object:
 
 ## Test your implementation
 
-To test your implementation, visit [https://iris.staging.iris-gateway.de:9443](https://iris.staging.iris-gateway.de:9443) 
+To test your implementation, visit [https://iris.staging.iris-gateway.de](https://iris.staging.iris-gateway.de) 
 
 You can find the password and access data in the slack channel.
 
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
 ## Changelog
+
+### [0.0.5] - 2021-06-02
+
+#### 
 
 ### [0.0.4] - 2021-05-20
 
