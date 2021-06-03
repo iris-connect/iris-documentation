@@ -9,10 +9,10 @@ Im Bereich der Indexfall-Nachverfolgung bietet IRIS connect die Möglichkeiten:
 * Offene Indexfall-Anfragen einzusehen
 * Übertragene Daten aus einer Indexfall-Anfrage zur Weiterbearbeitung zu übernehmen
 
+![IRIS_index_dashboard](images/IRIS_index_dashboard.png "Offene Indexfall-Abfragen (Screenshot enthält Beispiel- oder Testdaten)")
+_Offene Indexfall-Abfragen (Screenshot enthält Beispiel- oder Testdaten)_
 
 ### Starten einer neuen Indexfall-Abfrage
-
-#Neue Anfrage
 
 Nach dem Starten einer neuen Indexfall-Abfrage wird eine spezifische TAN-Nummer für die infizierte Person generiert und kann per E-Mail an diese versendet werden, oder sie wird beim Erstgespräch telefonisch übermittelt.
 
@@ -31,11 +31,6 @@ In der E-Mail werden der infizierten Person verschiedene Optionen zur Übermittl
 *   In einer übersichtlichen Liste werden alle aktuell vom Gesundheitsamt angefragten Indexfälle gelistet.
 *   Hier ändert sich der Status eines Eintrags, sobald ein Indexfall via Webformular oder App Daten für das Gesundheitsamt bereitgestellt hat.
 *   Eine Filter- und Sortierfunktion erleichtert die Übersicht.
-
-
-![IRIS_index_dashboard](images/IRIS_index_dashboard.png "Offene Indexfall-Abfragen (Screenshot enthält Beispiel- oder Testdaten)")
-_Offene Indexfall-Abfragen (Screenshot enthält Beispiel- oder Testdaten)_
-
 
 ### Weiterbearbeitung bereitgestellter Daten
 
