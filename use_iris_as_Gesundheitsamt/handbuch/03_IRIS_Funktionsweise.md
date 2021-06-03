@@ -19,4 +19,3 @@ IRIS connect findet über die Ereignisabfrage sofort heraus, ob die besuchten Or
 ![IRIS_dashboard](images/IRIS_dashboard.png "Startseite von IRIS im Gesundheitsamt (Screenshot enthält Beispiel- oder Testdaten)")
 
 _Startseite von IRIS connect im Gesundheitsamt (Screenshot enthält Beispiel- oder Testdaten)_
-
