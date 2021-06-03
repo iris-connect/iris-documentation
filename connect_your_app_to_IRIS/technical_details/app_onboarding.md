@@ -22,13 +22,36 @@ Please find below and overview of the IRIS system and its actors as well as the 
 |4|The health authority employees can use the IRIS client (having ints own EPS) in order to search for locations.|
 |5|The IRIS client connects to your app through the EPS layer and requests guest lists for a specific date and time. In order to know the endpoint IRIS internally keeps a record of which location is owned by which app. Your app returns the contact information using EPS.|
 
-## Prerequisites
+---
+
+### Prerequisites
+
+This guide will show step by step technically integrating an app to IRIS connect.
+- [Certificate generation and enrollment](#1-certificate-generation-and-enrollment)
+- [Local deployment of the EPS](#2-install-and-configure-eps)
+- [General usage of the EPS](#3-interacting-with-eps)
+- [Services and Methods of the EPS](#32-destinations-and-methods)
+- [Use EPS to post locations to the IRIS connect search index](#41-location-search-index)
+- [Listen to data requests of the health department submitted to the EPS](#42-process-iris-client-data-requests)
+- [Transmit requested data to the health department using EPS](#43-send-data-submissions)
 
 You need to open port 4444 for incoming connections. 
 
-## Request a certificate
+The EPS installed on your server needs to be reached on port 4444, this will not be changed (yet).
 
-Generate your certificate signing request 
+You will need openssl to create the certificate and preferably docker to run the EPS.
+
+---
+
+## 1 Certificate Generation and Enrollment
+
+A unique certificate for your app is needed to achieve trust for communication reaching out from your local EPS to remote EPS of IRIS central services or IRIS clients.
+
+The certificate is signed by IRIS connect with a root certificate. The root certificate itself delivers trust for the local EPS for incoming communication.
+
+### 1.1 Generate Certificate Signing Request
+
+Generate your certificate signing request (csr) using openssl.
 
 Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*.
 
@@ -47,30 +70,132 @@ Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*
   	openssl rsa -in "[yourappname].key" -pubout -out "[yourappname].pub";
   	openssl req -new -sha256 -key "[yourappname].key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:[yourappname],DNS:*.[yourappname].local" -out "[yourappname].csr";
 
- 
- 
+### 1.2 Request the Certificate
+
 Send the .csr and your domain to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
-  	
 
-## Install and configure EPS
+Example
+    
+    Hi IRIS Team,
 
-The settings folder below eps-config must be copied to your own server. The files must be adapted according to this document and the comments in the respective files. The certificate issued by us and the corresponding key must be stored in the certs folder.
+    I provide the csr for api.test.perkiot.com:4444 (staging).
+    Prod is at api.perkiot.com:4444.
 
-The settings folder is then referenced in the docker call as ``[your-local-settings-path]`` as an absolute path.
+    BR
+    Mic
+
+For production use it will be neccessary to generate a different csr, and that will be done after integration; the production uri is not needed in this step, just for information (and the IRIS team can maybe do some preparation).
+
+## 2 Install and configure EPS
+
+The EPS (IRIS EndPointService) does all the magic in a black box:
+- encryption of the data send to the IRIS clients requesting the contact lists
+- ensure trust for IRIS and your app
+- dealing with p2p networking to eliminate bottlenecks
+
+To be able to act, the EPS needs to be configured and trusted, which means it needs the trusted and unique certificate signed from the [csr](#11-generate-certificate-signing-request) you have send to IRIS team, and it must be made known to IRIS, that is the step IRIS team does with the provided URI before issuing the certificate.
+
+### 2.1 Artifacts needed to start
+
+You need the following:
+- a local settings directory
+- the IRIS staging-root.crt
+- your [certificate](#11-generate-certificate-signing-request)
+- docker image inoeg/eps
+
+### 2.2 Local Settings
+
+The settings folders in the IRIS connect documentation repository below [eps-config](./technical_details/eps-config) must be copied to your own server.
+
+We show two different possibilities to get your local settings done: on [Linux command line](#221-linux-command-line) or with your prefered [Desktop GUI](#222-desktop-usage).
+
+#### 2.2.1 Linux Command Line
+
+We could set some helpful environment variables here to use it in the following steps, change the base dir of $SETTINGS_PATH to match your needs:
+
+    export APP_NAME="[yourapp]"
+    export APP_ENDPOINT="http://[your-host]:[your-port]/[your-endpoint]"
+    export SETTINGS_PATH="/data/eps/settings"
+    mkdir -p $SETTINGS_PATH
+
+Where:
+- the APP_NAME is the name provided by you as CN in the [certificate signing request](#11-generate-certificate-signing-request)
+- the APP_ENDPOINT is the api endpoint of your app that will be called by EPS to submit data requests.
+
+**Be aware that you have to ensure to open this api endpoint for your local EPS only!**
+
+There are only two relevant files, and you can copy them one by one and put them in the corresponding folder.
+
+    mkdir -p "$SETTINGS_PATH/staging/roles/$APP_NAME"
+
+    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/roles/yourapp/001_default.yml -P "$SETTINGS_PATH/staging/roles/$APP_NAME"
+
+    mkdir -p "$SETTINGS_PATH/staging/certs"
+    
+    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/certs/staging-root.crt -P "$SETTINGS_PATH/staging/certs"
+
+The certificate issued by IRIS based on your signing request and the corresponding key must be stored in the certs folder.
+
+    mv /path/to/your/cert/$APP_NAME.crt "$SETTINGS_PATH/staging/certs"
+    mv /path/to/your/cert/$APP_NAME.key "$SETTINGS_PATH/staging/certs"
+
+The settings file must be adapted according to this document and the comments in the respective files. If you followed the instructions exporting the variables, you can just do it with this command:
+
+    envsubst < "$SETTINGS_PATH/staging/roles/$APP_NAME/001_default.yml" > "$SETTINGS_PATH/staging/roles/$APP_NAME/001_default.yml"
+
+Well, you are ready to [start your EPS](#23-start-your-eps), skip the desktop usage section.
+
+#### 2.2.2 Desktop usage
+
+To use a browser for download, you can get a [zip compressed archive here](https://downgit.github.io/#/home?url=https://github.com/iris-connect/iris-documentation/tree/main/connect_your_app_to_IRIS/technical_details/eps-config/settings) and unzip it to the folder $SETTINGS_PATH.
+
+The [settings yaml file](./technical_details/eps-config/settings/staging/roles/yourapp/001_default.yml) is placed in a directory naming your app, so be aware to change it accordingly to something like "/data/eps/settings/staging/roles/$APP_NAME"
+
+The IRIS certificate staging-root.crt is available in [certs directory](.technical_details/eps-config/settings/staging/certs) and will be in your certs dir at the right place if folder structure was copied from there.
+
+The certificate issued by IRIS based on your signing request and the corresponding key must be stored in the certs folder.
+
+The settings file must be adapted according to this document and the comments in the respective files. Search and replace $APP_NAME with your app's name and $APP_ENDPOINT with the endpoint address of your app, that is (or will be) open for requests from your local EPS.
+
+    name: $APP_NAME
+    directory:
+    type: api
+    settings:
+        jsonrpc_client:
+        tls:
+            certificate_file: "$DIR/../../certs/$APP_NAME.crt"
+            key_file: "$DIR/../../certs/$APP_NAME.key"
+    [...]
+    - name: main JSON-RPC client # creates outgoing JSONRPC connections to deliver and receive messages
+        type: jsonrpc_client
+        settings:
+        endpoint: http://$APP_ENDPOINT
+    - name: main gRPC client
+        type: grpc_client
+        settings:
+        tls:
+            ca_certificate_files: [ "$DIR/../../certs/staging-root.crt" ]
+            certificate_file: "$DIR/../../certs/$APP_NAME.crt"
+            key_file: "$DIR/../../certs/$APP_NAME.key"
+
+### 2.3 Start your EPS
+
+The settings folder is then referenced in the docker call as ``$SETTINGS_PATH`` as an absolute path. If you are on Linux command line and defined it above, you could simply use the statement as is.
 
 You can start a local eps with
 
-    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v [your-local-settings-path]:/app/settings -e EPS_SETTINGS=settings/staging/roles/[yourapp] inoeg/eps:v0.0.4 --level trace server run
+    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.4 --level trace server run
  
-`[yourapp]` corresponds to the app name you chose for CN in your certificate. 
+Again, `$APP_NAME` corresponds to the app name you chose for CN in your certificate. 
 
-Port 4444 is mandatory for staging environment. You can change port 5556 to your needs.  
+Port 4444 is mandatory for staging environment. You can change port 5556 to your needs. Requests of your app, that shall reach out to IRIS Connect, will then be sent to `POST https://localhost:5556/jsonrpc`.
 
-Requests will then be sent to `POST https://localhost:5556/jsonrpc` 
+## 3 Interacting with EPS
 
-## Interacting with EPS
+The EPS is now locally reachable for your app, and it is publically reachable for IRIS Connect.
+Let's test, if we are able to reach IRIS Connect from EPS.
 
-### Sending messages
+### 3.1 Sending messages
 
 Sending messages to IRIS is done with JSON-RPC. 
 
@@ -85,15 +210,66 @@ Sending messages to IRIS is done with JSON-RPC.
     
 You can find the specification of the respective methods and destinations [here](#destinations-and-methods).
 
-## Destinations and methods
+To test, we will simply send a test location to IRIS staging:
 
-### Location search index
+    curl --header "Content-Type: application/json" --request POST --insecure --data '
+    {
+        "method":"ls-1.postLocationsToSearchIndex",
+        "id": "1",
+        "params": {
+            "locations": [
+                {
+                    "id": "1abc",
+                    "name": "Visits Test",
+                    "contact":
+                    {
+                        "officialName": "PERK ViSITS",
+                        "representative": "Herbert Nichtgenannt",
+                        "address": {
+                        "street": "Mühlenstr. 21",
+                        "city": "Korschenbroich",
+                        "zip": "41352"
+                        },
+                        "email": "mail@devnull.org",
+                        "phone": "01234 567890"
+                    }
+                }
+            ]
+        }
+        "jsonrpc": "2.0"
+    }
+    ' https://localhost:5556
+
+We should get 
+
+    "result": {
+            "_": "OK"
+        },
+
+
+### 3.2 Destinations and methods
+
+|Destination|Methodname|Annotations|
+|-|-|-|
+| ls-1 | [postLocationsToSearchIndex](#411-postlocationstosearchindex) | Publish managed locations to IRIS connect, for which health departments may request contact data.
+| ls-1 | [getProviderLocations](#412-getproviderlocations) | Verify which locations managed by your app are published to IRIS connect.
+| ls-1 | [deleteLocationFromSearchIndex](#413-deletelocationfromsearchindex) | Remove a managed location if the location canceled using your app etc.
+| - | [createDataRequest](#42-process-iris-client-data-requests) | This method has to be an endpoint of your app to receive the details for an data request.
+| hd-xyz | [submitGuestList](#431-send-data-from-app-backend) | After getting a data request, the data is send to the hd-endpoint given in _client.name in the request.
+
+
+## 4 Integration of EPS Methods in your App
+
+As described above, you have to 
+- publish locations managed by your app
+- receive data requests
+- submit data
+
+### 4.1 Location search index
 
 Location search index can be reached at `ls-1`.
 
-Possible methods and their structure are
-
-#### postLocationsToSearchIndex
+### 4.1.1 postLocationsToSearchIndex
 
 ##### Request
 
@@ -148,7 +324,7 @@ Contact parameters:
 
 `OK` if successful. Errormessages to be done.
 
-#### getProviderLocations
+#### 4.1.2 getProviderLocations
 
 Example parameters:
     
@@ -172,7 +348,7 @@ Example parameters:
 
 Array of `id` and `name` pairs, where id is your unique identfier and `name` the locations friendly name. Errormessages to be done. 
 
-#### deleteLocationFromSearchIndex
+#### 4.1.3 deleteLocationFromSearchIndex
 
 Example parameters:
 
@@ -192,7 +368,7 @@ Example parameters:
 
 `OK` if successful. `NOT FOUND` if location did not exist. Errormessages to be done.
 
-## Process IRIS Client data requests
+## 4.2 Process IRIS Client data requests
 
 You need to provide a json-rpc endpoint on your server. The exact endpoint can be configured in your EPS configuration file. 
     
@@ -237,11 +413,11 @@ Response:
 
 The request can be saved and edited locally. The functions for transmitting the data to the health authorities are next on the roadmap.
 
-## Send data submissions
+## 4.3 Send data submissions
 
 There are two ways to submit data to IRIS. The two ways result from the two different types of data management. Apps that can provide data unencrypted in the backend can send data directly to IRIS via EPS from the backend. If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption.
 
-### Send data from app backend
+### 4.3.1 Send data from app backend
 
 The data is sent to the custom EPS via JSON-RPC. The method name used is `[hdEndpoint].submitGuestList`. `[hdEnpoint]` corresponds to _client.name from the received DataRequest.
 
@@ -308,9 +484,9 @@ AttendanceInformation object:
 | `attendTo` | Attend to | true |
 | `additionalInformation` | Additional attendance information | false | For example table or area 
 
-## Test your implementation
+## 5 Test your implementation
 
-To test your implementation, visit [https://iris.staging.iris-gateway.de:9443](https://iris.staging.iris-gateway.de:9443) 
+To test your implementation, visit [https://iris.staging.iris-gateway.de:9443](https://iris.staging.iris-gateway.de) 
 
 You can find the password and access data in the slack channel.
 
