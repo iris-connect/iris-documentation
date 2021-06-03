@@ -1,4 +1,4 @@
-# Code of Conduct
+# Code of Conduct (Apps)
 
 ## Rules for Apps that connect with IRIS connect
 
