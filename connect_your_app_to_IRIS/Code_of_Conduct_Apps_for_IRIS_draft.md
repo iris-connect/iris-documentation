@@ -1,6 +1,6 @@
-# Code of Conduct for Apps that connect with IRIS connect
+# Code of Conduct
 
-## Rules
+## Rules for Apps that connect with IRIS connect
 
 These rules are based on rules by D64
 https://d-64.org/check-in-app/
