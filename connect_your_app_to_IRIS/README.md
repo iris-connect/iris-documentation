@@ -1,6 +1,11 @@
 # IRIS Connect for App Providers
 
-In this document we describe what app providers have to do to be connected to the IRIS system.
+In this document we describe what app providers have to do to be connected to the IRIS connect system.
+
+IRIS stands for "Integration of Remote systems into Infection control Software".
+- IRIS connect is the platform solution enabling this integration.
+- Remote systems are the apps providing personal contact data or other functionality supporting infection control processes.
+- Infection control software like SORMAS is used by the health departments.
 
 ## Prerequisites
 
