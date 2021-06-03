@@ -1,4 +1,4 @@
-# FAQs (App-Anbieter)
+# Häufig gestellte Fragen von App-Anbieter
 
 ## Gibt es für jedes GA eine eindeutige Reference?
 Ja, jedes GA wird eindeutig authentifizierbar sein. Dies wird durch Verwendung eines Zertifikats der Bundesdruckerei gewährleistet.
