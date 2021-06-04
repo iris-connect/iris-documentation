@@ -1,0 +1,29 @@
+
+name: update docs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  DOKU_REPO: 'iris-connect/staging.iris.github.io'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Docu Repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ env.DOKU_REPO }}
+          token: ${{ secrets.IRIS_DOKU_STAGING_UPDATE_TOKEN }}
+          ref: 'main'
+          submodules: true
+      - name: Checkout Submodules
+        run: git submodule update --remote --recursive
+      - name: Commit update
+        uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          message: 'Auto updated submodule references'
