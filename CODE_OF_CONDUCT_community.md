@@ -1,4 +1,4 @@
-# Code of Conduct
+# Code of Conduct (Open Source Development)
 
 ## Our Pledge
 
