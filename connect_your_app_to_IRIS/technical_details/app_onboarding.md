@@ -226,32 +226,32 @@ To test, we will simply send a test location to IRIS staging:
             "locations": [
                 {
                     "id": "1abc",
-                    "name": "Visits Test",
-                    "contact":
-                    {
-                        "officialName": "PERK ViSITS",
-                        "representative": "Herbert Nichtgenannt",
-                        "address": {
-                        "street": "Mühlenstr. 21",
-                        "city": "Korschenbroich",
-                        "zip": "41352"
-                        },
-                        "email": "mail@devnull.org",
-                        "phone": "01234 567890"
-                    }
+                    "name": "Visits Test"
                 }
             ]
-        }
+        },
         "jsonrpc": "2.0"
     }
-    ' https://localhost:5556
+    ' https://localhost:5556/jsonrpc
 
 We should get 
 
-    "result": {
-            "_": "OK"
-        },
+    {
+        "jsonrpc" : "2.0",
+        "result" : "OK",
+        "id" : "1"
+    }
 
+It is important to know, what is going wrong if you won't get this response. If you post your request to a wrong endpoint, you would just get a "message":"not found". If the port 5556 is not bound to the eps container, you will get a "connection refused".
+
+| cURL result | Possible cause | Ckecks to perform |
+|-|-| - |
+| Client sent an HTTP request to an HTTPS server. | You called the endpoint at http:// instead of https:// | Ckeck the address in cURL command and options you used. |
+| Connection refused | The EPS is not listening on the URI or port of the request. | Ckeck the address in cURL command. Are you running the command from localhost - the docker host, or do you need to address an IP address in your network? Is there a firewall blocking the port? Is the EPS running - check it with docker ps, and check the logs. |
+| "message":"not found" | You addressed wrong endpoint | If you address https://localhost:5556/ (without endpoint address jsonrpc) you will get this result. |
+| {"jsonrpc":"2.0","error":{"code":-32603,"message":"internal error"},"id":"1"} | There is a bug in EPS or your configuration is incorrect. | Check the settings yml, try another EPS version. |
+
+This list is propably not complete. Especially internal errors will have many possible causes. In case you get some internal errors, please check twice if your settings are correct, the EPS is running in level trace and have a look on log messages.
 
 ### 3.2 Destinations and methods
 
