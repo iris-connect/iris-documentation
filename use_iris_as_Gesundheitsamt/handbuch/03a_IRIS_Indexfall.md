@@ -1,5 +1,5 @@
-# 1.2 Funktionsweise
-## 1.2.1 Indexfall-Nachverfolgung (Kontakttagebücher)
+# Funktionsweisen
+## Indexfall-Nachverfolgung (Kontakttagebücher)
 
 `Funktion geplant, aber noch nicht umgesetzt`
 
