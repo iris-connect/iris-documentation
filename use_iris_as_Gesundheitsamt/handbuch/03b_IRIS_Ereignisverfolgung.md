@@ -1,5 +1,5 @@
-# 1.2 Funktionsweise
-## 1.2.2 Ereignis-Nachverfolgung (Gästelisten)
+# Funktionsweisen
+## Ereignis-Nachverfolgung (Gästelisten)
 
 Im Bereich Ereignis-Nachverfolgung bietet IRIS connect die Möglichkeiten:
 
