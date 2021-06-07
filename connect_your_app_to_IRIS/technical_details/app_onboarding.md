@@ -116,12 +116,13 @@ We could set some helpful environment variables here to use it in the following 
 
     export APP_NAME="[yourapp]"
     export APP_ENDPOINT="http://[your-host]:[your-port]/[your-endpoint]"
-    export SETTINGS_PATH="/data/eps/settings"
+    export SETTINGS_PATH="/path/to/settings"
     mkdir -p $SETTINGS_PATH
 
 Where:
 - the APP_NAME is the name provided by you as CN in the [certificate signing request](#11-generate-certificate-signing-request)
-- the APP_ENDPOINT is the api endpoint of your app that will be called by EPS to submit data requests.
+- the APP_ENDPOINT is the api endpoint of your app that will be called by EPS to submit data requests
+- /path/to/settings is the absolute path to the settings on your machine
 
 **Be aware that you have to ensure to open this api endpoint for your local EPS only!**
 
