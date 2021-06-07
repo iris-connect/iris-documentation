@@ -52,7 +52,8 @@ The certificate is signed by IRIS connect with a root certificate. The root cert
 ### 1.1 Generate Certificate Signing Request
 
 Generate your certificate signing request (csr) using openssl for the IRIS Connect staging server.
-When switching to production, you will need a separate certificate, we skip this in this documentation.  
+When switching to production, you will need a separate certificate. We skip this for now, but we will provide it later in this documentation as soon as we set IRIS connect to productive use.
+
 Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*.
 
     O="COSYNUS GmbH"
@@ -132,7 +133,7 @@ There are only two relevant files, and you can copy them one by one and put them
 
     mkdir -p "$SETTINGS_PATH/staging/certs"
     
-    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/certs/staging-root.crt -P "$SETTINGS_PATH/staging/certs"
+    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/certs/staging-root.crt
 
 The certificate issued by IRIS based on your signing request and the corresponding key must be stored in the certs folder.
 
@@ -141,7 +142,9 @@ The certificate issued by IRIS based on your signing request and the correspondi
 
 The settings file must be adapted according to this document and the comments in the respective files. If you followed the instructions exporting the variables, you can just do it with this command:
 
-    envsubst < "$SETTINGS_PATH/staging/roles/$APP_NAME/001_default.yml" > "$SETTINGS_PATH/staging/roles/$APP_NAME/001_default.yml"
+    envsubst < 001_default.yml > "$SETTINGS_PATH/staging/roles/$APP_NAME/001_default.yml"
+
+    rm 001_default.yml # cleanup template
 
 Well, you are ready to [start your EPS](#23-start-your-eps), skip the desktop usage section.
 
@@ -252,6 +255,8 @@ It is important to know, what is going wrong if you won't get this response. If 
 | {"jsonrpc":"2.0","error":{"code":-32603,"message":"internal error"},"id":"1"} | There is a bug in EPS or your configuration is incorrect. | Check the settings yml, try another EPS version. |
 
 This list is propably not complete. Especially internal errors will have many possible causes. In case you get some internal errors, please check twice if your settings are correct, the EPS is running in level trace and have a look on log messages.
+
+We will update the list of possible errors as they come around.
 
 ### 3.2 Destinations and methods
 
@@ -522,7 +527,7 @@ AttendanceInformation object:
 
 ## 5 Test your implementation
 
-To test your implementation, visit [https://iris.staging.iris-gateway.de:9443](https://iris.staging.iris-gateway.de) 
+To test your implementation, visit https://iris.staging.iris-gateway.de 
 
 You can find the password and access data in the slack channel.
 
