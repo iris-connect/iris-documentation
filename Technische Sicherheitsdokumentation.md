@@ -5,7 +5,7 @@ Dieses Dokument gibt eine technische Sicht auf das Sicherheitskonzept von IRIS C
 
 Allgemeine Dokumentation für Gesundheitsämter und Lösungsanbieter, die IRIS Connect nutzen möchten befindet sich in den entsprechenden [GitHub-Repositories](https://github.com/iris-connect/).
 
-Fachliche Fragen zum Inhalt dieses Dokuments dürfen gerne per E-Mail an [security@iris-gateway.de](mailto:security@iris-gateway.de?subject=IRIS Connect%20-%20Technische Sicherheitsdokumentation) gestellt werden.
+Fachliche Fragen zum Inhalt dieses Dokuments dürfen gerne per E-Mail an security@iris-gateway.de gestellt werden.
 
  IRIS Connect wurde im Oktober 2020 in Kooperation zwischen dem [Innovationsverbund Öffentliche Gesundheit](https://www.inoeg.de/) und der [Björn Steiger Stiftung](https://www.steiger-stiftung.de/) gemeinnützig initiiert und finanziert.
 Es besteht keine Gewinnerzielungsabsicht.
