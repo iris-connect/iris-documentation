@@ -452,12 +452,51 @@ Die Rolle der Tokens beim Aufbau einer TLS-Verbindung aus einem Browser über de
 ## 3 Sicherheit (allgemein)
 Im folgenden Kapitel werden allgemeine, komponentenübergreifende Schutzmaßnahmen beschrieben. Dazu werden Richtlinien wie der
 OWASP Application Security Verification Standard 4.0 (ASVS) oder technische Richtlinien wie BSI TR-03161 für
-Sicherheitsanforderungen an digitale Gesundheitsanwendungen hinzugezogen.
+Sicherheitsanforderungen an digitale Gesundheitsanwendungen hinzugezogen. Schutzmaßnahmen, die sich auf einzelne Akteure, Komponenten oder Prozesse beziehen, sind direkt an den entsprechenden Stellen dokumentiert.
 
 ## S.ResponsibleDisclosure - Responsible Disclosure Prozess
 IRIS Connect ist ein Open Source Projekt und unterliegt dadurch der ständigen Aufmerksamkeit der interessierten Fach-Community.
 Sicherheitslücken und andere sicherheitsrelevante Hinweise können in einem geregelten "Responsible Disclosure"-Prozess an das IRIS-Team gemeldet werden.
 Der Prozess wird in der Security Policy des jeweiligen GitHub-Repository beschrieben. Auf diesem Weg kann die Community dazu beitragen, dass Sicherheitslücken schon behoben sind bevor sie der breiten Öffentlichkeit offengelegt werden.
+
+## S.DataEconomy - Grundsatz der Datensparsamkeit
+IRIS Connect verfolgt die Prinzipien Security und Privacy by Design. Bei der Konzeption der Architektur wurde entsprechend der Grundsatz der Datensparsamkeit mitgedacht.
+Kontaktdaten werden **Peer-to-Peer** und **Ende-zu-Ende-verschlüsselt** übertragen. Auf den Einsatz zentraler Komponenten wurde bei der Verarbeitung vertraulicher Kontaktdaten verzichtet.
+Eine solche zentrale Architektur ist nicht nachhaltig, weil damit höheren Risiken für Sicherheit, Datenschutz und Robustheit des Gesamtsystems verbunden sind.
+Zentrale Datenhaltung ist grundsätzlich anfälliger für Datenpannen, die gleichzeitig einen ausgeweiteten Personenkreis betreffen.
+
+## S.PatchingUpdating - Bereitstellen von Security-Patches und regulären Updates
+Es werden regelmäßig neue Versionen der einzelnen Komponenten im Rahmen regulärer Updates und ggf. außerplanmäßige Security-Patches veröffentlicht.
+
+Das IRIS-Team beschafft sich proaktiv Schwachstellen- und Update-Informationen zu den Programmbibliotheken, die bei IRIS-Connect Verwendung finden, um ordnungsgemäße, rechtzeitige Patches für alle betroffenen Systeme durchzuführen.
+Dazu sind in den GitHub Repositories beispielsweise Vulnerability Scanner für Docker Container und GitHub Actions konfiguriert, sowie eine Semantic Source Code Analysis Engine konfiguriert. 
+Zusätzlich nutzt das IRIS-Team [Dependabot](https://dependabot.com/), ein Industrie-Standard-Tool für Dependency Management, dsa automatisiert über neu bekanntgewordene Sicherheitslücken in verwendeten Programmbibliotheken informiert.
+
+Neue Versionen von verwendeten Programmbibliotheken werden zeitnah nach ihrer Veröffentlichung in IRIS Connect integriert. Das erfolgt im Rahmen eines geregelten Prozesses mithilfe von Dependabot.
+
+## S.AutomaticUpdates
+Der IRIS-Client stellt eine Konfigurationsmöglichkeit bereit, die es erlaubt, dass Updates und Security-Patches nach ihrem erscheinen automatisiert heruntergeladen und ohne Zutun der verantwortlichen IT-Administrator:innen aufgespielt werden. 
+Dadurch kann beispielsweise die Zeitspanne zwischen Veröffentlichung eines Security-Patches und dem Schließen einer Sicherheitslücke bei einem GA enorm verkürzt werden.
+Allerdings ergibt sich dadurch ein Risiko zusätzliches Risiko für den störungsfreien Betrieb des IRIS-Clients, da das Testen der neuen Softwareversion auf einem Testsystem wegfällt.
+
+Die Entscheidung darüber, ob dieses Feature genutzt werden soll und die Risiken für den Betrieb des IRIS-Clients akzeptiert werden liegt im Verantwortungsbereich des jeweiligen GA und ggf. dessen IT-Dienstleisters.
+
+## S.InputValidation - Durchführen von Eingabevalidierung
+Alle Daten, die aus potenziell nicht vertrauenswürdigen Quellen stammen werden einer Eingabevalidierung unterzogen. Damit wird sichergestellt, dass nur korrekt geformte Daten in den Arbeitsablauf eines Informationssystems gelangen. Es wird verhindert, dass fehlerhafte Daten beispielsweise in eine Datenbank gelangen und Fehlfunktionen verschiedener nachgelagerter Komponenten auslösen.
+
+## S.StandardTechnology - Einsatz etablierter Standardkomponenten
+Wo möglich verwendet IRIS Connect etablierte Datenbanken, Web-Frameworks und Programmbibliotheken.
+
+## S.AbuseReporting - Missbrauchsmeldungen
+Trotz aller technischer Maßnahmen kann nicht abschließend ausgeschlossen werden, dass manipulierte Daten ihren Weg in ein GA finden. Vermutet ein GA eine systematisch angelegte Zulieferung von Falschdaten, kann es einen dafür im IRIS-Client vorgesehenen Button nutzen und eine Missbrauchsmeldung an das IRIS-Team absetzen.
+Weitere Datenzulieferungen von dem in Verdacht stehenden Lösungsanbieter können bis zur Klärung der Situation durch das GA pauschal abgelehnt werden. 
+
+Nach Meldung eines Missbrauchsverdachts wird sich das IRIS-Team mit dem GA in Verbindung setzen, um die Lage vor Ort zu klären und ggf. Kontakt zum verantwortlichen Lösungsanbieter aufnehmen. Falls sich eine Kompromittierung des Lösungsanbieters bestätigt kann das IRIS-Team technische Maßnahmen einleiten, um die Interaktion dieses Lösungsanbieters in IRIS Connect zu unterbinden, bis die Sicherheitslage erfolgreich behandelt ist.
+
+## S.CommonSenseConstraints - Vernunftbasierte Einschränkungen
+Manche Missbrauchsfälle können durch technische Einschränkungen mitigiert werden, die auf gesundem Menschenverstand basieren. 
+
+Beispielsweise kann angenommen werden, dass in GÄ nachts nicht gearbeitet wird. Entsprechend hat das IRIS-Team die Möglichkeit automatisiert zu erkennen, wenn ein GA nachts ein Nutzungsaufkommen zeigt, was auf eine potentielle Kompromittierung mit Malware deuten könnte. Diese Auffälligkeit kann dann frühzeitig mit dem GA geklärt werden.    
 
 ## S.TLS - Einsatz von Verschlüsselung auf Transportebene
 Alle Kommunikationsverbindungen, die von oder zu IRIS-Komponenten über das Internet aufgebaut werden, sind auf der Transportebene mit TLS und starken Cipher-Suites Ende-zu-Ende-verschlüsselt.
@@ -556,27 +595,15 @@ Mitglieder:innen des IRIS-Teams können sich bei Vorliegen eines solchen an die 
 
 Zusätzlich können Sicherheitslücken von der Community im Rahmen eines Responsible Disclosure Prozesses an das IRIS-Team gemeldet werden, bevor es zu einem Sicherheitsvorfall kommt. Auch hier gibt es einen Prozess, in dessen Rahmen der gemeldete Sachverhalt priorisiert und untersucht wird.
 
-## S.DataEconomy - Grundsatz der Datensparsamkeit
-IRIS Connect verfolgt die Prinzipien Security und Privacy by Design. Bei der Konzeption der Architektur wurde entsprechend der Grundsatz der Datensparsamkeit mitgedacht.
-Kontaktdaten werden **Peer-to-Peer** und **Ende-zu-Ende-verschlüsselt** übertragen. Auf den Einsatz zentraler Komponenten wurde bei der Verarbeitung vertraulicher Kontaktdaten verzichtet. 
-Eine solche zentrale Architektur ist nicht nachhaltig, weil damit höheren Risiken für Sicherheit, Datenschutz und Robustheit des Gesamtsystems verbunden sind. 
-Zentrale Datenhaltung ist grundsätzlich anfälliger für Datenpannen, die gleichzeitig einen ausgeweiteten Personenkreis betreffen.
-
-## S.StandardTechnology - Einsatz etablierter Standardkomponenten
-IRIS Connect verwendet etablierte Datenbanken, Web-Frameworks und Programmbibliotheken.
-
-## S.InputValidation - Durchführen von Eingabevalidierung
-Alle Daten, die aus potenziell nicht vertrauenswürdigen Quellen stammen werden einer Eingabevalidierung unterzogen. Damit wird sichergestellt, dass nur korrekt geformte Daten in den Arbeitsablauf eines Informationssystems gelangen. Es wird verhindert, dass fehlerhafte Daten beispielsweise in eine Datenbank gelangen und Fehlfunktionen verschiedener nachgelagerter Komponenten auslösen.
-
 ## S.EncryptedStorage
 Die bei den IRIS Services eingesetzten Datenbanken werden verschlüsselt. Da der IRIS-Client konfigurationsabhängig eine bereits bestehende lokale Datenbank des GA nutzt, fällt die Absicherung durch Verschlüsseln der Datenbank in den Verantwortungsbereich des GA bzw. dessen IT-Dienstleisters.
-
-## S.IntegrityChecking - 
 
 ## S.SecReview - Externes Review des Sicherheitskonzept
 Das Sicherheitskonzept von IRIS Connect wurde gemeinsam mit Security-Experten aus der Fach-Community erarbeitet.
 
-Zusätzlich wurde die [Hisolutions AG](https://www.hisolutions.com/), ein erfahrener Beratungsspezialist für Security und IT-Management damit beauftragt, die Systemarchitektur und Schutzmaßnahmen von IRIS Connect zu prüfen und potenzielle Mängel aufzudecken.
+Zusätzlich wurde die [Hisolutions AG](https://www.hisolutions.com/), ein erfahrener Beratungsspezialist für Security und IT-Management damit beauftragt, die Systemarchitektur und die Schutzmaßnahmen zu prüfen und potenzielle Mängel aufzudecken.
+
+Weiterhin unterliegt IRIS Connect als Open Source Projekt der ständigen Aufmerksamkeit der interessierten Fach-Öffentlichkeit. Sicherheitsrelevante Punkte können dabei im Rahmen des Responsible Disclosure Prozesses an das IRIS-Team gemeldet werden.
 
 ## S.PenetrationTesting - Durchführen von Penetration Testing
 Ein Penetration Testing des IRIS-Systems durch einen externen Dienstleister ist geplant. Aufgedeckte Schwachstellen werden dokumentiert, behoben und die Patches durch Re-Tests verifiziert.
@@ -584,8 +611,12 @@ Ein Penetration Testing des IRIS-Systems durch einen externen Dienstleister ist 
 Hinweis:
 > Die Testergebnisse stehen derzeit noch aus.
 
+Zusätzlich führt das IRIS-Team in Rahmen des Security Testings eigene Penetration Tests durch.
+
 ## S.LoadTesting - Durchführen von Load und Robustness Testing
-Ein Load- und Robustness-Testing ist geplant. Dabei wird eine hohe Nutzlast auf dem System simuliert, um potenzielle Leistungsengpässe (sogenannte Bottlenecks) und Anforderungen an benötigte Ressourcen frühzeitig zu identifizieren.
+Ein Load- und Robustness-Testing ist geplant. Bei dieser Art von Testing wird eine hohe Nutzlast auf dem System simuliert, und die Auswirkungen auf System analysiert. Damit kann die Robustheit gegen beispielsweise hohes Nutztungsaufkommen eingeschätzt werden. 
+Dadurch ist es möglich, Systembestandteile, die als Engpässe (sogenannte Bottlenecks) oder nicht robust genug beurteilt werden bereits frühzeitig zu behandeln und einer Störung im Regelbetireb vorzubeugen.
+
 Die Testergebnisse werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
 
 Hinweis: 
@@ -687,16 +718,23 @@ Das folgende Sequenzdiagramm veranschaulicht den genauen technischen Ablauf des 
 
 ![Darstellung des TLS-Handshakes zwischen Client (Broser oder mobile App) und einem GA über den Public Proxy](./Resources/technical_documentation/sequence_connection_establishment_hd.svg)
 
-#### Tokens
-Es werden verschiedene Tokens eingesetzt, um die Autorisierung einer extern verbindenden Partei sicherzustellen, die Daten an ein Gesundheitsamt übermitteln möchte.
-Als erste Verteidigung gegen unautorisierte Verbindungsversuche wird vom Gesundheitsamt ein sogenannter "Connection Authorization Token" an den Public Proxy übermittelt (vgl. Sequenzdiagramm oben "Announce Connection").
-Daraufhin legt der Public Proxy eine virtuelle Subdomain an, dessen Name der Connection Authorization Token ist.
-Dies erlaubt einem Client, den Token direkt beim Aufbau einer TLS Verbindung über die SNI Extension zu präsentieren.
-Sollte dieser nicht mitgeliefert werden oder ungültig sein, wird der Verbindungsversuch sofort terminiert, bevor dieser das GA erreicht.
+#### S.AuthTokens - Einsatz von Authentication Tokens
+Für Datenlieferungen, die aus einem Client (Webbrowsern oder mobilen App) heraus erfolgen werden über den Public Proxy Service zugestellt. 
+Dadurch gibt es Client-seitig keine digitalen Identitäten, die durch Zertifikate verifiziert werden können. 
+Daher werden Tokens eingesetzt, mit denen die Authentifizierung des Clients und die Autorisierung der Datenlieferung sichergestellt werden.
 
-Um auch im Falle eines kompromittierten IRIS Public Proxys falsche Datenmeldungen an Gesundheitsämter zu verhindern, wird außerdem ein zweiter Token ("Data Authorization Token") vor Verbindungsaufbau an den Client und nicht an den Public Proxy geschickt.
-Dieser wird nach dem Aufbau einer TLS Ende-zu-Ende Verbindung durch den Public Proxy verschlüsselt an das GA übertragen (nicht für den Public Proxy einsehbar).
-Das GA kann daraufhin prüfen, ob eingehende Daten für den präsentierten Data Authorization Token erwartet werden.
+Für jede Kontaktnachverfolgung, die im IRIS-Client gestartet wird, erstellt dieser zwei pseudozufällige Tokens mit hoher Entropie (**Connection Authorization Token** und  **Data Authorization Token**), die dieser Kontaktnachverfolgungs-Vorgang eindeutig zugeordent sind. 
+Der IRIS-Client kündigt dann gegenüber dem IRIS Public Proxy die erwartete Datenlieferung an, indem er ihm das Connection Authorization Token auf sicherem Weg über das EPS-Netzwerk mitteilt.
+Daraufhin legt der Public Proxy eine virtuelle Subdomain an, die dem Wert des Connection Authorization Token entspricht.
+Die Person, von der die Datenlieferung erwartet wird, bekommt die Tokens vom GA per E-Mail, Telefon o.Ä. mitgeteilt.
+
+Sobald der IRIS Public Proxy ein ClientHello erhält ermittelt er die Domain aus dem [Server Name Indication](https://de.wikipedia.org/wiki/Server_Name_Indication) Parameter. 
+Diese gleicht er mit den Tokens ab, die er als Ankündigungen von GÄ erhalten hat. Gibt es eine Übereinstimmung, gilt die sich anbahnende Verbindung als autorisiert darf in das jeweilige GA durchgestellt werden.
+
+Um auch im Falle eines kompromittierten IRIS Proxy Service falsche Datenmeldungen an Gesundheitsämter zu verhindern, wird zusätzlich das zweite Token ("Data Authorization Token") verwendet. 
+Dieses wird vom GA jedoch nur an die Person, nicht jedoch an den Public Proxy Service geschickt.
+Nach dem Aufbau einer TLS-Verbindung zum GA wird dieses Token gemeinsam mit der Datenlieferung verschlüsselt an das GA übertragen. Da die TLS-Verbindung vom IRIS Proxy Service nicht terminiert wird, ist es für ihn nicht einsehbar.
+Der IRIS-Client kann daraufhin prüfen, ob eine Datenlieferung für das präsentierte Data Authorization Token erwartet weird.
 Sollte dies nicht der Fall sein, wird die Verbindung terminiert und übermittelte Daten werden verworfen.
 
 ### PO.EPSConnEst - Aufbau einer mTLS-Verbindung zwischen zwei EPS-Komponenten
