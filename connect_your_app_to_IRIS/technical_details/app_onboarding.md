@@ -232,7 +232,7 @@ dataRequest object:
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
 | `start` | Start of requested time period | 
-| `end` | End of requested time period | You will use this name to reach the endpoint for data submissions  
+| `end` | End of requested time period |  
 | `requestDetails` | Additional message (optional) | May contain additional information about the request   
 | `dataAuthorizationToken` | Identifies the request to the health department | Used in submission to ensure that the data has been requested by the HD.   
 | `connectionAuthorizationToken` | Identifies the connection to public proxy | Will be necessary in the future to be able to send submissions from the browser.
