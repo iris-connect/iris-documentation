@@ -194,7 +194,7 @@ The settings folder is then referenced in the docker call as ``$SETTINGS_PATH`` 
 
 You can start a local eps with
 
-    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.4 --level trace server run
+    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.8 --level trace server run
  
 Again, `$APP_NAME` corresponds to the app name you chose for CN in your certificate. 
 
@@ -254,6 +254,8 @@ It is important to know, what is going wrong if you won't get this response. If 
 | Connection refused | The EPS is not listening on the URI or port of the request. | Ckeck the address in cURL command. Are you running the command from localhost - the docker host, or do you need to address an IP address in your network? Is there a firewall blocking the port? Is the EPS running - check it with docker ps, and check the logs. |
 | "message":"not found" | You addressed wrong endpoint | If you address https://localhost:5556/ (without endpoint address jsonrpc) you will get this result. |
 | {"jsonrpc":"2.0","error":{"code":-32603,"message":"internal error"},"id":"1"} | There is a bug in EPS or your configuration is incorrect. | Check the settings yml, try another EPS version. |
+| {"jsonrpc":"2.0,","error":{"code":-32700,"message":"JSON required"},"id":null} | Your JSON content is malformed. | Check your JSON string as it is passed to the http request's body, maybe try exactly this string with cURL to debug your content. |
+| {"jsonrpc":"2.0,","error":{"code":-32600,"message":"invalid request","data":{"message":"invalid input data: params(not a map)","code":"FORM-ERROR","data":{"params":"not a map"},"traceback":[]}},"id":null} | The JSON content is not complete or contains mismatched properties. | In the given example, the property params was spelled wrong (uppercase Params), so check exact matches of the request properties. |
 
 This list is propably not complete. Especially internal errors will have many possible causes. In case you get some internal errors, please check twice if your settings are correct, the EPS is running in level trace and have a look on log messages.
 
@@ -389,7 +391,29 @@ You need to provide a json-rpc endpoint on your server. The exact endpoint can b
         settings:
           endpoint: http://[your-host]:[your-port]/[your-endpoint]
           
-To receive incoming DataRequests, you need to implement a method `createDataRequest` on your Endpoint. 
+To receive incoming DataRequests, you need to implement a method `createDataRequest` on your Endpoint. The following request is an example a the request generated on https://iris.staging.iris-gateway.de - the parameter _client.entry is left out here and contains certificates and fingerprints as well as provided services at the endpoint.
+
+```
+{
+  "jsonrpc": "2.0",
+  "method": "createDataRequest",
+  "params": {
+    "_client": {
+      "entry": {[...]},
+      "name": "hd-1"
+    },
+    "dataRequest": {
+      "dataAuthorizationToken": "8f4b3c3a-61e1-4e87-954e-5c6ba4f0e051",
+      "end": "2021-06-09T16:00:00Z",
+      "locationId": "d1abc",
+      "proxyEndpoint": "d9e2f1c1-ee8d-48e2-be03-e36fb647222d.proxy.test-gesundheitsamt.de",
+      "requestDetails": "",
+      "start": "2021-06-09T09:00:00Z"
+    }
+  },
+  "id": "visits.createDataRequest(44693335)"
+}
+```
 
 The method has to accept the following paramters:
 
@@ -404,7 +428,8 @@ _client object:
 
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
-| `name` | Calling eps | You will use this name to reach the endpoint for data submissions  
+| `name` | Calling eps | You will use this name to reach the endpoint for data submissions |
+| `entry`| Signatures | Certificates and fingerprints to ensure authenication of the request, will be handled by your EPS and you may ignore this. | 
 
 dataRequest object:
 
@@ -414,7 +439,7 @@ dataRequest object:
 | `end` | End of requested time period | You will use this name to reach the endpoint for data submissions  
 | `requestDetails` | Additional message (optional) | May contain additional information about the request   
 | `dataAuthorizationToken` | Identifies the request to the health department | Used in submission to ensure that the data has been requested by the HD.   
-| `connectionAuthorizationToken` | Identifies the connection to public proxy | Will be necessary in the future to be able to send submissions from the browser.
+| `proxyEndpoint` | Identifies the connection to public proxy | Neccessary to be able to send submissions from the browser.
 | `locationID` | Your location identifier | The identifier you used when creating the location.
 
 Response:
@@ -423,17 +448,25 @@ Response:
 | --- | --- |  
 | `_` | ``OK`` | 
 
-The request can be saved and edited locally. The functions for transmitting the data to the health authorities are next on the roadmap.
+The request can be saved and edited locally. The functions for transmitting the data to the health authorities are the next step, but asynchronously. This means, there is no need to collect data and post the response within a short timeframe.
+
+It seems to be a good idea to store all requests created an if they are answered already, also to have a possibility for security audits. If you already store actions of exporting CSV file data for health authorities in your app, you might just add some fields to that table.
 
 ## 4.3 Send data submissions
 
-There are two ways to submit data to IRIS. The two ways result from the two different types of data management. Apps that can provide data unencrypted in the backend can send data directly to IRIS via EPS from the backend. If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption.
+There are two ways to submit data to IRIS. The two ways result from the two different types of data management.
 
-### 4.3.1 Send data from app backend
+Apps that can provide data unencrypted in the backend can send data directly to IRIS via EPS from the backend. Deliver your data to your local EPS after collection.
 
-The data is sent to the custom EPS via JSON-RPC. The method name used is `[hdEndpoint].submitGuestList`. `[hdEnpoint]` corresponds to _client.name from the received DataRequest.
+If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption. In this case the data submission has to be posted to the URL provided in the createDataRequest parameter `proxyEndpoint`. For this scenario, you add a "_client":{"name":"$APP_NAME"} to the params, where $APP_NAME is the name for your app as used in the "CN" field of your certificate from the [csr](#11-generate-certificate-signing-request).
 
-    {
+### 4.3.1 Parameters for data submissions
+
+
+    "params":{
+        "_client": {
+            "name": "mydemoapp"
+        }
     	"dataAuthorizationToken": "2edd34d6-bc7b-11eb-8529-0242ac130003",
     	"guestList": {
     		"dataProvider": {
@@ -476,18 +509,25 @@ Parameters:
 
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
+| `_client` | Identifies the sending client | This is optional for sending from backend, but needed when sending from browser client. |
 | `dataAuthorizationToken` | Authorizes data submission | 
 | `guestList` | Guest list information |
+
+_client object:
+
+| Parameter | Description | Annotations |
+| --- | --- | --- |    
+| `name` | Calling eps | You will use this name to reach the endpoint for data submissions |
 
 GuestList object:
 
 | Parameter | Description | Required | Annotations |
 | --- | --- | --- | --- |   
-| `startDate` | GuestList starts | true |   
-| `endDate` | GuestList ends | true |
-| `additionalInformation` | Additonial information | true | Can be left empty for now - is not displayed 
-| `dataProvider` | DataProvider object | true |
-| `guests` | Guest object | true | 
+| `startDate` | GuestList starts | true | As given in the createDataRequest |  
+| `endDate` | GuestList ends | true | As given in the createDataRequest | 
+| `additionalInformation` | Additonial information | true | Can be left empty for now - is not displayed |
+| `dataProvider` | DataProvider object | true | This is identifying you as the app provider! |
+| `guests` | List of guest objects | true | Could of cause be empty, but must be provided |
 
 DataProvider object:
 
@@ -526,6 +566,14 @@ AttendanceInformation object:
 | `attendTo` | Attend to | true |
 | `additionalInformation` | Additional attendance information | false | For example table or area 
 
+### 4.3.2 Send data from app backend
+
+The data is sent to the custom EPS via JSON-RPC. The method name used is `[hdEndpoint].submitGuestList`. [hdEnpoint] corresponds to _client.name from the received DataRequest.
+
+### 4.3.3 Send data from app in browser
+
+The data is sent to the proxyEndpoint from createDataRequest via JSON-RPC, in detail: `params.dataRequest.proxyEndpoint`. The method name used is `[hdEndpoint].submitGuestList`. [hdEnpoint] corresponds to _client.name from the received DataRequest.
+
 ## 5 Test your implementation
 
 To test your implementation, visit https://iris.staging.iris-gateway.de 
@@ -536,11 +584,28 @@ There you should find your pushed locations in the search when you start a new e
 
 ## Changelog
 
+### [0.0.7] - 2021-06-14
+
+#### Added
+- Data submission from Browser client to health departments Proxy-Endpoint
+- New eps image version 
+
+### [0.0.6] - 2021-06-11
+
+#### Added
+- Overview of steps
+- Direct links to the sections for each important step
+
+#### Changed
+- Step-by-step guide for copy&paste of commandline deployment of local eps
+- Some hints for postLocationToSearchIndex
+- New eps image version
+
 ### [0.0.5] - 2021-06-02
 
 #### Changed
 - Submit data when accessible in backend
-- New eops image version 
+- New eps image version 
 
 ### [0.0.4] - 2021-05-20
 
