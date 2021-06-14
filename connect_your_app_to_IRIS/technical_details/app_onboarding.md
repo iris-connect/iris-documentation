@@ -517,7 +517,7 @@ _client object:
 
 | Parameter | Description | Annotations |
 | --- | --- | --- |    
-| `name` | Calling eps | You will use this name to reach the endpoint for data submissions |
+| `name` | CN from cert | Your app is identified by this name, taken from the certificate's CN |
 
 GuestList object:
 
@@ -570,9 +570,31 @@ AttendanceInformation object:
 
 The data is sent to the custom EPS via JSON-RPC. The method name used is `[hdEndpoint].submitGuestList`. [hdEnpoint] corresponds to _client.name from the received DataRequest.
 
+In short:
+- build a `dataProvider` object with your own contact details
+- collect the data and pump it in an array of `guests`
+- build a `guestList` object with `start` and `end` from [createDataRequest](#42-process-iris-client-data-requests)
+- build your data submission POST request with method `[hdEndpoint].submitGuestList` and following params:
+  - `_client` (optional) with your app's CN from [your signing request](#11-generate-certificate-signing-request)
+  - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
+  - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
+- POST your request to your local EPS
+
 ### 4.3.3 Send data from app in browser
 
 The data is sent to the proxyEndpoint from createDataRequest via JSON-RPC, in detail: `params.dataRequest.proxyEndpoint`. The method name used is `[hdEndpoint].submitGuestList`. [hdEnpoint] corresponds to _client.name from the received DataRequest.
+
+The URL for the submission is build as `https://`[proxyEndpoint]`:4433/data-submissions-rpc`.
+
+In short:
+- build a `dataProvider` object with your own contact details
+- collect the data and pump it in an array of `guests`
+- build a `guestList` object with `start` and `end` from [createDataRequest](#42-process-iris-client-data-requests)
+- build your data submission POST request with method `[hdEndpoint].submitGuestList` and following params:
+  - `_client` (required) with your app's CN from [your signing request](#11-generate-certificate-signing-request)
+  - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
+  - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
+- POST your request to `https://`[proxyEndpoint]`:4433/data-submissions-rpc`
 
 ## 5 Test your implementation
 
