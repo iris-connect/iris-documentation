@@ -371,7 +371,7 @@ Im Folgenden werden ausgewählte Prozesse von IRIS Connect beschrieben. Die Übe
 |P.Onboarding.HD.Certs | Ausgabe von Zertifikaten an ein GA| Das GA beantragt in einem geregelten Verfahren Zertifikate beim Vertrauensdiensteanbieter. Diese validiert die Identität des GA in einem sogenannten Organization Validation (OV) Verfahren und übersendet anschließend die ausgestellten Zertifikate.
 |P.Onboarding.HD.SvcDir | Eintragen eines GA im Service Directory| Das Rollout-Team trägt ein GA im Service Directory ein. Anschließend ist es für Lösungsanbieter erreichbar.
 | | |
-|P.Onboarding.SolProv | Onboarding eines LösungsLösungsanbieters| Ein Lösungsanbieter wird an IRIS Connect angeschlossen.
+|P.Onboarding.SolProv | Onboarding eines Lösungsanbieters| Ein Lösungsanbieter wird an IRIS Connect angeschlossen.
 |P.Onboarding.SolProv.Org | Organisatorisches Onboarding eines Lösungsanbieters| Das Rollout-Team und der Lösungsanbieter führen gemeinsam den ersten (organisatorischen) Teil des Onboardings durch. Der Lösungsanbieter übergibt dabei die von IRIS Connect angeforderten Unterlagen: Unterschriebene AGB und Code of Conduct, ein Whitepaper, sowie Dokumentation zum Datenschutz- und dem IT-Sicherheitskonzept der Lösung.
 |P.Onboarding.SolProv.Certs | Ausgabe von Zertifikaten an einen Lösungsanbieter| Das Rollout-Team stellt Zertifikate für einen Lösungsanbieter aus. Dabei übermittelt der Lösungsanbieter eine Anfrage mit kryptographischem Schlüsselmaterial, für das er Zertifikate zurückerhält.
 |P.Onboarding.SolProv.SvcDir | Eintragen eines Lösungsanbieters im Service Directory| Das Rollout-Team trägt einen Lösungsanbieter im Service Directory ein. Anschließend ist dieser für GÄ erreichbar.
@@ -880,7 +880,7 @@ Ein Indexfall übermittelt absichtlich falsche Kontaktdaten an ein GA.
 
 #### T.3.1 Kompromittiertes Service Directory
 
-##### T.3.1.1 Impersonation eines LösungsLösungsanbieters gegenüber den GÄ
+##### T.3.1.1 Impersonation eines Lösungsanbieters gegenüber den GÄ
 
 ###### Szenario
 Ein Angreifer fügt falsche Endpoints und Public-Key-Fingerprints zum Anbieterverzeichnis hinzu bzw. ändert bestehende
