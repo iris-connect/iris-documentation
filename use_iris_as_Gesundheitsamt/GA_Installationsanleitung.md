@@ -1,8 +1,8 @@
 # Anleitung für die Installation und Einrichtung des IRIS Clients
 Zum einen muss die Software lauffähig installiert sein, zum anderen werden entsprechende Zertifikate (s.u.) benötigt.
 
-## Installationsanleitung
-Eine Anleitung für die Installation und Einrichtung des IRIS-Client befindet sich direkt im [zugehörigen Repository](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation.md).
+## [Installationsanleitung](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation.md)
+Eine [Anleitung für die Installation](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation.md) und Einrichtung des IRIS-Client befindet sich direkt im zugehörigen Repository.
 
 ## Zertifikate für den Client
 ### Wofür werden die Zertifikate benötigt?
