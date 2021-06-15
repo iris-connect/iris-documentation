@@ -460,6 +460,8 @@ Apps that can provide data unencrypted in the backend can send data directly to 
 
 If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption. In this case the data submission has to be posted to the URL provided in the createDataRequest parameter `proxyEndpoint`. For this scenario, you add a "_client":{"name":"$APP_NAME"} to the params, where $APP_NAME is the name for your app as used in the "CN" field of your certificate from the [csr](#11-generate-certificate-signing-request).
 
+__Please note, that the timeframe in the request (startDate to endDate) has to be evaluated as: attendFrom is earlier than endDate OR attendTo is later than startDate. This way all visits that overlap start or end are included.__
+
 ### 4.3.1 Parameters for data submissions
 
 
