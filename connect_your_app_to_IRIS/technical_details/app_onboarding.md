@@ -134,7 +134,7 @@ There are only two relevant files, and you can copy them one by one and put them
 
     mkdir -p "$SETTINGS_PATH/staging/certs"
     
-    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/certs/staging-root.crt
+    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/certs/staging-root.crt -P "$SETTINGS_PATH/staging/certs/"
 
 The certificate issued by IRIS based on your signing request and the corresponding key must be stored in the certs folder.
 
