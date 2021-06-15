@@ -20,12 +20,12 @@ Nächste geplante Überarbeitung: KW 25
 
 | Version | Datum | Erläuterung |
 |---|---|---|
-| v0.1 | 17.05.2021 | Übermitteln an die HiSolutions AG im Zuge des Onboardings.
-| v1.0 | 11.06.2021 | Erste offizielle Version zur Herausgabe. Beinhaltet bereits vorliegende Vorab-Ergebnisse des fachlichen Reviews durch die HiSolutions AG.
+| v0.1 | 17.05.2021 | Initiale intern kommunizierte Version.
+| v1.0 | 11.06.2021 | Bereits vorliegende Vorab-Ergebnisse aus der Projektzusammenarbeit mit der HiSolutions AG wurden eingepflegt. Erste offizielle Version zur Herausgabe.
 
 Hinweis:
-> Derzeit ist ein Security-Review durch einen externen Partner (die HiSolutions AG) im Gange. Dieses wird vsl. in KW 25 abgeschlossen sein. Gegenstand sind Bedrohungsmodelierung, Risikoanalyse und Qualitätssicherung hinsichtlich der Architektur und der Schutznahmen.
-
+> In Ergänzung zur vorliegenden *Technischen Sicherheitsdokumentation* ist derzeit ein Projekt zur Erstellung eines Sicherheitskonzepts nach BSI IT-Grundschutz mit einem externen Partner (der [Hisolutions AG](https://www.hisolutions.com/)) in Gange. 
+> Gegenstand des Projektes sind eine Begleitung der Bedrohungsmodellierung, sowie der Erstellung eines Sicherheitskonzeptes nach BSI IT-Grundschutz inkl. einer Risikoanalyse. 
 
 # Inhaltsverzeichnis
 - [1 Einleitung](#1-einleitung)
@@ -193,7 +193,7 @@ entschlüsseln und digital signieren können.
 
 #### A.ExtSecurityAuditor - Externer IT-Sicherheitsprüfer
 Die [Hisolutions AG](https://www.hisolutions.com/) ist ein erfahrener Beratungsspezialist für Security und IT-Management.
-Sie unterzieht die Architektur und Schutzmaßnahmen von IRIS Connect einer fachlichen Prüfung.
+Sie unterstützt bei der Erstellung eines IT-Sicherheitskonzeptes nach IT-Grundschutz sowie einer Bedrohungsmodellierung.
 
 #### A.Callcenter - Support-Callcenter
 Je nach Auftragsumfang kann den GÄ ein Callcenter bereitgestellt werden, das einen 1st-Level-Support über eine Telefon-Hotline anbietet.
@@ -601,7 +601,7 @@ Die bei den IRIS Services eingesetzten Datenbanken werden verschlüsselt. Da der
 ## S.SecReview - Externes Review des Sicherheitskonzept
 Das Sicherheitskonzept von IRIS Connect wurde gemeinsam mit Security-Experten aus der Fach-Community erarbeitet.
 
-Zusätzlich wurde die [Hisolutions AG](https://www.hisolutions.com/), ein erfahrener Beratungsspezialist für Security und IT-Management damit beauftragt, die Systemarchitektur und die Schutzmaßnahmen zu prüfen und potenzielle Mängel aufzudecken.
+Zusätzlich wurde die [HiSolutions AG](https://www.hisolutions.com/), ein erfahrener Beratungsspezialist für Security und IT-Management damit beauftragt, ein Coaching zur Bedrohungsmodellierung durchzuführen, sowie bei der Erstellung eines IT-Sicherheitskonzepts nach BSI IT-Grundschutz zu unterstützen.
 
 Weiterhin unterliegt IRIS Connect als Open Source Projekt der ständigen Aufmerksamkeit der interessierten Fach-Öffentlichkeit. Sicherheitsrelevante Punkte können dabei im Rahmen des Responsible Disclosure Prozesses an das IRIS-Team gemeldet werden.
 
@@ -825,7 +825,7 @@ Ziele:
 - Pandemiebekämpfung behindern
 
 ## 5.2 Spezifische Bedrohungen (Threats)
-Dieses Kapitel erläutert ausgewählte High-Level-Bedrohungen, die sich spezifisch für IRIS Connect ergeben. Für eine vollständige Auflistung potenzieller Bedrohungen wird an dieser Stelle auf die Bedrohungsmodellierung mit der HiSolutions AG verwiesen. Diese ist derzeit in Ausarbeitung/Qualitätssicherung und wird vsl. in KW 25 abgeschlossen.
+Dieses Kapitel erläutert ausgewählte High-Level-Bedrohungen, die sich spezifisch für IRIS Connect ergeben. Diese ist derzeit in Ausarbeitung/Qualitätssicherung und wird nach aktuellem Projektplan vsl. in KW 25 abgeschlossen.
 
 ### T.1 Bösartiger Lösungsanbieter
 
