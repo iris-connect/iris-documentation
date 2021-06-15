@@ -106,7 +106,7 @@ You need the following:
 
 ### 2.2 Local Settings
 
-The settings folders in the IRIS connect documentation repository below [eps-config](./technical_details/eps-config) must be copied to your own server.
+The settings folders in the IRIS connect documentation repository below [eps-config](./eps-config) must be copied to your own server.
 
 We show two different possibilities to get your local settings done: on [Linux command line](#221-linux-command-line) or with your prefered [Desktop GUI](#222-desktop-usage).
 
@@ -130,7 +130,7 @@ There are only two relevant files, and you can copy them one by one and put them
 
     mkdir -p "$SETTINGS_PATH/staging/roles/$APP_NAME"
 
-    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/roles/yourapp/001_default.yml -P "$SETTINGS_PATH/staging/roles/$APP_NAME"
+    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/roles/yourapp/001_default.yml
 
     mkdir -p "$SETTINGS_PATH/staging/certs"
     
