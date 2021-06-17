@@ -52,10 +52,10 @@ des jeweiligen Gesundheitsamts aufgebaut.
 Die zentralen Strukturen werden redundant betrieben, dort werden keine Daten vorgehalten. Daten, die im Gesundheitsamt ankommen unterliegen der 
 dortigen Datenhaltung.
 
-###Ist IRIS 3-Tier fähig?
+### Ist IRIS 3-Tier fähig?
 Aus Applikations-Sicht spricht nichts dagegen. 
 
-Wie findet die Orchestrierung statt?
+### Wie findet die Orchestrierung statt?
 Über Kubernetes.
 
 
@@ -163,7 +163,7 @@ Die Verwaltung der Zertifikate ist aktuell noch in Klärung, diese werden aber d
 ### Was für Proxies werden für den Zugriff auf den Client verwendet?
 Das Gateway stellt keine Verbindung zum Client her. Der Client stellt Verbindung zum Client her.
 
-###Wo liegt der Internal Reverse-Proxy, hat er eine öffentlich IP oder besteht dort eine Anbindung an private Netze?
+### Wo liegt der Internal Reverse-Proxy, hat er eine öffentlich IP oder besteht dort eine Anbindung an private Netze?
 Der Internal Reverse-Proxy muss von allen IRIS-Clients aus zugänglich sein. Da sich die Clients per Client-Zertifikat gegenüber dem Internal Reverse-Proxy authentifizieren, kann der Internal Reverse-Proxy öffentlich aus dem Internet zugänglich sein. Ein zusätzlicher Schutz per Firewall/VPN kann aber auch hinzugefügt werden.
  
 ### Besteht die Gefahr, dass durch die IRIS-Plattform SORMAS infiltriert werden kann?
