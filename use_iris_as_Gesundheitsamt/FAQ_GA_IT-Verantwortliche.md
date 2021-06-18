@@ -1,9 +1,7 @@
 # FAQ für TechnikerInnen in den Gesundheitsämtern zu Funktionsweise, Einrichtung und Betrieb
 
 ## Funktionsweise
-
 ### Wo wird verschlüsselt? Wo liegen die Daten?
-
 Die Verschlüsselung der personenbezogenen Daten findet direkt in der jeweiligen Anwendung statt. Die Entschlüsselung erfolgt im IRIS-Client-Backend, also quasi im Gesundheitsamt. Hinzu kommt Transportverschlüsselung mittels tls/https.    
 
 Im IRIS-Client liegen die Daten dann unverschlüsselt. Vor der Datenabfrage durch ein Gesundheitsamt liegen diese ausschließlich bei der App und nicht im IRIS-System. Die Verschlüsselung und Entschlüsselung entnehmen Sie auch der Grafik am Anfang des Dokuments.
@@ -32,18 +30,15 @@ Hier ist zwischen Kontakttagebüchern und Gästelisten zu unterschieden.
 
 
 ### Werden die abgerufenen Daten der Apps durch IRIS überprüft/gecheckt/validiert?
-
 Eine »input validation« und »input sanitation« sollen vorgenommen werden. Hier ist Vorsicht mit den Begrifflichkeiten geboten. Input validation heißt hier nur, dass drin ist, was drauf steht. Es kann geprüft werden ob die formalen Kriterien einer Telefonnummer erfüllt sind. Automatisiert kann nicht bestätigt werden, ob die Nummer stimmt. (Anmerkung: Das ist technisch kaum machbar in der Zeit und mit den Ressourcen - Unternehmen der Größenordnung Google oder Facebook könnten das).
 
 ### Wie kann sichergestellt werde, dass reale Daten und keine fake Daten übertragen werden?
-
 Die Plausibilitätsprüfung liegt nicht im Fokus von IRIS, sondern muss durch andere Prozesse dargestellt werden, da IRIS die Daten selbst nicht einsieht. Eine Plausibilitätsprüfung erfolgt über die Gesundheitsamt Mitarbeiter:in im IRIS Client. Darüber hinaus gilt für die Locations eine Sorgfaltspflicht bei der Erfassung der Gästelisten entsprechend der gültigen Verordnungen. 
 
 ### Was ist wenn sich jemand nicht ausloggt aus dem Gästebuch - können Einrichtungs-Betreibende das manuell machen? Sprich: ist das durch Dritte manipulierbar?
 Dies obliegt der App und muss im entsprechenden Hygienekonzept der Veranstaltung berücksichtigt werden.
 
 ### Werden Daten zwischengespeichert?
-
 Es findet keine Vorratsspeicherung statt. Die Daten werden nur im Bedarfsfall angefragt. Dann wird eine dezentrale Verbindung mit dem Client 
 des jeweiligen Gesundheitsamts aufgebaut.
 
@@ -60,21 +55,17 @@ Aus Applikations-Sicht spricht nichts dagegen.
 
 
 ## Welchen Kundenservice bieten Sie an? Nur per E-Mail oder geht es auch telefonisch?
-
 Es wird ein Kundenservice über die Dienstleistungs-GmbH der Björn Steiger Stiftung angeboten. Dieser beinhaltet ein Ticket-System und eine Hotline.
 
-
-## Nutzendenverwaltung
+## Kontoverwaltung
 ### Wie findet die Anmeldung für die Anwendung statt?
+Es gibt eine »klassische« Kontoverwaltung, d.h. Konten können in IRIS angelegt werden und sich über ein Login in der Anwendung anmelden. 
 
-
-Es gibt eine »klassische« Nutzerverwaltung, d.h. NutzerInnenkonten können in IRIS angelegt werden und sich über ein Login in der Anwendung anmelden. 
 ### Wie sieht das Rollen- und Rechtekonzept aus?
 Siehe Rechtevergabe. Grundsätzlich dürfen angemeldete Nutzende Anfragen stellen und die erhaltenen Daten verarbeiten.
 
 ### Wie ist die Rechtevergabe für Mitarbeiter?
-
-'Link zu Dokumentation der Nutzendenverwaltung folgt'
+'Link zu Dokumentation der Kontoverwaltung folgt'
 
 ### Welche Schutzmechanismen nutzt IRIS?
 Schutzmechanismen werden im Rahmen eines Open Development Prozesses implementiert. Unter anderem  werden wir voraussichtlich den OWASP Katalog abarbeiten (s. Injection Prevention Cheat Sheet). Weiteres ist auch im IT-Sicherheitskonzept ausgeführt.
@@ -90,7 +81,6 @@ Grundsätzlich besteht ein hohes Interesse an einer bestmöglichen Nutzbarkeit. 
 Zunächst nicht. Ziel ist es, im Zuge der Pandemie zunächst schnell eine Lösung bereitzustellen. Im weiteren Verlauf der Entwicklung wird dies natürlich berücksichtigt werden.
 
 ## Einrichtung
-
 ### Kann ein Gesundheitsamt die IRIS Anwendung käuflich erwerben oder geht dies über das Land?
 Die Software wird Open Source betrieben, d.h. es fallen keine Lizenzkosten an. Für den Produktivbetrieb im Gesundheitsamt ist ein Zertifikat der Bundesdruckerei notwendig. Die Björn Steiger Dienstleistungs GmbH bietet Zertifikate, welche jeweils eine Gültigkeit von 12 Monaten haben, zusammen mit Support- und Pflegeleistungen an. Sofern keine Vereinbarung mit dem jeweiligen Bundesland getroffen wurde, können diese Leistungen direkt über die Dienstleistungs-GmbH erworben werden. Empfohlen wird jedoch ein Ankauf über die Länder.
 
@@ -99,7 +89,6 @@ Die Installationsanleitung für den Client wird im öffentlichen Repositorium ei
 (Link zur Ìnstallationsanleitung folgt)
 
 ### Muss für jedes Gesundheitsamt ein Client im Rechenzentrum betrieben werden oder liegt die Clientbereitstellung bei den GAs und diese nutzen die zentralen Strukturen?
-
 Der Client kann durch die verantwortlichen kommunalen Stellen betrieben werden. Ausschlaggebend ist das bestehen von Zugriff auf den Internal-Reverse-Proxy und die SORMAS-Instanz des Gesundheitsamtes.
 
 ### Was für Protokolle machen Sinn und werden allgemein gesprochen?
@@ -121,7 +110,7 @@ Betriebsmodus Java: Die singulären Strukturen können problemlos auf VMs betrie
 Wir präferieren ein Container Deployment, Betriebsmodus Java ist möglich.
 
 ### Wie bekommte ich das entsprechende Zertifikat für die Registrierung eines Gesundheitsamtes?
-Es gibt einen gesonderten Prozeß, der die Bestellung und Einrichtung des Zertifikats von der Bundesdruckerei (Public-Key-Infrastruktur, PKI) beschreibt. Der Prozess ist in der Installationsanleitung beschrieben.
+Es gibt einen gesonderten Prozeß, der die [Bestellung und Einrichtung des Zertifikats](https://github.com/iris-connect/iris-client/blob/certificates/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) von der Bundesdruckerei (Public-Key-Infrastruktur, PKI) beschreibt. Der Prozess ist in der [Installationsanleitung](https://github.com/iris-connect/iris-client/blob/certificates/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) beschrieben.
 
 ### Wird für die Pilotierung Java oder Container System genutzt?
 In der Pilotierung werden Container für das Staging System genutzt, wir sind aber offen für andere Vorschläge.
@@ -130,12 +119,9 @@ In der Pilotierung werden Container für das Staging System genutzt, wir sind ab
 Das »IRIS Onboarding Team« wird aktuell aus einem Teil des Kern-Teams des IRIS Projekts gebildet. Wir stehen mit weiteren Partnern in Kontakt, die entsprechende Personalkapazitäten aufbauen bzw. vorhalten.
 
 ### Mit der Vorgabe vom BSI "Nur eine Applikation pro Server" müssten für den GA Client mindestens zwei Server plus DB Server genutzt werden – oder?
-
 Nein, das IRIS-Client-Frontend und IRIS-Client-Backend können zu einer Applikation zusammengezogen werden. Ob gleiches auch für die Datenbank gilt, hängt von der genauen Ausgestaltung der Vorgabe ab. 
 
-
 ## Betrieb
-
 ### Wie wird IRIS betrieben?
 Bestimmte Teile der Infrastruktur müssen nur einmal betrieben werden. Eine länderübergreifende Bereitstellung dieser Teile ist jedoch abhängig von politischen Entscheidung und muss im Rahmen der Vertragserstellung diskutiert werden. Die singulären Strukturen für den Pilot sind redundant bei der AKDB gehostet und von dort aus bereitgestellt.
 
