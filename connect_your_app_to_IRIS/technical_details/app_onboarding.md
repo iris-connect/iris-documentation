@@ -194,11 +194,11 @@ The settings folder is then referenced in the docker call as ``$SETTINGS_PATH`` 
 
 You can start a local eps with
 
-    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.12 --level trace server run
+    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.13 --level trace server run
  
 Again, `$APP_NAME` corresponds to the app name you chose for CN in your certificate. 
 
-Port 4444 is mandatory for staging environment. You can change port 5556 to your needs. Requests of your app, that shall reach out to IRIS Connect, will then be sent to `POST https://localhost:5556/jsonrpc`.
+Port 4444 is mandatory for staging environment. You can change port 5556 to your needs. Requests of your app, that shall reach out to IRIS Connect, will then be sent to `POST https://localhost:5556/jsonrpc` (or your local URL within your own network).
 
 ## 3 Interacting with EPS
 
@@ -612,7 +612,8 @@ There you should find your pushed locations in the search when you start a new e
 
 #### Changed
 - Latest eps image version
-- corrected boolean expression
+- Corrected boolean expression
+- Additional hint for URL of local EPS
 
 ### [0.0.7] - 2021-06-14
 

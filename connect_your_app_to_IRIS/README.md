@@ -26,7 +26,7 @@ The non-technical workstream consists of documentation and commitment. It is a b
  
 Well, ok, parts of the documentation topic IS technical... 
 
-Details to this workstream are explained in the [documentation readme](./Connect_App_to_IRIS.md).
+Details to this workstream are explained in the [documentation readme](./Connect_App_to_IRIS_administration.md).
 
 ### Technical Workstream
 
