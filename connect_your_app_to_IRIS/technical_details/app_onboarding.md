@@ -194,7 +194,7 @@ The settings folder is then referenced in the docker call as ``$SETTINGS_PATH`` 
 
 You can start a local eps with
 
-    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.8 --level trace server run
+    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.12 --level trace server run
  
 Again, `$APP_NAME` corresponds to the app name you chose for CN in your certificate. 
 
@@ -460,7 +460,7 @@ Apps that can provide data unencrypted in the backend can send data directly to 
 
 If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption. In this case the data submission has to be posted to the URL provided in the createDataRequest parameter `proxyEndpoint`. For this scenario, you add a "_client":{"name":"$APP_NAME"} to the params, where $APP_NAME is the name for your app as used in the "CN" field of your certificate from the [csr](#11-generate-certificate-signing-request).
 
-__Please note, that the timeframe in the request (startDate to endDate) has to be evaluated as: attendFrom is earlier than endDate OR attendTo is later than startDate. This way all visits that overlap start or end are included.__
+__Please note, that the timeframe in the request (startDate to endDate) has to be evaluated as: attendFrom is earlier than endDate AND attendTo is later than startDate. This way all visits that overlap start or end are included.__ In full pseudocode, the boolean evaluation should be like `Visit.Entry <= Request.End && Visit.Exit >= Request.Start`.
 
 ### 4.3.1 Parameters for data submissions
 
@@ -607,6 +607,12 @@ You can find the password and access data in the slack channel.
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
 ## Changelog
+
+### [0.0.8] - 2021-06-16
+
+#### Changed
+- Latest eps image version
+- corrected boolean expression
 
 ### [0.0.7] - 2021-06-14
 
