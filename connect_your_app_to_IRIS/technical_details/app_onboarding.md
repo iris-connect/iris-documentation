@@ -525,9 +525,9 @@ GuestList object:
 
 | Parameter | Description | Required | Annotations |
 | --- | --- | --- | --- |   
-| `startDate` | GuestList starts | true | As given in the createDataRequest |  
-| `endDate` | GuestList ends | true | As given in the createDataRequest | 
-| `additionalInformation` | Additonial information | true | Can be left empty for now - is not displayed |
+| `startDate` | GuestList starts | true | As given in the createDataRequest in time format "yyyy-MM-ddTHH:mm:ssZ" |  
+| `endDate` | GuestList ends | true | As given in the createDataRequest in time format "yyyy-MM-ddTHH:mm:ssZ" | 
+| `additionalInformation` | Additional information | true | Can be left empty for now - is not displayed |
 | `dataProvider` | DataProvider object | true | This is identifying you as the app provider! |
 | `guests` | List of guest objects | true | Could of cause be empty, but must be provided |
 
@@ -564,8 +564,8 @@ AttendanceInformation object:
 
 | Parameter | Description | Required | Annotations |
 | --- | --- | --- | --- |       
-| `attendFrom` | Attend from | true |   
-| `attendTo` | Attend to | true |
+| `attendFrom` | Attend from | true | Time format "yyyy-MM-ddTHH:mm:ssZ"  
+| `attendTo` | Attend to | true | Time format "yyyy-MM-ddTHH:mm:ssZ"
 | `additionalInformation` | Additional attendance information | false | For example table or area 
 
 ### 4.3.2 Send data from app backend
@@ -584,19 +584,19 @@ In short:
 
 ### 4.3.3 Send data from app in browser
 
-The data is sent to the proxyEndpoint from createDataRequest via JSON-RPC, in detail: `params.dataRequest.proxyEndpoint`. The method name used is `[hdEndpoint].submitGuestList`. [hdEnpoint] corresponds to _client.name from the received DataRequest.
+The data is sent to the proxyEndpoint from createDataRequest via JSON-RPC, in detail: `params.dataRequest.proxyEndpoint`. The method name used is `submitGuestList`. **Do not include [hdEnpoint] in method name as when sending to a local EPS.**
 
-The URL for the submission is build as `https://`[proxyEndpoint]`:4433/data-submissions-rpc`.
+The URL for the submission is build as `https://`[proxyEndpoint]`:4433/data-submission-rpc`.
 
 In short:
 - build a `dataProvider` object with your own contact details
 - collect the data and pump it in an array of `guests`
 - build a `guestList` object with `start` and `end` from [createDataRequest](#42-process-iris-client-data-requests)
-- build your data submission POST request with method `[hdEndpoint].submitGuestList` and following params:
+- build your data submission POST request with method `submitGuestList` and following params:
   - `_client` (required) with your app's CN from [your signing request](#11-generate-certificate-signing-request)
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
   - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
-- POST your request to `https://`[proxyEndpoint]`:4433/data-submissions-rpc`
+- POST your request to `https://`[proxyEndpoint]`:4433/data-submission-rpc`
 
 ## 5 Test your implementation
 
@@ -607,6 +607,12 @@ You can find the password and access data in the slack channel.
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
 ## Changelog
+
+### [0.0.9] - 2021-06-16
+
+#### Changed
+- Corrected sending data submissions from browser
+- Added time format for date/time fields in data submissions
 
 ### [0.0.8] - 2021-06-16
 
