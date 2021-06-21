@@ -116,7 +116,7 @@ in beliebigen anderen IfSG Fachanwendungen. Da IRIS connect eine Open Source Lö
 IRIS ist nicht die Lösung zur Kontaktdatenerfassung - sondern nur der digitale, sichere Weg bereits erfasster Daten – in die Gesundheitsämter hinein.
 Ob die Daten z.B. durch den Wirt eingetragen oder vom Gast per Handykamera, Webformular oder App erfasst wurden, spielt keine Rolle.
 
-## Ist IRIS exklusiv?
+## Ist IRIS connect exklusiv?
 Die Software wird Open Source betrieben. Die Nutzungsrechte sind ausführlich im GitHub-Repository beschrieben.
 
 ## Nachprüfungsverfahren der Luca vergabe pro Bundesland - wie kann man sich beteiligen?
