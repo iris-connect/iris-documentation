@@ -65,7 +65,7 @@ Es gibt eine »klassische« Kontoverwaltung, d.h. Konten können in IRIS angeleg
 Siehe Rechtevergabe. Grundsätzlich dürfen angemeldete Nutzende Anfragen stellen und die erhaltenen Daten verarbeiten.
 
 ### Wie ist die Rechtevergabe für Mitarbeiter?
-'Link zu Dokumentation der Kontoverwaltung folgt'
+`Link zu Dokumentation der Kontoverwaltung folgt`
 
 ### Welche Schutzmechanismen nutzt IRIS?
 Schutzmechanismen werden im Rahmen eines Open Development Prozesses implementiert. Unter anderem  werden wir voraussichtlich den OWASP Katalog abarbeiten (s. Injection Prevention Cheat Sheet). Weiteres ist auch im IT-Sicherheitskonzept ausgeführt.
