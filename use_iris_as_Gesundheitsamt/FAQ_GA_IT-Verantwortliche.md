@@ -85,8 +85,17 @@ Zunächst nicht. Ziel ist es, im Zuge der Pandemie zunächst schnell eine Lösun
 Die Software wird Open Source betrieben, d.h. es fallen keine Lizenzkosten an. Für den Produktivbetrieb im Gesundheitsamt ist ein Zertifikat der Bundesdruckerei notwendig. Die Björn Steiger Dienstleistungs GmbH bietet Zertifikate, welche jeweils eine Gültigkeit von 12 Monaten haben, zusammen mit Support- und Pflegeleistungen an. Sofern keine Vereinbarung mit dem jeweiligen Bundesland getroffen wurde, können diese Leistungen direkt über die Dienstleistungs-GmbH erworben werden. Empfohlen wird jedoch ein Ankauf über die Länder.
 
 ### Wie wird der Client installiert?
-Die Installationsanleitung für den Client wird im öffentlichen Repositorium einsehbar sein.
-(Link zur Ìnstallationsanleitung folgt)
+Die [Installationsanleitung](https://github.com/iris-connect/iris-documentation/blob/main/use_iris_as_Gesundheitsamt/GA_Installationsanleitung.md) für den Client ist öffentlich verfügbar. Es gibt zwei Varianten, einmal als Docker Compose Installation, einmal als Stand-Alone Installation. Wir empfehlen die Docker Compose Installation, da dies die Konfiguration deutlich vereinfacht.
+
+Außerdem werden für den Betrieb Zertifikate benötigt. Der Prozess wird ebenfalls im Rahmen der [Installationsanleitung](https://github.com/iris-connect/iris-documentation/blob/main/use_iris_as_Gesundheitsamt/GA_Installationsanleitung.md) beschrieben. 
+
+Wir haben die Dokumente so untereinander verlinkt, dass Sie Schritt für Schritt durch den Prozess geführt werden. 
+
+Der Startpunkt für die Installation ist unter [Installationsanleitung](https://github.com/iris-connect/iris-documentation/blob/main/use_iris_as_Gesundheitsamt/GA_Installationsanleitung.md) zu finden.
+
+### Gibt es ein HELM chart oder ein docker-compose manifest?
+Ja, es gibt ein docker manifest, dieses wird im öffentlichen Repositorium bereitgestellt.
+`Link zu HELM chart folgt`
 
 ### Muss für jedes Gesundheitsamt ein Client im Rechenzentrum betrieben werden oder liegt die Clientbereitstellung bei den GAs und diese nutzen die zentralen Strukturen?
 Der Client kann durch die verantwortlichen kommunalen Stellen betrieben werden. Ausschlaggebend ist das bestehen von Zugriff auf den Internal-Reverse-Proxy und die SORMAS-Instanz des Gesundheitsamtes.
@@ -163,10 +172,6 @@ Grundsätzlich besteht diese Gefahr immer. Es gibt Best Practice Gegenmaßnahmen
 
 ### Wie sieht es mit der Redundanz aus?
 Das sollte bei Kubernetes kein Problem darstellen. Diese Art der Architektur ist inhärent eben sehr robust konzipiert.
-
-### Gibt es ein HELM chart oder ein docker-compose manifest?
-Ja, es gibt ein docker manifest, dieses wird im öffentlichen Repositorium bereitgestellt.
-`Link zu HELM chart folgt`
 
 ### Ergänzung zur PKI: Wird eine Certificate Revokation List (CRL) gepflegt/genutzt, um die Nutzung kompromittierter Zertifikate zu unterbinden?
 Ja.
