@@ -14,7 +14,7 @@ des Anbieters ohne weitere Abhängigkeiten betrieben werden kann. Details zur Im
 
 <a href="https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/technical_details/app_onboarding.md">Connect your app to IRIS connect</a>
 
-## Was muss ich als App-Anbieter tun, um meine App an IRIS technisch anzubinden?
+## Was muss ich als App-Anbieter tun, um meine App an IRIS connect technisch anzubinden?
 IRIS connect besteht technisch aus mehreren Modulen. Das relevante Modul für die Integration der Apps in IRIS ist der EPS (EndPointService).
 Der Provider "hostet" sich selbst einen internen EPS (kommt aus dem IRIS Projekt) und muss auf seiner Seite einen JSON-RPC Client und einen 
 Server (Endpoint) implementieren. Die Adresse des internen Servers wird beim internen EPS hinterlegt.
@@ -93,7 +93,7 @@ Hier gibt es mehrere Quellen.
 * API Dokumentation auf Github 
 * Sicherheitskonzept Ordner auf Github 
  
-## Muss man als App Anbieter Open Source sein oder reicht es, wenn IRIS selbst Open Source ist?
+## Muss man als App Anbieter Open Source sein oder reicht es, wenn IRIS connect selbst Open Source ist?
 Nein, man muss die eigene Lösung nicht Open Source anbieten. Open Source wird aber grundsätzlich präferiert, denn durch Open Source können andere peers den 
 Code anschauen und mögliche Sicherheitslücken identifizieren (Peer-Review). Viele Lösungen sind jedoch in andere proprietäre Systeme eingebunden, daher 
 ist das nicht immer möglich. Nichtsdetotrotz haben wir seitens IRIS connect ein paar Regeln definiert, die vor einer Anbindung erfüllt sein müssen. Wir gehen auf 
