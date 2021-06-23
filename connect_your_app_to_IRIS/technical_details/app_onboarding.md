@@ -468,7 +468,7 @@ __Please note, that the timeframe in the request (startDate to endDate) has to b
     "params":{
         "_client": {
             "name": "mydemoapp"
-        }
+        },
     	"dataAuthorizationToken": "2edd34d6-bc7b-11eb-8529-0242ac130003",
     	"guestList": {
     		"dataProvider": {
