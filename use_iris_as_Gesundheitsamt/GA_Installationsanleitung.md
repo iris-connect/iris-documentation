@@ -1,4 +1,4 @@
-# Anleitung für Gesundheitsämter: Installieren und Einrichten des IRIS-Clients
+# Anleitung für Gesundheitsämter: <br/> Installieren und Einrichten des IRIS-Clients
 
 
 Um sich an IRIS connect anzubinden, nutzt ein Gesundheitsamt den IRIS-Client. Er stellt dem Gesundheitsamt eine Webanwendung bereit, durch die Mitarbeitende digital erfasste Daten der Bürger:innen und Einrichtungen aus ihrem Webbrowser heraus anfragen und abrufen können.
