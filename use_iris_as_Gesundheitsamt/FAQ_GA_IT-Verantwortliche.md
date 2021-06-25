@@ -158,7 +158,8 @@ Ja.
 Es gibt eine »klassische« Kontoverwaltung, d.h. Konten können in IRIS angelegt werden und sich über ein Login in der Anwendung anmelden. 
 
 ### Wie sieht das Rollen- und Rechtekonzept aus?
-Grundsätzlich dürfen angemeldete Nutzende Anfragen stellen und die erhaltenen Daten verarbeiten. Die Administration kann Konten verwalten (hizufügen, sperren, etc.)
+Grundsätzlich dürfen angemeldete Nutzende Anfragen stellen und die erhaltenen Daten verarbeiten. Die Administration kann Konten verwalten (hizufügen, sperren, etc.).
+Dies wird auch in der [Bedienungsanleitung, S.5 ff.](https://uploads-ssl.webflow.com/609e55b08d9aef989925de0d/60c87415c75c1da665d3f7aa_IRIS%20Benutzeranleitung%20v.1.pdf#h.glxi0fl9hydj) beschrieben.
 
 ### Wird SORMAS mit Keycloak eingesetzt?
 SORMAS wird idR mit Keycloak eingesetzt. Diese Infrastruktur kann auch von IRIS mitgenutzt werden. 
