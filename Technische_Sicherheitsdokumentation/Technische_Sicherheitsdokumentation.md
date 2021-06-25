@@ -14,9 +14,8 @@ Es besteht keine Gewinnerzielungsabsicht.
 
 
 ## Status
-Version: 1.0  
-Datum: 11.06.2021  
-Nächste geplante Überarbeitung: KW 25
+Version: 1.1  
+Datum: 25.06.2021
 
 | Version | Datum | Erläuterung |
 |---|---|---|
