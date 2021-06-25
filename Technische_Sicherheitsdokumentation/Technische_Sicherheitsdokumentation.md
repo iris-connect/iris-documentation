@@ -279,27 +279,23 @@ Mitarbeitenden des GA müssen sich mit einem Benutzernamen und einem Passwort au
 
 Zusätzlich muss die Infrastruktur, auf der der IRIS-Client betrieben wird so konfiguriert werden, dass ein Nutzerzugriff nur aus der Infrastruktur (z.B. IP-Bereich) des jeweiligen GA möglich ist. Das Umsetzen dieser Konfiguration liegt im Verantwortungsbereich des jeweiligen GA bzw. dessen IT-Dienstleisters. 
 
-> An dieser Stelle werden noch Details zur sicheren Speicherung der Passwörter aufgeführt.
-
 Die Authentifizierung wird vom Client-Backend-for-Frontend durchgeführt.
 Ist ein Benutzer erfolgreich authentifiziert, wird er mit einem JSON Web Token (JWT) im Rahmen seiner Rolle autorisiert und erhält eine Sitzung (Session) im Client.
 Informationen für die Authentifikation und Autorisierung werden im weiteren Verlauf der Sitzung mithilfe dieses Tokens ausgetauscht, das bei jeder Anfrage vom Browser mitgeschickt wird.
 Es beinhaltet den Nutzernamen des authentifizierten GA-Mitarbeitenden, die Nutzerrolle und die Gültigkeitsdauer des Tokens, nach deren Ablauf die Sitzung entweder ausläuft oder automatisch verlängert wird.
 Die Integrität der des Tokens wird mit HMAC512 (Keyed-Hash Message Authentication Code) geschützt und der Hashwert vor jeder Verarbeitung einer Nutzeranfrage vom Client-Backend-for-Frontend überprüft.
 
-> An dieser Stelle werden noch Details zur source of randomness und dem shared secret ausgeführt.
-
 Sollte ein Token nach dem Senden an den Browser manipuliert worden sein (z.B. um eine höhere Berechtigung vorzutäuschen), schlägt die Überprüfung fehlt und die zugehörige Anfrage wird verworfen.
 
 #### C.GA.PrivateProxy - Private Proxy eines GA
 Jedes GA verfügt über einen Private Proxy, der gemeinsam mit seinem EPS das GA-seitige Gegenstück zum IRIS Public Proxy Service ist. 
-Der Private Proxy löst das Problem, das dadurch entsteht, dass viele GÄ keine eingehenden Netwerkverbindungen beliebigen Ursprungs annehmen können. 
-Gleichzeitig müssen Daten auch dynamisch aus Webbrowserm und Apps an Gesundheitsämter geliefert werden können, die über keine eigenen EPS verfügen.
+Der Private Proxy löst das Problem, das dadurch entsteht, dass viele GÄ keine eingehenden Netzwerkverbindungen beliebigen Ursprungs annehmen können. 
+Gleichzeitig müssen Daten auch dynamisch aus Webbrowsern und Apps an Gesundheitsämter geliefert werden können, die über keine eigenen EPS verfügen.
 Der Private Proxy löst dieses Problem, indem er eine ausgehende TCP/IP-Standleitung zum IRIS Proxy Service aufbaut und aktiv offen hält. 
-Geht eine Dantenlieferung in Form einer TLs-Verbindung beim IRIS Proxy Service ein, wird sie über die aufgebaute Standleitung an den Private Proxy des GA weitergereicht. 
+Geht eine Datenlieferung in Form einer TLs-Verbindung beim IRIS Proxy Service ein, wird sie über die aufgebaute Standleitung an den Private Proxy des GA weitergereicht. 
 Das TLS wird dabei explizit nicht terminiert (TLS-Passthrough). Der Private Proxy stellt die eingehende TLS-Verbindung wiederum an das IRIS-Client-Backend-for-Frontend durch, wo die TLS-Terminierung erfolgt. 
 
-### C.IRIS.Services - Zentrale Komponenten und Dienste (IRIS Services)
+### C.IRIS.Services - Komponenten und Dienste (IRIS Services)
 Das Service Directory, der Locations Service und der Proxy Service werden von einem externen IT-Dienstleister von IRIS Connect gehostet.
 
 #### C.IRIS.PublicProxy - IRIS Proxy Service und Endpoint Server
@@ -309,14 +305,11 @@ Der EPS beinhaltet einen öffentlichen Proxy. Dieser nimmt auf einem öffentlich
 
 #### C.IRIS.ServiceDir - Service Directory (Anbieterverzeichnis)
 ##### Allgemeines
-Das Service Directory ist ein zentraler Dienst mit angeschlossener Datenbank, die Informationen darüber enthält, welche Lösungsanbieter und GÄ an IRIS angeschlossen sind, wie diese erreicht werden können und welche Dienste sie anbieten.
+Das Service Directory ist ein zentraler Verzeichnisdienst mit angeschlossener Datenbank, die Informationen darüber enthält, welche Lösungsanbieter und GÄ an IRIS Connect angeschlossen sind, wie diese erreicht werden können und welche Dienste sie anbieten.
 Es ist aus einer Reihe von Änderungsdatensätzen aufgebaut. Jeder Änderungssatz enthält den Namen eines Akteurs, einen Abschnitt und die eigentlichen Daten, die geändert werden sollen.
-Mithilfe des Service Directory können Betreiber von EPS-Komponenten (GÄ, Lösungsanbieter, zentrale IRIS-Dienste) feststellen, ob und wie sie sich mit einem anderen EPS-Server verbinden können.
+Mithilfe des Service Directory können Betreiber von EPS-Komponenten (GÄ, Lösungsanbieter, IRIS-Dienste) feststellen, ob und wie sie sich mit einem anderen EPS-Server verbinden können.
 Betreiber, die nur über ausgehende Verbindungen verfügen – in der Regel GÄ –, können das Service Directory nutzen, um zu erfahren, dass sie möglicherweise asynchrone Antworten von anderen EPS-Betreibern (z.B. dem Locations Service) erhalten und dann ausgehende Verbindungen zu diesen herstellen, über die sie Antworten erhalten können.
 Betreiber können das Service Directory auch verwenden, um festzustellen, ob sie eine Nachricht von einem bestimmten anderen Betreiber annehmen sollen.
-
-Der EPS des Service Directory stellt einen JSON-RPC-Server bereit, der als Kommunikationsschnittstelle für alle Betreiber dient.
-Neue Datensätze können über dessen JSON-RPC-API an das Service Directory übermittelt und bestehende darüber abgerufen werden.
 
 ##### Sicherheit
 ###### S.ServiceDir.DigitalSigning - Einsatz digitaler Signaturen
@@ -341,19 +334,19 @@ Der Locations Service wird vom IRIS-Client angefragt, wenn Mitarbeitende des GA 
 Die IRIS Services verfügen über separate oder gemeinsame Datenbanken (PostgreSQL) bzw. Dateispeicher, in denen sie Daten persistieren.
 
 #### C.SolProv.EPS - EPS eines Lösungsanbieters
-Der EPS dient dem Lösungsanbieter als zentrale Kommunikationsschnittstelle im IRIS-System. Der EPS verwaltet die Authentifikation und Verschlüsselung der Verbindung zu den Gesundheitsämtern auf Transportebene und stellt sicher, dass Zertifikate und Schlüssel korrekt geprüft werden.
+Der EPS dient dem Lösungsanbieter als zentrale Kommunikationsschnittstelle in IRIS Connect. Der EPS verwaltet die Authentifikation und Verschlüsselung der Verbindung zu den Gesundheitsämtern auf Transportebene und stellt sicher, dass Zertifikate und Schlüssel korrekt geprüft werden.
 
 Die Administration der lokalen EPS-Komponente liegt im Verantwortungsbereich des jeweiligen Lösungsanbieters.
 
 #### C.SolProv.Backend - Backend eines Lösungsanbieters
-Lösungsanbieter, die über das EPS-Netzwerk an IRIS Connect angebunden sind betreiben verfügen über ein Backend, das mithilfe eines EPS an IRIS Connect angeschlossen ist.
+Lösungsanbieter, die über das EPS-Netzwerk an IRIS Connect angebunden sind betreiben ein Backend, das mithilfe eines EPS an IRIS Connect angeschlossen ist.
 Die Kommunikation zwischen dem Backend und dem EPS des Lösungsanbieters findet über JSON-RPC statt, das auf Transportebene mit TLS abgesichert ist.
 
 Die Umsetzung angemessener Schutzmaßnahmen liegt in der Verantwortung des Lösungsanbieters. 
 Das IRIS-Team kann keine fachlichen Security-Audits der Apps bzw. Fachanwendungen durchführen, die sich an IRIS Connect anschließen wollen.
 
 ### C.GA.SpecializedApp - Fachanwendung eines GA
-Eine vom GA eingesetzte digitale Fachanwendung (z.B. Octowear oder SORMAS), in die empfangene Daten aus dem IRIS-Client exportiert und dort weiterverarbeitet werden können.
+Eine vom GA eingesetzte digitale Fachanwendung (z.B. Octoware oder SORMAS), in die empfangene Daten aus dem IRIS-Client exportiert und dort weiterverarbeitet werden können.
 
 ### C.SolProv.Sol - Digitale Lösung eines Lösungsanbieters
 Diese sind in Kapitel "2.3 Akteure" unter "A.SolutionProvider - Lösungsanbieter" beschrieben.
@@ -368,18 +361,18 @@ Im Folgenden werden ausgewählte Prozesse von IRIS Connect beschrieben. Die Übe
 |ID | Prozess| Erläuterung
 |---|---|---|
 |P.Onboarding.HD | Onboarding eines GA| Ein GA wird an IRIS Connect angeschlossen.
-|P.Onboarding.HD.Certs | Ausgabe von Zertifikaten an ein GA| Das GA beantragt in einem geregelten Verfahren Zertifikate beim Vertrauensdiensteanbieter. Diese validiert die Identität des GA in einem sogenannten Organization Validation (OV) Verfahren und übersendet anschließend die ausgestellten Zertifikate.
+|P.Onboarding.HD.Certs | Ausgabe von Zertifikaten an ein GA| Das GA beantragt in einem geregelten Verfahren Zertifikate beim vorgesehenen Vertrauensdiensteanbieter. Dieser validiert die Identität des GA in einem sogenannten Organization Validation (OV) Verfahren und übersendet anschließend die ausgestellten Zertifikate.
 |P.Onboarding.HD.SvcDir | Eintragen eines GA im Service Directory| Das Rollout-Team trägt ein GA im Service Directory ein. Anschließend ist es für Lösungsanbieter erreichbar.
 | | |
 |P.Onboarding.SolProv | Onboarding eines Lösungsanbieters| Ein Lösungsanbieter wird an IRIS Connect angeschlossen.
 |P.Onboarding.SolProv.Org | Organisatorisches Onboarding eines Lösungsanbieters| Das Rollout-Team und der Lösungsanbieter führen gemeinsam den ersten (organisatorischen) Teil des Onboardings durch. Der Lösungsanbieter übergibt dabei die von IRIS Connect angeforderten Unterlagen: Unterschriebene AGB und Code of Conduct, ein Whitepaper, sowie Dokumentation zum Datenschutz- und dem IT-Sicherheitskonzept der Lösung.
-|P.Onboarding.SolProv.Certs | Ausgabe von Zertifikaten an einen Lösungsanbieter| Das Rollout-Team stellt Zertifikate für einen Lösungsanbieter aus. Dabei übermittelt der Lösungsanbieter eine Anfrage mit kryptographischem Schlüsselmaterial, für das er Zertifikate zurückerhält.
+|P.Onboarding.SolProv.Certs | Ausgabe von Zertifikaten an einen Lösungsanbieter| Das Rollout-Team stellt Zertifikate für einen Lösungsanbieter aus. Dabei übermittelt der Lösungsanbieter eine Zertifikatsanfrage (sog. Certificate Signing Request). Das Rollout-Team validiert die Identität des Lösungsanbieters und übersendet anschließend die ausgestellten Zertifikate.
 |P.Onboarding.SolProv.SvcDir | Eintragen eines Lösungsanbieters im Service Directory| Das Rollout-Team trägt einen Lösungsanbieter im Service Directory ein. Anschließend ist dieser für GÄ erreichbar.
 | | |
-|P.SvcDir.Query | Abrufen des Service Directory| Ein GA fordert das Übersenden von Kontaktdaten an. Dieser Prozess wird von GÄ und Anbietern initiiert.
+|P.SvcDir.Query | Abrufen des Service Directory| Ein Akteur fordert Einträge aus dem Service Directory an. Dieser Prozess wird von GÄ und Anbietern initiiert.
 |P.SvcDir.Update | Aktualisieren des Datenbestands des Service Directory | Das Hinzufügen, Ändern oder Entfernen von Einträgen im Service Directory. Dieser Prozess kann von einem GA, Lösungsanbieter oder dem IRIS-Team initiiert werden.
-|P.LocationsSvc.Update | Aktualisieren des Datenbestands des Location Service | Das Hinzufügen, Ändern oder Entfernen von Locations, für die ein Lösungsanbieter Dienste erbringt. Dieser Prozess kann von nur von einem Lösungsanbieter initiiert werden.
-|P.HDRequestData | Stellen einer Anfrage zur Datenübermittlung | Ein GA fordert das Übersenden von Kontaktdaten bei Anbietern an. Dieser Prozess wird nur von GÄ initiiert.
+|P.LocationsSvc.Update | Aktualisieren des Datenbestands des Location Service | Das Hinzufügen, Ändern oder Entfernen von Locations, für die ein Lösungsanbieter Dienste erbringt. Dieser Prozess kann nur von einem Lösungsanbieter initiiert werden.
+|P.HDRequestData | Stellen einer Anfrage zur Datenübermittlung | Ein GA fordert das Übersenden von Kontakt- oder Gästedaten bei Anbietern an. Dieser Prozess wird nur von GÄ initiiert.
 |P.RevokeCert | Widerruf von Zertifikaten | Das IRIS-Team widerruft eines seiner Zertifikate.
 |P.OrgSecIncident | Behandeln sicherheitsrelevanter Ereignisse | Das Anstoßen eines geregelten sogenannten Incident Response-Prozesses. Dieser kann durch unterschiedliche Sicherheitsereignisse ausgelöst werden, z.B. durch das Melden einer kritischen Sicherheitslücke oder einen Angriff auf IRIS Connect.
 |P.Deployment| Deployment eines neuen Software-Release| Das Herausgeben und Einspielen eines neuen Software-Release durch das IRIS-Team.
@@ -574,7 +567,7 @@ Zu den geschützten Komponenten und Prozessen zählen:
 * Das Ändern jeglicher Datensätze im Service Directory
 * Der administrative Zugriff auf die Infrastruktur bei den IT-Dienstleistern von IRIS Connect durch Mitglieder des IRIS-Teams
 * Das Veröffentlichen eines neuen Software-Release durch das IRIS-DevTeam
-* Das Ausrollen eines neuen Software-Release auf dem Produktiv- oder Stagingsystem durch das IRIS-Team
+* Das Ausrollen eines neuen Software-Release auf dem Produktiv- oder Staging-System durch das IRIS-Team
 * Das Anfordern von Kontakt- oder Gästedaten durch Mitarbeitende eines GA
 
 ## S.SecEventLogging - Protokollieren sicherheitsrelevanter Ereignisse
@@ -595,7 +588,7 @@ Mitglieder:innen des IRIS-Teams können sich bei Vorliegen eines solchen an die 
 
 Zusätzlich können Sicherheitslücken von der Community im Rahmen eines Responsible Disclosure Prozesses an das IRIS-Team gemeldet werden, bevor es zu einem Sicherheitsvorfall kommt. Auch hier gibt es einen Prozess, in dessen Rahmen der gemeldete Sachverhalt priorisiert und untersucht wird.
 
-## S.EncryptedStorage
+## S.EncryptedStorage - Verschlüsseln von Datenbanken und Dateispeichern
 Die bei den IRIS Services eingesetzten Datenbanken werden verschlüsselt. Da der IRIS-Client konfigurationsabhängig eine bereits bestehende lokale Datenbank des GA nutzt, fällt die Absicherung durch Verschlüsseln der Datenbank in den Verantwortungsbereich des GA bzw. dessen IT-Dienstleisters.
 
 ## S.SecReview - Externes Review des Sicherheitskonzept
