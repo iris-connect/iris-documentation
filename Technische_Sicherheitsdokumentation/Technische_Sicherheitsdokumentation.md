@@ -154,7 +154,7 @@ Die Mitarbeitenden des GA sind die Endnutzer:innen des IRIS-Clients. Unter ihnen
 Das Pflegen der Nutzerverwaltung liegt dabei im Verantwortungsbereich der Administrator:innen des GA, bzw. bei dessen IT-Dienstleister.
 
 ##### S.PKI.HealthDepartment
-Jedes GA benötigt fünf Schlüsselpaare bzw. Zertifikate. Die ersten zwei Zertifikate werden von der Bundesdruckerei (BDr) bzw. deren Vertrauensdiensteanbieter D-Trust ausgestellt:
+Jedes GA verwendet vier Schlüsselpaare bzw. Zertifikate. Drei der Zertifikate werden von der Bundesdruckerei (BDr) bzw. deren Vertrauensdiensteanbieter D-Trust ausgestellt:
 
 1. Ein TLS-Zertifikat für das IRIS-Client-Backend des GA  
    Anwendungsfall: Identität des GA im Internet (TLS/HTTPS). Alle Kommunikationsverbindungen, die im Kontext von IRIS Connect aus einem Browser oder einer App heraus mit einem GA aufgebaut werden, sind damit auf Transportebene geschützt.
@@ -165,15 +165,12 @@ Jedes GA benötigt fünf Schlüsselpaare bzw. Zertifikate. Die ersten zwei Zerti
    Anwendungsfall: Identität des GA im EPS-Netzwerk. Siehe dazu S.DigitalSignatures.
 
 
-Liegen diese vor, müssen drei weitere Zertifikate vom GA oder dessen IT-Dienstleister, je nachdem, wer den IRIS-Client betreibt, erstellt werden. Dafür ist kein Zutun der Bundesdruckerei nötig.
-
-3. Ein mTLS-Zertifikat für den EPS-Server des IRIS-Client-BFF des GA  
+3. Ein mTLS-Zertifikat für den EPS-Server des IRIS Private Proxy und des IRIS-Client BFF des GA
    Anwendungsfall: Absicherung der Kommunikation zwischen EPS-Servern.
 
-4. Ein mTLS-Zertifikat für den EPS-Server des IRIS Private Proxy des GA  
-   Anwendungsfall: Absicherung der Kommunikation zwischen EPS-Servern.
+Zusätzlich erstellt jedes GA ein selbstsigniertes Zertifikat:
 
-5. Ein Ende-zu-Ende-Zertifikat für das IRIS-Client-Backend des GA  
+4. Ein Ende-zu-Ende-Zertifikat für das IRIS-Client-Backend des GA  
    Anwendungsfall: Umsetzung der Datenschutzkonferenz-Anforderung an Betreiber von digitaler Kontaktdatenerfassung, wonach zusätzlich zur Transportverschlüsselung (TLS) eine zweite Verschlüsselungsschicht auf Anwendungsebene (Inhaltsverschlüsselung) umzusetzen ist.
 
 
@@ -204,9 +201,12 @@ Dieser Kundenservice wird über die Dienstleistungs-GmbH der Björn Steiger Stif
 Das Onboarding Team ist eine Organisationseinheit innerhalb des IRIS-Teams, die dafür zuständig ist, neue GÄ und Lösungsanbieter an IRIS Connect anzuschließen und über den gesamten Anbindungsprozess hinweg zu begleiten.
 
 #### Sicherheit
-Das IRIS-Team betreibt eine selbstsignierte Signing-CA (S.PKI.IRIS-CA). Jeder Lösungsanbieter muss im Rahmen des Onboardings einen Certificate Signing Request (CSR) an die IRIS-CA stellen. Diese stellt ihm die nötigen Zertifikate aus.
-Die Public-Key-Fingerprint der zugehörigen Schlüssel werden im Service Directory hinterlegt, wo sie von den GÄ abgerufen werden können.
-Die IRIS-CA wird von den IRIS Services und den GÄ als einzig mögliche CA vorausgesetzt (gepinnt).
+Das IRIS-Team betreibt eine selbstsignierte Zertifizierungsstelle (s. Kapitel 3 Sicherheit (allgemein) - S.PKI.IRIS-CA). Die IRIS Services und Lösungsanbieter erhalten von ihr digitale Zertifikate, mit denen sie sichere (m)TLS-Verbindungen aufbauen können. 
+
+Lösungsanbieter stellen dafür im Rahmen des Onboardings eine Zertifikatsanfrage (sog. [Certificate Signing Requests (CSR)](https://de.wikipedia.org/wiki/Certificate_Signing_Request)).
+Die Public-Key-Fingerprints der zugehörigen Schlüssel der Lösungsanbieter werden im Service Directory hinterlegt, wo sie von den GÄ abgerufen werden können.
+
+Die IRIS-CA wird von den IRIS Services und den GÄ als einzig mögliche CA vorausgesetzt (Public Key Pinning).
 Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
 Ebenso wird von den GÄ vorausgesetzt, dass die IRIS Services sich beim Aufbau von mTLS-Verbindungen mit einem eigenen, von der IRIS-CA signierten Zertifikat ausweist.
 
@@ -235,8 +235,8 @@ Unterscheidung anhand der Art der Datenhaltung:
 * Daten werden in einem Browser eingegeben und nach Übermittlung nicht persistiert
 
 #### Sicherheit
-Jeder Lösungsanbieter muss im Rahmen des Onboardings einen Public-Key vorlegen, zu dem er von der IRIS-CA ein signiertes Zertifikat erhält (S.PKI.SolProv).
-Zu jedem Schlüssel wird ein Identifier (Public-Key-Fingerprint) im Service Directory hinterlegt, wo dieser von GÄ abgerufen werden kann.
+Jeder Lösungsanbieter muss im Rahmen des Onboardings eine Zertifikatsanfrage (sog. [Certificate Signing Requests (CSR)](https://de.wikipedia.org/wiki/Certificate_Signing_Request)) an die IRIS-CA stellen. Diese stellt ihm nach erfolgreicher Prüfung ein Zertifikat aus (S.PKI.SolProv).
+Zu jedem Schlüssel wird ein Identifier im Service Directory hinterlegt, wo dieser von GÄ abgerufen werden kann (Public Key Pinning).
 Die IRIS-CA wird beim Aufbau von mTLS-Verbindungen zwischen den Lösungsanbietern, den IRIS Services und den GÄ vorausgesetzt.
 Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
 
@@ -588,6 +588,34 @@ Mitglieder:innen des IRIS-Teams können sich bei Vorliegen eines solchen an die 
 
 Zusätzlich können Sicherheitslücken von der Community im Rahmen eines Responsible Disclosure Prozesses an das IRIS-Team gemeldet werden, bevor es zu einem Sicherheitsvorfall kommt. Auch hier gibt es einen Prozess, in dessen Rahmen der gemeldete Sachverhalt priorisiert und untersucht wird.
 
+## S.PKI.IRIS-CA
+Das IRIS-Team betreibt eine eigene PKI, die Zertifikate für die IRIS Services, IRIS-Admins und Lösungsanbieter ausstellt (s. Kapitel 2.3, A.SolutionProvider - S.PKI.SolProv).
+
+#### Übersicht der IRIS-CAs
+* Das IRIS-Team betreibt eine selbst-signierte IRIS Root-CA (RSA 4096, Laufzeit 4,5 Jahre).
+* Zusätzlich besteht eine zweite selbst-signierte IRIS Root-CA (RSA 4096, Laufzeit 5 Jahre), mit der ein Certificate Cross-Signing (s.u.) der IRIS Intermediate CA umgesetzt wird. 
+* Das IRIS-Team betreibt eine IRIS Intermediate-CA, deren privater Schlüssel von beiden IRIS Root-CAs signiert ist (Certificate Cross-Signing). Damit ergeben sich für den privaten Schlüssel zwei Zertifikate (RSA 4096, Laufzeit 3 Jahre und 2,5 Jahre).
+* Die IRIS Intermediate CA stellt folgende (Leaf-)Zertifikate aus:
+    * Je IRIS Service mit eigenem EPS ein Zertifikat für mTLS (RSA 4096, SHA256, Lebensdauer 1 Jahr)
+    * Je IRIS-Admin ein Zertifikat für mTLS und ein Zertifikat zum Signieren von Einträgen im Service Directory (ECDSA, prime256v1, SHA256)
+* Der private Schlüssel der IRIS Intermediate CA ist cross-signiert (Certificate Cross-Signing).
+  Cross-signieren bedeutet, dass die Intermediate CA zwei Zertifikate hat, die beide für denselben privaten Schlüssel gelten. Eines ist durch die erste IRIS Root-CA signiert und das andere durch die zweite Root CA.
+  Der zweite Vertrauenspfad kann genutzt werden, falls einer der privaten Root Schlüssel kompromittiert und gesperrt werden sollte. In diesem Fall kann das ungültig gewordene Intermediate-Zertifikat mit dem zweiten ersetzt und der laufende Betrieb über den alternativen Vertrauenspfad nahtlos fortgeführt werden.
+  Insbesondere muss dadurch nicht erst ein Software-Update aller EPS-Instanzen und IRIS-Clients durchgeführt werden, mit dem ein neuer Root Public-Key gepinnt wird. Das würde für viele GÄ eine Unterbrechung im Regelbetrieb bedeuten, da Updates vielerorts erst in einer Testumgebung geprüft werden und anschließend manuell aufgespielt werden müssen.
+  Detaillierte Erklärungen zum Thema Cross-Signing gibt es in [diesem Blogbeitrag](https://scotthelme.co.uk/cross-signing-alternate-trust-paths-how-they-work/) und bei [Let'sEncrypt](https://letsencrypt.org/de/certificates/#quersignaturen-cross-signaturen).
+
+#### Sicherer Betrieb der IRIS-CAs
+* Die privaten Schlüssel und Zertifikate der IRIS-CAs sind (pseudo) air-gapped erzeugt worden. Dazu wurde eine [Tails-Distribution](https://tails.boum.org/index.de.html) mit der Konfiguration "Sämtliche Netzwerkfunktionalität deaktivieren" live gebooted.
+* Die privaten Schlüssel der IRIS Root-CAs sind redundant auf vier [NitroKey HSM 2](https://shop.nitrokey.com/de_DE/shop/product/nk-hsm-2-nitrokey-hsm-2-7) gespeichert, die durch verschiedene Mitglieder des IRIS-Teams sicher verwahrt werden. D.h. es gibt vier Nitrokeys mit jeweils zwei Root-Schlüsseln darauf.
+* Der private Schlüssel der IRIS Intermediate-CA ist ebenfalls redundant auf vier NitroKey HSM 2 gespeichert, die durch verschiedene Mitglieder des IRIS-Teams (Schlüsselverwalter:innen) sicher verwahrt werden.
+* Der Einsatz der CA-Schlüssel erfolgt nach dem Vier-Augen-Zugriffsschutz basierend auf dem [Shamir-Secret-Sharing](https://de.wikipedia.org/wiki/Shamir%E2%80%99s_Secret_Sharing), das von den Nitrokeys nativ unterstützt wird.
+  Das bedeutet, dass immer zwei von vier Schlüsselverwaltenden zustimmen müssen, damit der Zugriff auf einen CA-Schlüssel möglich wird. Eine einzelne Person erhält niemals Zugriff.
+* Erklärung "vier Nitrokeys pro IRIS-CA": Zwei Schlüsselverwaltende werden benötigt, um den Vier-Augen-Zugriffsschutz zu realisieren. Die dritte schlüsselverwaltende Person kompensiert die Nicht-Verfügbarkeit einer der ersten beiden Personen.
+  Die vierte fungiert als Redundanz, um diesen Betriebsmodus selbst bei Defekt oder Verlust eines der vier Nitrokeys sicherzustellen.
+
+Ebenso wird von den GÄ vorausgesetzt, dass die IRIS Services sich beim Aufbau von mTLS-Verbindungen mit einem eigenen, von der IRIS-CA signierten Zertifikat ausweist.
+Die IRIS-CA wird von den IRIS Services und den GÄ als einzig mögliche CA vorausgesetzt (Public Key Pinning).
+
 ## S.EncryptedStorage - Verschlüsseln von Datenbanken und Dateispeichern
 Die bei den IRIS Services eingesetzten Datenbanken werden verschlüsselt. Da der IRIS-Client konfigurationsabhängig eine bereits bestehende lokale Datenbank des GA nutzt, fällt die Absicherung durch Verschlüsseln der Datenbank in den Verantwortungsbereich des GA bzw. dessen IT-Dienstleisters.
 
@@ -680,11 +708,10 @@ In der folgenden Übersicht werden die Datenobjekte in den verschiedenen Kompone
 |DO.LocSvc.ID | | | IDs der verzeichneten Service-Lösungsanbieter für die Location|
 | |GA bzw. dessen IT-Dienstleister||
 |DO.GA.Domain | | | Domain|
-|DO.GA.CertTLS | | | TLS-Zertifikat|
-|DO.GA.CertSigning | | | Signaturzertifikat|
-|DO.GA.CertProxyEPS | | | Zertifikat für den EPS des IRIS Private Proxy|
-|DO.GA.CertBackendEPS | | | Zertifikat für EPS des IRIS Client Backend for Frontend|
-|DO.GA.CertE2E | | | Zertifikat für Ende-zu-Ende-Verschlüsselung (Inhaltsverschlüsselung)|
+|DO.GA.Cert.TLS | | | TLS-Zertifikat|
+|DO.GA.Cert.Signing | | | Signaturzertifikat|
+|DO.GA.Cert.mTLS | | | mTLS-Zertifikat der EPS-Instanzen des IRIS Private Proxy und des IRIS Client Backend for Frontend |
+|DO.GA.Cert.E2E | | | Zertifikat für Ende-zu-Ende-Verschlüsselung (Inhaltsverschlüsselung)|
 |DO.GA.DNSRecords | | | DNS-Records für die Domain|
 |DO.GA.ClientCert | | | Client-Zertifikat|
 |DO.GA.AuthTokens | | | Liste gültiger (Authentikations-)Tokens|
