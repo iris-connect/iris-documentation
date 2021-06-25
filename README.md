@@ -1,3 +1,7 @@
+## Ich bin vom Gesundheitsamt, wo muss ich hin?
+Hier finden Sie die [Installationsanleitung](./use_iris_as_Gesundheitsamt/GA_Installationsanleitung.md), hier ein [Video der Installation](https://www.youtube.com/watch?v=JI8rbT1gNgs).
+Die [Bedienungsanleitung für Mitarbeitende im Gesundheitsamt](https://uploads-ssl.webflow.com/609e55b08d9aef989925de0d/60c87415c75c1da665d3f7aa_IRIS%20Benutzeranleitung%20v.1.pdf) ist auf dem Internetauftritt [iris-connect.de](https://iris-connect.de) verfügbar.
+
 ## About this Project
 
 This project aims to enable public health offices to request and receive data for contact tracing, provived by individuals who might be diagnosed with a communicable disease or provided by localities, an infected person has visited.
