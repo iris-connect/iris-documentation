@@ -1,5 +1,5 @@
 # IRIS Connect
-# Technische Sicherheitsdokumentation 
+# Technische Sicherheitsdokumentation
 
 
 ## Vorwort
@@ -22,10 +22,11 @@ Nächste geplante Überarbeitung: KW 25
 |---|---|---|
 | v0.1 | 17.05.2021 | Initiale intern kommunizierte Version.
 | v1.0 | 11.06.2021 | Bereits vorliegende Vorab-Ergebnisse aus der Projektzusammenarbeit mit der HiSolutions AG wurden eingepflegt. Erste offizielle Version zur Herausgabe.
+| v1.1 | 25.06.2021 | Änderung im Setup der Bundesdruckerei-Zertifikate der Gesundheitsämter wurde dokumentiert. Initiale Beschreibung der IRIS-CAs.
 
 Hinweis:
-> In Ergänzung zur vorliegenden *Technischen Sicherheitsdokumentation* ist derzeit ein Projekt zur Erstellung eines Sicherheitskonzepts nach BSI IT-Grundschutz mit einem externen Partner (der [Hisolutions AG](https://www.hisolutions.com/)) in Gange. 
-> Gegenstand des Projektes sind eine Begleitung der Bedrohungsmodellierung, sowie der Erstellung eines Sicherheitskonzeptes nach BSI IT-Grundschutz inkl. einer Risikoanalyse. 
+> In Ergänzung zur vorliegenden *Technischen Sicherheitsdokumentation* ist derzeit ein Projekt zur Erstellung eines Sicherheitskonzepts nach BSI IT-Grundschutz mit einem externen Partner (der [Hisolutions AG](https://www.hisolutions.com/)) in Gange.
+> Gegenstand des Projektes sind eine Begleitung der Bedrohungsmodellierung, sowie der Erstellung eines Sicherheitskonzeptes nach BSI IT-Grundschutz inkl. einer Risikoanalyse.
 
 # Inhaltsverzeichnis
 - [1 Einleitung](#1-einleitung)
@@ -144,13 +145,13 @@ Diese Daten verwenden sie direkt weiter oder überführen sie in eine digitale F
 In einem GA können verschiedene Personengruppen unterschieden werden, die im Kontext von Zugriffsrechten gesondert zu betrachten sind:
 
 #### A.HealthDepartment.Admin - Administrator:innen des GA
-Die Administrator:innen eines Gesundheitsamts konfigurieren den IRIS-Client des GA und haben umfangreichere Berechtigungen als andere Mitarbeitende, unter anderem Zugriff auf die geheimen Schlüssel (Zertifikate) des jeweiligen GA. 
+Die Administrator:innen eines Gesundheitsamts konfigurieren den IRIS-Client des GA und haben umfangreichere Berechtigungen als andere Mitarbeitende, unter anderem Zugriff auf die geheimen Schlüssel (Zertifikate) des jeweiligen GA.
 
-Das Pflegen der Nutzerverwaltung fällt in den Verantwortungsbereich der Administrator:innen und erfolgt in der Regel in Abstimmung mit den Mitarbeitenden des GA. 
-Es muss sichergestellt werden, dass nur berechtigte Personen Zugriff erhalten, eine saubere Trennung von Accounts erfolgt und nicht länger benötigte Accounts entfernt werden. 
+Das Pflegen der Nutzerverwaltung fällt in den Verantwortungsbereich der Administrator:innen und erfolgt in der Regel in Abstimmung mit den Mitarbeitenden des GA.
+Es muss sichergestellt werden, dass nur berechtigte Personen Zugriff erhalten, eine saubere Trennung von Accounts erfolgt und nicht länger benötigte Accounts entfernt werden.
 
 #### A.HealthDepartment.Employee - Mitarbeitende des GA (ex Administrator:innen)
-Die Mitarbeitenden des GA sind die Endnutzer:innen des IRIS-Clients. Unter ihnen kann im Kontext von Zugriffsrechten ggf. weiter zwischen *internen Mitarbeitenden* und *externen Mitarbeitenden* (z.B. vorübergehend unterstützende Soldat:innen der Bundeswehr) unterschieden werden. 
+Die Mitarbeitenden des GA sind die Endnutzer:innen des IRIS-Clients. Unter ihnen kann im Kontext von Zugriffsrechten ggf. weiter zwischen *internen Mitarbeitenden* und *externen Mitarbeitenden* (z.B. vorübergehend unterstützende Soldat:innen der Bundeswehr) unterschieden werden.
 Das Pflegen der Nutzerverwaltung liegt dabei im Verantwortungsbereich der Administrator:innen des GA, bzw. bei dessen IT-Dienstleister.
 
 ##### S.PKI.HealthDepartment
@@ -201,7 +202,7 @@ Dieser Kundenservice wird über die Dienstleistungs-GmbH der Björn Steiger Stif
 Das Onboarding Team ist eine Organisationseinheit innerhalb des IRIS-Teams, die dafür zuständig ist, neue GÄ und Lösungsanbieter an IRIS Connect anzuschließen und über den gesamten Anbindungsprozess hinweg zu begleiten.
 
 #### Sicherheit
-Das IRIS-Team betreibt eine selbstsignierte Zertifizierungsstelle (s. Kapitel 3 Sicherheit (allgemein) - S.PKI.IRIS-CA). Die IRIS Services und Lösungsanbieter erhalten von ihr digitale Zertifikate, mit denen sie sichere (m)TLS-Verbindungen aufbauen können. 
+Das IRIS-Team betreibt eine selbstsignierte Zertifizierungsstelle (s. Kapitel 3 Sicherheit (allgemein) - S.PKI.IRIS-CA). Die IRIS Services und Lösungsanbieter erhalten von ihr digitale Zertifikate, mit denen sie sichere (m)TLS-Verbindungen aufbauen können.
 
 Lösungsanbieter stellen dafür im Rahmen des Onboardings eine Zertifikatsanfrage (sog. [Certificate Signing Requests (CSR)](https://de.wikipedia.org/wiki/Certificate_Signing_Request)).
 Die Public-Key-Fingerprints der zugehörigen Schlüssel der Lösungsanbieter werden im Service Directory hinterlegt, wo sie von den GÄ abgerufen werden können.
@@ -218,7 +219,7 @@ Die Open Source Community um IRIS Connect ist eine lose organisierte Gemeinschaf
 Diskussion maßgeblich zur Weiterentwicklung und hohen Qualität von IRIS Connect beitragen, rechtlich gesehen jedoch vom IRIS-Team losgelöst sind.
 
 ### A.SolutionProvider - Lösungsanbieter
-Lösungsanbieter schließen sich an IRIS Connect an, um Daten aus ihren Lösungen zur digitalen Kontakt- und Gästedatenerfassung den Gesundheitsämtern zur Verfügung zu stellen. 
+Lösungsanbieter schließen sich an IRIS Connect an, um Daten aus ihren Lösungen zur digitalen Kontakt- und Gästedatenerfassung den Gesundheitsämtern zur Verfügung zu stellen.
 Es gibt eine Vielzahl sehr verschiedener Lösungsanbieter. Sie unterscheiden sich in mehreren Dimensionen: Art der angebotenen Lösung, Art der Datenhaltung, Art der Schlüsselverwaltung und Art der Anbindung an IRIS Connect.
 
 Unterscheidung anhand der Art der Anbindung an IRIS Connect:
@@ -240,9 +241,9 @@ Zu jedem Schlüssel wird ein Identifier im Service Directory hinterlegt, wo dies
 Die IRIS-CA wird beim Aufbau von mTLS-Verbindungen zwischen den Lösungsanbietern, den IRIS Services und den GÄ vorausgesetzt.
 Entspricht ein beim Verbindungsaufbau vorgezeigter Public-Key nicht den Vorgaben, wird der Verbindungsversuch sofort abgebrochen.
 
-Das Umsetzen angemessener Schutzmaßnahmen in der jeweiligen App bzw. Fachanwendung liegt in der Verantwortung der Entität, die sie zur Verfügung stellt. 
+Das Umsetzen angemessener Schutzmaßnahmen in der jeweiligen App bzw. Fachanwendung liegt in der Verantwortung der Entität, die sie zur Verfügung stellt.
 Das IRIS-Team kann explizit keine fachlichen Security-Audits der Apps bzw. Fachanwendungen durchführen, die sich an IRIS Connect anschließen wollen.
-Allerdings verlangt das IRIS-Team das Vorlegen eines Whitepapers, as die Lösung beschreibt, sowie ein Datenschutzkonzept und ein Sicherheitskonzept. 
+Allerdings verlangt das IRIS-Team das Vorlegen eines Whitepapers, as die Lösung beschreibt, sowie ein Datenschutzkonzept und ein Sicherheitskonzept.
 Diese Unterlagen werden vom IRIS-Team aufbewahrt.
 
 ### A.SolutionUser - Endnutzer:in einer digitalen Lösung
@@ -259,7 +260,7 @@ Das Stangingsystem läuft auf einem eigenen Kubernetes Cluster beim IT-Dienstlei
 
 ### C.GA.IRISClient - IRIS-Client eines Gesundheitsamts
 #### Allgemeines
-Der IRIS-Client setzt sich zusammen aus einem Backend-Server (inkl. EPS) und einem Private Proxy (inkl. EPS). 
+Der IRIS-Client setzt sich zusammen aus einem Backend-Server (inkl. EPS) und einem Private Proxy (inkl. EPS).
 Er stellt den Mitarbeitenden des jeweiligen GA eine Benutzerschnittstelle in Form einer Webanwendung bereit, die den Zugang zu IRIS Connect und Interaktion mit den angeschlossenen Lösungsanbietern ermöglicht.
 Um den IRIS Client zu nutzen, verwenden Mitarbeitende des GA einen herkömmlichen Webbowser, in dem sie Kontaktdaten der Bürger:innen und Einrichtungen anfragen und entgegennehmen können.
 Der Browser baut dabei eine HTTPS-Verbindung zum IRIS-Client auf, der entweder direkt auf einem Server im Gesundheitsamt oder bei dessen IT-Dienstleister installiert ist.
@@ -274,10 +275,10 @@ Der IRIS-Client hat folgende Laufzeit-Abhängigkeiten, die in diesem Dokument nu
 
 ##### Sicherheit
 
-Der IRIS-Client implementiert eine passwortbasierte Zugriffsbeschränkung und ein Rollensystem mit den Rollen "Normaler Benutzer" und "Administrator" (s. S.IRISClient.AccessControl). 
+Der IRIS-Client implementiert eine passwortbasierte Zugriffsbeschränkung und ein Rollensystem mit den Rollen "Normaler Benutzer" und "Administrator" (s. S.IRISClient.AccessControl).
 Mitarbeitenden des GA müssen sich mit einem Benutzernamen und einem Passwort authentisieren.
 
-Zusätzlich muss die Infrastruktur, auf der der IRIS-Client betrieben wird so konfiguriert werden, dass ein Nutzerzugriff nur aus der Infrastruktur (z.B. IP-Bereich) des jeweiligen GA möglich ist. Das Umsetzen dieser Konfiguration liegt im Verantwortungsbereich des jeweiligen GA bzw. dessen IT-Dienstleisters. 
+Zusätzlich muss die Infrastruktur, auf der der IRIS-Client betrieben wird so konfiguriert werden, dass ein Nutzerzugriff nur aus der Infrastruktur (z.B. IP-Bereich) des jeweiligen GA möglich ist. Das Umsetzen dieser Konfiguration liegt im Verantwortungsbereich des jeweiligen GA bzw. dessen IT-Dienstleisters.
 
 Die Authentifizierung wird vom Client-Backend-for-Frontend durchgeführt.
 Ist ein Benutzer erfolgreich authentifiziert, wird er mit einem JSON Web Token (JWT) im Rahmen seiner Rolle autorisiert und erhält eine Sitzung (Session) im Client.
@@ -288,12 +289,12 @@ Die Integrität der des Tokens wird mit HMAC512 (Keyed-Hash Message Authenticati
 Sollte ein Token nach dem Senden an den Browser manipuliert worden sein (z.B. um eine höhere Berechtigung vorzutäuschen), schlägt die Überprüfung fehlt und die zugehörige Anfrage wird verworfen.
 
 #### C.GA.PrivateProxy - Private Proxy eines GA
-Jedes GA verfügt über einen Private Proxy, der gemeinsam mit seinem EPS das GA-seitige Gegenstück zum IRIS Public Proxy Service ist. 
-Der Private Proxy löst das Problem, das dadurch entsteht, dass viele GÄ keine eingehenden Netzwerkverbindungen beliebigen Ursprungs annehmen können. 
+Jedes GA verfügt über einen Private Proxy, der gemeinsam mit seinem EPS das GA-seitige Gegenstück zum IRIS Public Proxy Service ist.
+Der Private Proxy löst das Problem, das dadurch entsteht, dass viele GÄ keine eingehenden Netzwerkverbindungen beliebigen Ursprungs annehmen können.
 Gleichzeitig müssen Daten auch dynamisch aus Webbrowsern und Apps an Gesundheitsämter geliefert werden können, die über keine eigenen EPS verfügen.
-Der Private Proxy löst dieses Problem, indem er eine ausgehende TCP/IP-Standleitung zum IRIS Proxy Service aufbaut und aktiv offen hält. 
-Geht eine Datenlieferung in Form einer TLs-Verbindung beim IRIS Proxy Service ein, wird sie über die aufgebaute Standleitung an den Private Proxy des GA weitergereicht. 
-Das TLS wird dabei explizit nicht terminiert (TLS-Passthrough). Der Private Proxy stellt die eingehende TLS-Verbindung wiederum an das IRIS-Client-Backend-for-Frontend durch, wo die TLS-Terminierung erfolgt. 
+Der Private Proxy löst dieses Problem, indem er eine ausgehende TCP/IP-Standleitung zum IRIS Proxy Service aufbaut und aktiv offen hält.
+Geht eine Datenlieferung in Form einer TLs-Verbindung beim IRIS Proxy Service ein, wird sie über die aufgebaute Standleitung an den Private Proxy des GA weitergereicht.
+Das TLS wird dabei explizit nicht terminiert (TLS-Passthrough). Der Private Proxy stellt die eingehende TLS-Verbindung wiederum an das IRIS-Client-Backend-for-Frontend durch, wo die TLS-Terminierung erfolgt.
 
 ### C.IRIS.Services - Komponenten und Dienste (IRIS Services)
 Das Service Directory, der Locations Service und der Proxy Service werden von einem externen IT-Dienstleister von IRIS Connect gehostet.
@@ -326,8 +327,8 @@ Zu diesem Zweck stellt jeder EPS dem jeweils angeschlossenen Dienst Informatione
 Diese enthalten den aktuellen Eintrag des Aufrufers aus dem Service Directory, sodass der aufgerufene Dienst den Aufrufer leicht identifizieren und autorisieren kann.
 
 #### C.IRIS.LocationsService
-Der Locations Service verwaltet einen Index der Örtlichkeiten, die bei den verschiedenen Lösungsanbietern registriert sind. 
-Diese Informationen werden immer durch den jeweiligen Lösungsanbieter bereitgestellt. 
+Der Locations Service verwaltet einen Index der Örtlichkeiten, die bei den verschiedenen Lösungsanbietern registriert sind.
+Diese Informationen werden immer durch den jeweiligen Lösungsanbieter bereitgestellt.
 Der Locations Service wird vom IRIS-Client angefragt, wenn Mitarbeitende des GA eine Suchanfrage nach einer Einrichtung initiieren.
 
 #### C.IRIS.Database - Datenbank der IRIS Services
@@ -342,7 +343,7 @@ Die Administration der lokalen EPS-Komponente liegt im Verantwortungsbereich des
 Lösungsanbieter, die über das EPS-Netzwerk an IRIS Connect angebunden sind betreiben ein Backend, das mithilfe eines EPS an IRIS Connect angeschlossen ist.
 Die Kommunikation zwischen dem Backend und dem EPS des Lösungsanbieters findet über JSON-RPC statt, das auf Transportebene mit TLS abgesichert ist.
 
-Die Umsetzung angemessener Schutzmaßnahmen liegt in der Verantwortung des Lösungsanbieters. 
+Die Umsetzung angemessener Schutzmaßnahmen liegt in der Verantwortung des Lösungsanbieters.
 Das IRIS-Team kann keine fachlichen Security-Audits der Apps bzw. Fachanwendungen durchführen, die sich an IRIS Connect anschließen wollen.
 
 ### C.GA.SpecializedApp - Fachanwendung eines GA
@@ -398,7 +399,7 @@ Dazu zählen
 ![Technische Sicht des Onboardings eines Lösungsanbieters](./Resources/connect_your_app_to_IRIS/technical_details/iris-system.jpg)
 
 #### HDRequestData.Response - Beantworten der Anfrage durch einen Lösungsanbieter (Rückweg)
-Da es verschiedene Ansätze gibt, Daten zu speichern und zu verschlüsseln, kann keine allgemeingültige Aussage über den Gesamt-Prozess getroffen werden. 
+Da es verschiedene Ansätze gibt, Daten zu speichern und zu verschlüsseln, kann keine allgemeingültige Aussage über den Gesamt-Prozess getroffen werden.
 
 Vielmehr müssen verschiedene Szenarien unterschieden werden, beispielsweise:
 
@@ -422,13 +423,13 @@ Vielmehr müssen verschiedene Szenarien unterschieden werden, beispielsweise:
 * App-Server leitet die verschlüsselten Daten an den EPS weiter
 * EPS leitet die Daten an den IRIS-Client des Gesundheitsamtes (dieser Schritt ist stark vereinfacht...)
 
-Im Folgenden werden wir nur den Teilprozess betrachten, der sich zwischen Lösungsanbieter und dem jeweiligen GA ergibt. 
+Im Folgenden werden wir nur den Teilprozess betrachten, der sich zwischen Lösungsanbieter und dem jeweiligen GA ergibt.
 Je nachdem, wie der Lösungsanbieter an IRIS Connect angebunden ist findet die Kommunikation zum GA entweder über das EPS-Netzwerk oder über den IRIS Proxy Service statt, wie zuvor bereits beschrieben.
 
 ### Indexfall-Nachverfolgung
-Bei einer Indexfall-Nachverfolgung möchte ein GA das Kontakttagebuch einer spezifischen Indexfall-Person (IP) anfragen und verarbeiten. 
+Bei einer Indexfall-Nachverfolgung möchte ein GA das Kontakttagebuch einer spezifischen Indexfall-Person (IP) anfragen und verarbeiten.
 Die erste Kontaktaufnahme zur IP erfolgt per E-Mail, die vom GA verschickt wird. In dieser E-Mail befindet sich ein Token, das die IP autorisiert Kontakttagebuchdaten beim zugehörigen GA zu hinterlegen.
-Die IP ist nun freigestellt, ob sie das Kontakttagebuch per Smartphone-App (z.B. CWA) oder per Webanwendung (Webseite, z.B. [Digitales Wartezimmer](https://digitales-wartezimmer.org/)) einreicht. In beiden Fällen verlassen sensible Daten der IP das Gerät nur über eine mit TLS Ende-zu-Ende-verschlüsselte Verbindung zum jeweiligen Gesundheitsamt. 
+Die IP ist nun freigestellt, ob sie das Kontakttagebuch per Smartphone-App (z.B. CWA) oder per Webanwendung (Webseite, z.B. [Digitales Wartezimmer](https://digitales-wartezimmer.org/)) einreicht. In beiden Fällen verlassen sensible Daten der IP das Gerät nur über eine mit TLS Ende-zu-Ende-verschlüsselte Verbindung zum jeweiligen Gesundheitsamt.
 
 1. Webanwendung
 Im Fall der Webanwendung könnte der Nutzer beispielsweise einen Link in der E-Mail anklicken, mit dem er direkt zum digitalen Wartezimmer weitergeleitet wird. Der Link enthält in diesem Fall bereits das Token, das die Datenlieferung an das GA autorisiert. Außerdem enthält das Token die Domain des GA, dass das Kontakttagebuch angefragt hat.
@@ -437,7 +438,7 @@ Im Fall der Webanwendung könnte der Nutzer beispielsweise einen Link in der E-M
 2. Smartphone-App
 Im Fall der Smartphone-App kann der Nutzer beispielsweise einen in der E-Mail enthaltenen QR-Code scannen, der einen Link zum Digitalen Wartezimmer inkl. Token enthält. Kontakttagebücher-Apps (wie z.B. die CWA) können sich auf diese URL registrieren und auf das Scannen des QR-Codes reagieren.
 
-Zum Verschlüsseln der Daten wird aus dem Token zuerst die Identität des anfragenden GA herausgelesen und anschließend die verfügbaren kryptografischen Schlüssel dieses GA beim IRIS Service Directory nachgeschlagen. 
+Zum Verschlüsseln der Daten wird aus dem Token zuerst die Identität des anfragenden GA herausgelesen und anschließend die verfügbaren kryptografischen Schlüssel dieses GA beim IRIS Service Directory nachgeschlagen.
 Damit kann dann eine mit TLS Ende-zu-Ende-verschlüsselte Verbindung zum anfragenden GA aufgebaut werden. Um die Zuordnung und Authentifizierung der Datenlieferun im GA möglich zu machen wird das Token gemeinsam mit den Kontaktdaten mitgeschickt.
 
 Die Rolle der Tokens beim Aufbau einer TLS-Verbindung aus einem Browser über den IRIS Public Proxy in ein GA wird in Kapitel "4.2 Prozessobjekte" unter "PO.TLSConnEst - Aufbau einer TLS-Verbindung (TLS-Handshake) zwischen Client und GA" beschrieben.
@@ -462,13 +463,13 @@ Zentrale Datenhaltung ist grundsätzlich anfälliger für Datenpannen, die gleic
 Es werden regelmäßig neue Versionen der einzelnen Komponenten im Rahmen regulärer Updates und ggf. außerplanmäßige Security-Patches veröffentlicht.
 
 Das IRIS-Team beschafft sich proaktiv Schwachstellen- und Update-Informationen zu den Programmbibliotheken, die bei IRIS-Connect Verwendung finden, um ordnungsgemäße, rechtzeitige Patches für alle betroffenen Systeme durchzuführen.
-Dazu sind in den GitHub Repositories beispielsweise Vulnerability Scanner für Docker Container und GitHub Actions konfiguriert, sowie eine Semantic Source Code Analysis Engine konfiguriert. 
+Dazu sind in den GitHub Repositories beispielsweise Vulnerability Scanner für Docker Container und GitHub Actions konfiguriert, sowie eine Semantic Source Code Analysis Engine konfiguriert.
 Zusätzlich nutzt das IRIS-Team [Dependabot](https://dependabot.com/), ein Industrie-Standard-Tool für Dependency Management, dsa automatisiert über neu bekanntgewordene Sicherheitslücken in verwendeten Programmbibliotheken informiert.
 
 Neue Versionen von verwendeten Programmbibliotheken werden zeitnah nach ihrer Veröffentlichung in IRIS Connect integriert. Das erfolgt im Rahmen eines geregelten Prozesses mithilfe von Dependabot.
 
 ## S.AutomaticUpdates
-Der IRIS-Client stellt eine Konfigurationsmöglichkeit bereit, die es erlaubt, dass Updates und Security-Patches nach ihrem erscheinen automatisiert heruntergeladen und ohne Zutun der verantwortlichen IT-Administrator:innen aufgespielt werden. 
+Der IRIS-Client stellt eine Konfigurationsmöglichkeit bereit, die es erlaubt, dass Updates und Security-Patches nach ihrem erscheinen automatisiert heruntergeladen und ohne Zutun der verantwortlichen IT-Administrator:innen aufgespielt werden.
 Dadurch kann beispielsweise die Zeitspanne zwischen Veröffentlichung eines Security-Patches und dem Schließen einer Sicherheitslücke bei einem GA enorm verkürzt werden.
 Allerdings ergibt sich dadurch ein Risiko zusätzliches Risiko für den störungsfreien Betrieb des IRIS-Clients, da das Testen der neuen Softwareversion auf einem Testsystem wegfällt.
 
@@ -482,12 +483,12 @@ Wo möglich verwendet IRIS Connect etablierte Datenbanken, Web-Frameworks und Pr
 
 ## S.AbuseReporting - Missbrauchsmeldungen
 Trotz aller technischer Maßnahmen kann nicht abschließend ausgeschlossen werden, dass manipulierte Daten ihren Weg in ein GA finden. Vermutet ein GA eine systematisch angelegte Zulieferung von Falschdaten, kann es einen dafür im IRIS-Client vorgesehenen Button nutzen und eine Missbrauchsmeldung an das IRIS-Team absetzen.
-Weitere Datenzulieferungen von dem in Verdacht stehenden Lösungsanbieter können bis zur Klärung der Situation durch das GA pauschal abgelehnt werden. 
+Weitere Datenzulieferungen von dem in Verdacht stehenden Lösungsanbieter können bis zur Klärung der Situation durch das GA pauschal abgelehnt werden.
 
 Nach Meldung eines Missbrauchsverdachts wird sich das IRIS-Team mit dem GA in Verbindung setzen, um die Lage vor Ort zu klären und ggf. Kontakt zum verantwortlichen Lösungsanbieter aufnehmen. Falls sich eine Kompromittierung des Lösungsanbieters bestätigt kann das IRIS-Team technische Maßnahmen einleiten, um die Interaktion dieses Lösungsanbieters in IRIS Connect zu unterbinden, bis die Sicherheitslage erfolgreich behandelt ist.
 
 ## S.CommonSenseConstraints - Vernunftbasierte Einschränkungen
-Manche Missbrauchsfälle können durch technische Einschränkungen mitigiert werden, die auf gesundem Menschenverstand basieren. 
+Manche Missbrauchsfälle können durch technische Einschränkungen mitigiert werden, die auf gesundem Menschenverstand basieren.
 
 Beispielsweise kann angenommen werden, dass in GÄ nachts nicht gearbeitet wird. Entsprechend hat das IRIS-Team die Möglichkeit automatisiert zu erkennen, wenn ein GA nachts ein Nutzungsaufkommen zeigt, was auf eine potentielle Kompromittierung mit Malware deuten könnte. Diese Auffälligkeit kann dann frühzeitig mit dem GA geklärt werden.    
 
@@ -499,10 +500,10 @@ Alle Kommunikationsverbindungen, die von oder zu IRIS-Komponenten über das Inte
 * Verbindungen zwischen einem GA und einem Lösungsanbieter / Client
 * Verbindungen zwischen einem GA und einem Lösungsanbieter / Client über den IRIS Proxy Service
 * Verbindungen zwischen dem Webbrowser eines Mitarbeitenden im GA und dem zugehörigen IRIS Client
-* Verbindungen zwischen dem IRIS-Client eines GA und der angeschlossenen Datenbank 
+* Verbindungen zwischen dem IRIS-Client eines GA und der angeschlossenen Datenbank
 
 ## S.AppLayerEnc - Einsatz von Verschlüsselung auf Anwendungsebene
-Zusätzlich zur Transportverschlüsselung besteht die Möglichkeit, Daten auf Anwendungsebene für ein spezifisches GA zu verschlüsseln. 
+Zusätzlich zur Transportverschlüsselung besteht die Möglichkeit, Daten auf Anwendungsebene für ein spezifisches GA zu verschlüsseln.
 Das dient der Umsetzung der Datenschutzkonferenz-Anforderung an Betreiber von digitaler Kontaktdatenerfassung, wonach zusätzlich zur Transportverschlüsselung eine zweite Verschlüsselungsschicht auf Anwendungsebene (Inhaltsverschlüsselung) umzusetzen ist.
 
 ## S.Authentication - Einseitige Authentifizierung von Kommunikationspartnern
@@ -513,7 +514,7 @@ Einseitig authentifiziert sind
 * Verbindungen zwischen dem IRIS-Client eines GA und der angeschlossenen Datenbank
 
 ## S.MutualAuthentication - Beidseitige Authentifizierung von Kommunikationspartnern
-Wo möglich findet beim Aufbau einer Kommunikationsverbindung eine beidseitige Authentifizierung der Endpunkte statt. 
+Wo möglich findet beim Aufbau einer Kommunikationsverbindung eine beidseitige Authentifizierung der Endpunkte statt.
 
 Beidseitig authentifiziert sind
 * Die mTLS-Verbindungen im EPS-Netzwerk
@@ -528,7 +529,7 @@ Beim Design von IRIS Connect wurde an mehreren Stellen eine organisationelle Tre
     * Daher werden die TLS-Zertifikate für die GÄ nicht vom IRIS-Team ausgestellt, sondern von einer dritten Stelle, der Bundesdruckerei bzw. D-Trust.
     * Das TLS-Zertifikat wird auf eine Domain ausgestellt, die unter Kontrolle des jeweiligen GA ist.
     * Zusätzlich muss jedes GA im DNS einen sogenannten [Certificate Authority Authorization](https://de.wikipedia.org/wiki/DNS_Certification_Authority_Authorization) (CAA) Record auf die D-Trust CA setzen.
-      Dadurch werden alle anderen CAs angehalten, keine TLS-Zertifikate auf die GA-Domain auszustellen. Alle CAs müssen sich daran halten. 
+      Dadurch werden alle anderen CAs angehalten, keine TLS-Zertifikate auf die GA-Domain auszustellen. Alle CAs müssen sich daran halten.
       Das Setzen des CAA ist essenziell, da das IRIS-Team als Betreiber des IRIS Proxy Service, auf den die Domain des GA auflöst technisch in der Lage ist, Domainkontrolle durch String Hosting nachzuweisen.  
     * So wird sichergestellt, dass es selbst im Falle einer Kompromittierung des IRIS-Teams und der IRIS Services es unmöglich ist, Kommunikation umzuleiten und zu entschlüsseln, indem ein TLS-Zertifikat unberechtigterweise von einer anderen CA beantragt wird.
 2. Organisationelle Trennung bei Einträgen ins Service Directory:
@@ -593,7 +594,7 @@ Das IRIS-Team betreibt eine eigene PKI, die Zertifikate für die IRIS Services, 
 
 #### Übersicht der IRIS-CAs
 * Das IRIS-Team betreibt eine selbst-signierte IRIS Root-CA (RSA 4096, Laufzeit 4,5 Jahre).
-* Zusätzlich besteht eine zweite selbst-signierte IRIS Root-CA (RSA 4096, Laufzeit 5 Jahre), mit der ein Certificate Cross-Signing (s.u.) der IRIS Intermediate CA umgesetzt wird. 
+* Zusätzlich besteht eine zweite selbst-signierte IRIS Root-CA (RSA 4096, Laufzeit 5 Jahre), mit der ein Certificate Cross-Signing (s.u.) der IRIS Intermediate CA umgesetzt wird.
 * Das IRIS-Team betreibt eine IRIS Intermediate-CA, deren privater Schlüssel von beiden IRIS Root-CAs signiert ist (Certificate Cross-Signing). Damit ergeben sich für den privaten Schlüssel zwei Zertifikate (RSA 4096, Laufzeit 3 Jahre und 2,5 Jahre).
 * Die IRIS Intermediate CA stellt folgende (Leaf-)Zertifikate aus:
     * Je IRIS Service mit eigenem EPS ein Zertifikat für mTLS (RSA 4096, SHA256, Lebensdauer 1 Jahr)
@@ -635,12 +636,12 @@ Hinweis:
 Zusätzlich führt das IRIS-Team in Rahmen des Security Testings eigene Penetration Tests durch.
 
 ## S.LoadTesting - Durchführen von Load und Robustness Testing
-Ein Load- und Robustness-Testing ist geplant. Bei dieser Art von Testing wird eine hohe Nutzlast auf dem System simuliert, und die Auswirkungen auf System analysiert. Damit kann die Robustheit gegen beispielsweise hohes Nutztungsaufkommen eingeschätzt werden. 
+Ein Load- und Robustness-Testing ist geplant. Bei dieser Art von Testing wird eine hohe Nutzlast auf dem System simuliert, und die Auswirkungen auf System analysiert. Damit kann die Robustheit gegen beispielsweise hohes Nutztungsaufkommen eingeschätzt werden.
 Dadurch ist es möglich, Systembestandteile, die als Engpässe (sogenannte Bottlenecks) oder nicht robust genug beurteilt werden bereits frühzeitig zu behandeln und einer Störung im Regelbetireb vorzubeugen.
 
 Die Testergebnisse werden zu einem späteren Zeitpunkt an dieser Stelle dokumentiert.
 
-Hinweis: 
+Hinweis:
 > Die Testergebnisse stehen derzeit noch aus.
 
 
@@ -652,7 +653,7 @@ Im Folgenden werden die Informationen, die in Form von Daten(objekten) in IRIS C
 
 Damit ähnliche Datenobjekte später gemeinsam adressiert werden können, werden sie in Datenklassen zusammengefasst:
 
-|ID|Datenklasse| 
+|ID|Datenklasse|
 |---|---|
 |DK.1| Medizinische Daten|
 |DK.2| Geheimes Schlüsselmaterial|
@@ -739,19 +740,19 @@ Das folgende Sequenzdiagramm veranschaulicht den genauen technischen Ablauf des 
 ![Darstellung des TLS-Handshakes zwischen Client (Broser oder mobile App) und einem GA über den Public Proxy](./Resources/technical_documentation/sequence_connection_establishment_hd.svg)
 
 #### S.AuthTokens - Einsatz von Authentication Tokens
-Für Datenlieferungen, die aus einem Client (Webbrowsern oder mobilen App) heraus erfolgen werden über den Public Proxy Service zugestellt. 
-Dadurch gibt es Client-seitig keine digitalen Identitäten, die durch Zertifikate verifiziert werden können. 
+Für Datenlieferungen, die aus einem Client (Webbrowsern oder mobilen App) heraus erfolgen werden über den Public Proxy Service zugestellt.
+Dadurch gibt es Client-seitig keine digitalen Identitäten, die durch Zertifikate verifiziert werden können.
 Daher werden Tokens eingesetzt, mit denen die Authentifizierung des Clients und die Autorisierung der Datenlieferung sichergestellt werden.
 
-Für jede Kontaktnachverfolgung, die im IRIS-Client gestartet wird, erstellt dieser zwei pseudozufällige Tokens mit hoher Entropie (**Connection Authorization Token** und  **Data Authorization Token**), die dieser Kontaktnachverfolgungs-Vorgang eindeutig zugeordent sind. 
+Für jede Kontaktnachverfolgung, die im IRIS-Client gestartet wird, erstellt dieser zwei pseudozufällige Tokens mit hoher Entropie (**Connection Authorization Token** und  **Data Authorization Token**), die dieser Kontaktnachverfolgungs-Vorgang eindeutig zugeordent sind.
 Der IRIS-Client kündigt dann gegenüber dem IRIS Public Proxy die erwartete Datenlieferung an, indem er ihm das Connection Authorization Token auf sicherem Weg über das EPS-Netzwerk mitteilt.
 Daraufhin legt der Public Proxy eine virtuelle Subdomain an, die dem Wert des Connection Authorization Token entspricht.
 Die Person, von der die Datenlieferung erwartet wird, bekommt die Tokens vom GA per E-Mail, Telefon o.Ä. mitgeteilt.
 
-Sobald der IRIS Public Proxy ein ClientHello erhält ermittelt er die Domain aus dem [Server Name Indication](https://de.wikipedia.org/wiki/Server_Name_Indication) Parameter. 
+Sobald der IRIS Public Proxy ein ClientHello erhält ermittelt er die Domain aus dem [Server Name Indication](https://de.wikipedia.org/wiki/Server_Name_Indication) Parameter.
 Diese gleicht er mit den Tokens ab, die er als Ankündigungen von GÄ erhalten hat. Gibt es eine Übereinstimmung, gilt die sich anbahnende Verbindung als autorisiert darf in das jeweilige GA durchgestellt werden.
 
-Um auch im Falle eines kompromittierten IRIS Proxy Service falsche Datenmeldungen an Gesundheitsämter zu verhindern, wird zusätzlich das zweite Token ("Data Authorization Token") verwendet. 
+Um auch im Falle eines kompromittierten IRIS Proxy Service falsche Datenmeldungen an Gesundheitsämter zu verhindern, wird zusätzlich das zweite Token ("Data Authorization Token") verwendet.
 Dieses wird vom GA jedoch nur an die Person, nicht jedoch an den Public Proxy Service geschickt.
 Nach dem Aufbau einer TLS-Verbindung zum GA wird dieses Token gemeinsam mit der Datenlieferung verschlüsselt an das GA übertragen. Da die TLS-Verbindung vom IRIS Proxy Service nicht terminiert wird, ist es für ihn nicht einsehbar.
 Der IRIS-Client kann daraufhin prüfen, ob eine Datenlieferung für das präsentierte Data Authorization Token erwartet weird.
@@ -976,7 +977,7 @@ Für Datenobjekte wird der Schutzbedarf (wenn möglich) nicht einzeln, sondern �
 Ein Datenobjekt kann dabei mehreren Datenklassen zugeordnet sein. Ist dies der Fall, so ergibt sich der Schutzbedarf
 des Datenobjekts aus dem jeweils höchsten Schutzbedarf der Klassen, denen es zugeordnet wurde (Maximumprinzip).
 
-|Datenklasse|Schutzbedarf| 
+|Datenklasse|Schutzbedarf|
 |---|---|
 |Medizinische Daten|sehr hoch||
 |Geheimes Schlüsselmaterial|sehr hoch|
@@ -1008,4 +1009,3 @@ des Datenobjekts aus dem jeweils höchsten Schutzbedarf der Klassen, denen es zu
 | R.MandatoryAcccessControl| Der Zugang zu Daten und Verwaltungsschnittstellen muss durch Zugangskontrolle geschützt werden
 | R.BackupRestore| Es muss ein Datensicherungskonzept (Backup/Restore) implementiert sein
 | R.UserRoleMngmnt| Verantwortungsbereiche müssen durch ein Rechte- und Rollenkonzept getrennt werden
-
