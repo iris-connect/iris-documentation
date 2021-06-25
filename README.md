@@ -37,7 +37,7 @@ Die [Bedienungsanleitung für Mitarbeitende im Gesundheitsamt](https://uploads-s
 |3.3	|	Zertifikatsausstellung||2.Schritt|
 |3.4  | EPS||3. Schritt|
 |3.5	|	Schnittstellenbeschreibung||4. Schritt|		
-|3.6	|	[FAQs Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/apps_FAQ.md)|||
+|3.6	|	[FAQ Kontakterfassungs-Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/apps_FAQ.md)|||
 ### Community and Open Development
 |     | Name und Link             | Sprache    | Beschreibung                                                      |
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
