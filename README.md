@@ -6,18 +6,17 @@ Die [Bedienungsanleitung für Mitarbeitende im Gesundheitsamt](https://uploads-s
 ### Einführung - Dies ist IRIS connect
 |     | Name und Link             | Sprache    | Beschreibung                                                      |
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
-| 1.1 | [Zweck]| Deu | |
-| 1.2 | [Historie/Origin] | Deu | |
-| 1.3 | [Funktionsweise](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/03_IRIS_Funktionsweise.md)|Deu| |
-| 1.3.1| [Gästelisten](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/03b_IRIS_Ereignisverfolgung.md)|Deu|<B>Ereignisfall-Nachverfolgung</B>|
-| 1.3.2| [Kontakttagebücher](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/03a_IRIS_Indexfall.md)|Deu|<B>Indexfall-Nachverfolgung</B>|
-|1.4	| [Technische Beschreibungen](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/05_IRIS_Technischer_Betrieb.md)| Deu ||
-|1.4.1| [Architektur (inkl. Client)](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Architektur.md) |Eng||
-|1.4.2| [Gateway](https://github.com/iris-connect/iris-gateway/blob/develop/README.adoc)|Eng||
-|1.4.3| [EPS](https://github.com/iris-connect/eps/blob/master/README.md)|Eng||
-|1.4.4| [IT- Sicherheitskonzept](https://github.com/iris-connect/iris-security/blob/master/Doc%20Sicherheitskonzept/Sicherheitskonzept.md)|Deu||
-|1.4.5| Datenschutzkonzept
-|1.5  |	[Changelog](https://github.com/iris-connect/iris-client/blob/develop/CHANGELOG.md)|||
+| 1.1 | [About](https://github.com/iris-connect/iris-documentation/blob/main/README.md#about-this-project) | Eng | |
+| 1.2 | [Funktionsweise](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/03_IRIS_Funktionsweise.md)|Deu| |
+| 1.2.1| [Gästelisten](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/03b_IRIS_Ereignisverfolgung.md)|Deu|<B>Ereignisfall-Nachverfolgung</B>|
+| 1.2.2| [Kontakttagebücher](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/03a_IRIS_Indexfall.md)|Deu|<B>Indexfall-Nachverfolgung</B>|
+|1.3	| [Technische Beschreibungen](https://github.com/iris-connect/iris-documentation/blob/handbook-chapters/use_iris_as_Gesundheitsamt/handbuch/05_IRIS_Technischer_Betrieb.md)| Deu ||
+|1.3.1| [Architektur (inkl. Client)](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Architektur.md) |Eng||
+|1.3.2| [Gateway](https://github.com/iris-connect/iris-gateway/blob/develop/README.adoc)|Eng||
+|1.3.3| [EPS](https://github.com/iris-connect/eps/blob/master/README.md)|Eng||
+|1.3.4| [IT- Sicherheitskonzept](https://github.com/iris-connect/iris-security/blob/master/Doc%20Sicherheitskonzept/Sicherheitskonzept.md)|Deu||
+|1.3.5| Datenschutzkonzept
+|1.4  |	[Changelog](https://github.com/iris-connect/iris-client/blob/develop/CHANGELOG.md)|||
 ### Für Gesundheitsämter
 |     | Name und Link             | Sprache    | Beschreibung                                                      |
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
