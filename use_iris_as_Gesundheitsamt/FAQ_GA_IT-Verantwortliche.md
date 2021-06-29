@@ -4,7 +4,7 @@
 ### Wo wird verschlüsselt? Wo liegen die Daten?
 Die Verschlüsselung der personenbezogenen Daten findet direkt in der jeweiligen Anwendung statt. Die Entschlüsselung erfolgt im IRIS-Client-Backend, also quasi im Gesundheitsamt. Hinzu kommt Transportverschlüsselung mittels tls/https.    
 
-Im IRIS-Client liegen die Daten dann unverschlüsselt. Vor der Datenabfrage durch ein Gesundheitsamt liegen diese ausschließlich bei der App und nicht im IRIS-System. Die Verschlüsselung und Entschlüsselung entnehmen Sie auch der Grafik am Anfang des Dokuments.
+Im IRIS connect-Client liegen die Daten dann unverschlüsselt. Vor der Datenabfrage durch ein Gesundheitsamt liegen diese ausschließlich bei der App und nicht im IRIS-System. Die Verschlüsselung und Entschlüsselung entnehmen Sie auch der Grafik am Anfang des Dokuments.
 
 ### Welche Daten werden übertragen?
 Hier ist zwischen Kontakttagebüchern und Gästelisten zu unterschieden.
@@ -101,14 +101,14 @@ Es gibt einen gesonderten Prozeß, der die [Bestellung und Einrichtung des Zerti
 ### Wird für die Pilotierung Java oder Container System genutzt?
 In der Pilotierung werden Container für das Staging System genutzt, wir sind aber offen für andere Vorschläge.
 
-### Wer stellt das »IRIS Onboarding Team« zur Unterstützung bei der Einrichtung eines neuen Gesundheitsamtes?
-Das »IRIS Onboarding Team« wird aktuell aus einem Teil des Kern-Teams des IRIS Projekts gebildet. Wir stehen mit weiteren Partnern in Kontakt, die entsprechende Personalkapazitäten aufbauen bzw. vorhalten.
+### Wer stellt das »IRIS connect Onboarding Team« zur Unterstützung bei der Einrichtung eines neuen Gesundheitsamtes?
+Das »IRIS connect Onboarding Team« wird aktuell aus einem Teil des Kern-Teams des IRIS connect Projekts gebildet. Wir stehen mit weiteren Partnern in Kontakt, die entsprechende Personalkapazitäten aufbauen bzw. vorhalten.
 
 ### Mit der Vorgabe vom BSI "Nur eine Applikation pro Server" müssten für den GA Client mindestens zwei Server plus DB Server genutzt werden – oder?
-Nein, das IRIS-Client-Frontend und IRIS-Client-Backend können zu einer Applikation zusammengezogen werden. Ob gleiches auch für die Datenbank gilt, hängt von der genauen Ausgestaltung der Vorgabe ab. 
+Nein, das IRIS connect-Client-Frontend und IRIS connect-Client-Backend können zu einer Applikation zusammengezogen werden. Ob gleiches auch für die Datenbank gilt, hängt von der genauen Ausgestaltung der Vorgabe ab. 
 
 ## Betrieb
-### Wie wird IRIS betrieben?
+### Wie wird IRIS connect betrieben?
 Bestimmte Teile der Infrastruktur müssen nur einmal betrieben werden. Eine länderübergreifende Bereitstellung dieser Teile ist jedoch abhängig von politischen Entscheidung und muss im Rahmen der Vertragserstellung diskutiert werden. Die singulären Strukturen für den Pilot sind redundant bei der AKDB gehostet und von dort aus bereitgestellt.
 
 ### Welche Auslastung mit welchen Leistungsspitzen sind zu erwarten?
@@ -121,9 +121,9 @@ Die zentralen Services werden von der AKDB betrieben, mit der ebenfalls ein Vert
 
 Die Dienstleistungs-GmbH der Björn Steiger Stiftung kann entsprechende Strukturen für den Support der kommunalen verantwortlichen IT-Stelle bereitstellen. Gleiches gilt für die Betreuung von Rollout und Installation. Bitte wenden Sie sich als Gesundheitsamt an Ihre kommunale IT-Stelle, die entweder bereits Zugang zu den Supportstrukturen hat, oder Schritte für die Einrichtung einleiten kann.
 
-Für den Rollout im Gesundheitsamt können wir ebenso entsprechende Unternehmen benennen. Bitte schreiben Sie uns an [info@iris-connect.de](mailto:info@iris-connect.de).
+Für den Rollout im Gesundheitsamt können wir ebenso entsprechende Unternehmen benennen. Bitte schreiben Sie uns an [hallo@iris-connect.de](mailto:hallo@iris-connect.de).
 
-### Woher kennt IRIS die verschiebenden Apps/Anbieter?
+### Woher kennt IRIS connect die verschiebenden Apps/Anbieter?
 Apps/Anbieter sind über Client Zertifikate eindeutig zuordenbar. Es gibt einen Onboarding Prozess, der die Bereitstellung verschiedener relevanter Dokumente erfordert. Außerdem werden entsprechende zu integrierende Komponente zur Verfügung gestellt. Das Prozedere ist [im Repositorium beschrieben](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/Connect_App_to_IRIS_administration.md).
 
 ### Wie wird mit Updates umgegangen? Wie funktioniert der Prozess?
@@ -132,10 +132,10 @@ Zuständigkeiten und Vorgehen sind aktuell noch in der Klärung. Dies ist außer
 ### Wie werden Images bereitgestellt?
 Über ein öffentliches Docker-Repository. Alternativ können sie auch direkt aus dem Source-Code erstellt werden.
 
-### Wie werden die Zertifikate des IRIS Client verwaltet?
+### Wie werden die Zertifikate des IRIS connect Client verwaltet?
 Die Verwaltung der Zertifikate ist aktuell noch in Klärung, diese werden aber durch einen Dienstleister zur Verfügung gestellt. Hier ist aktuell vorgesehen, diese alle 12 Monate zu erneuern. Weitere Fragen zum Prozess werden beim Onboarding geklärt.
 
-### Was für Proxies werden für den Zugriff auf die singulären Komponentenverwendet?
+### Was für Proxies werden für den Zugriff auf die singulären Komponenten verwendet?
 `wird nachgereicht`
 
 ### Was für Proxies werden für den Zugriff auf den Client verwendet?
@@ -162,10 +162,10 @@ Grundsätzlich dürfen angemeldete Nutzende Anfragen stellen und die erhaltenen 
 Dies wird auch in der [Bedienungsanleitung, S.5 ff.](https://uploads-ssl.webflow.com/609e55b08d9aef989925de0d/60c87415c75c1da665d3f7aa_IRIS%20Benutzeranleitung%20v.1.pdf#h.glxi0fl9hydj) beschrieben.
 
 ### Wird SORMAS mit Keycloak eingesetzt?
-SORMAS wird idR mit Keycloak eingesetzt. Diese Infrastruktur kann auch von IRIS mitgenutzt werden. 
+IRIS connect hat derzeit ausschließlich seine eigene Nutzerverwaltung.
 
 ## Bedienung
-### Wie intuitiv ist die Bedienung von IRIS?
+### Wie intuitiv ist die Bedienung von IRIS connect?
 Ziel ist es, die Bedienung so intuitiv wie möglich zu gestalten. Das Feedback im Rahmen von Tests in Gesundheitsämtern war allgemein sehr positiv.
 
 ### Wie wird die Usability auf Seiten der Gesundheitsämter sichergestellt? Können z.B. Feature-Wünsche, bzw. Änderungswünsche zurückgespielt werden?
@@ -176,13 +176,13 @@ Zunächst nicht. Ziel ist es, im Zuge der Pandemie zunächst schnell eine Lösun
 
 ## IT-Sicherheit
 ### Wo finde ich das IT-Sicherheitskonzept von IRIS connect?
-
+[Hier](https://github.com/iris-connect/iris-security/tree/master/Doc%20Sicherheitskonzept)
 
 ### Welche Schutzmechanismen nutzt IRIS connect?
-Schutzmechanismen werden im Rahmen eines Open Development Prozesses implementiert. Unter anderem  wird der [OWASP Katalog](https://owasp.org/www-community/attacks/) abgearbeitet. Weiteres ist auch im `IT-Sicherheitskonzept` ausgeführt.
+Schutzmechanismen werden im Rahmen eines Open Development Prozesses implementiert. Unter anderem  wird der [OWASP Katalog](https://owasp.org/www-community/attacks/) abgearbeitet. Weiteres ist auch im [IT-Sicherheitskonzept](https://github.com/iris-connect/iris-security/tree/master/Doc%20Sicherheitskonzept) ausgeführt.
 
-### Besteht die Gefahr, dass durch die IRIS-Plattform SORMAS infiltriert werden kann?
-Grundsätzlich besteht diese Gefahr immer (auch Microsoft Exchange Server hatten Lücken). Wir können allerdings nach Best Practices arbeiten um die Wahrscheinlichkeit durch diverse Maßnahmen (s. oben) zu senken. Zudem wird für den Import zunächst noch eine .csv-Datei verwendet, die nicht Ende-zu-Ende durchgereicht, sondern erst innerhalb des IRIS Client generiert wird. Sollten die Daten eines Anbieters infiltriert werden, dann wird das beim Entpacken vom IRIS Client geblockt.
+### Besteht die Gefahr, dass durch die IRIS connect-Plattform SORMAS infiltriert werden kann?
+Grundsätzlich besteht diese Gefahr immer (auch Microsoft Exchange Server hatten Lücken). Wir können allerdings nach Best Practices arbeiten um die Wahrscheinlichkeit durch diverse Maßnahmen (s. oben) zu senken. Zudem wird für den Import zunächst noch eine .csv-Datei verwendet, die nicht Ende-zu-Ende durchgereicht, sondern erst innerhalb des IRIS connect Client generiert wird. Sollten die Daten eines Anbieters infiltriert werden, dann wird das beim Entpacken vom IRIS connect Client geblockt.
 
 ### Sind „Injections” möglich?
-Grundsätzlich besteht diese Gefahr immer. Es gibt Best Practice Gegenmaßnahmen die vermutlich eingebaut werden können (s. erste Frage). Auch im erweiterten toolkit. package size checkes etc. Durch die innerhalb IRIS stattfindende Generierung der csv-Datei vor dem Durchreichen in die Fachanwendung ist eine Art Firewall implementiert.
+Grundsätzlich besteht diese Gefahr immer. Es gibt Best Practice Gegenmaßnahmen die vermutlich eingebaut werden können (s. erste Frage). Auch im erweiterten toolkit. package size checkes etc. Durch die innerhalb IRIS connect stattfindende Generierung der csv-Datei vor dem Durchreichen in die Fachanwendung ist eine Art Firewall implementiert.
