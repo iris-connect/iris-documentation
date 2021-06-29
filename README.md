@@ -33,11 +33,12 @@ Die [Bedienungsanleitung für Mitarbeitende im Gesundheitsamt](https://uploads-s
 |     | Name und Link             | Sprache    | Beschreibung                                                      |
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
 |3.1	|	[Prozessbeschreibung Anbindung (technischer Teil)](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/technical_details/app_onboarding.md)|Eng||
-|3.2	| [Code of Conduct for Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/Code_of_Conduct_Apps_for_IRIS_draft.md)|Eng|1. Schritt|
-|3.3	|	Zertifikatsausstellung||2.Schritt|
-|3.4  | EPS||3. Schritt|
-|3.5	|	Schnittstellenbeschreibung||4. Schritt|		
-|3.6	|	[FAQ Kontakterfassungs-Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/apps_FAQ.md)|||
+|3.2	| [Term and Conditions bzw. AGB](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/Connect_App_to_IRIS_administration.md) | Eng | noch nachzuliefernde AGB
+|3.3  | [Code of Conduct for Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/Code_of_Conduct_Apps_for_IRIS_draft.md)|Eng|1. Schritt|
+|3.4	|	Zertifikatsausstellung||2.Schritt|
+|3.5  | EPS||3. Schritt|
+|3.6	|	Schnittstellenbeschreibung||4. Schritt|		
+|3.7	|	[FAQ Kontakterfassungs-Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/apps_FAQ.md)|||
 ### Community and Open Development
 |     | Name und Link             | Sprache    | Beschreibung                                                      |
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
