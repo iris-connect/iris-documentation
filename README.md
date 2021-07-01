@@ -22,10 +22,11 @@ Die [Bedienungsanleitung für Mitarbeitende im Gesundheitsamt](https://uploads-s
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
 |2.1  | [Prozessbeschreibung Anbindung](https://github.com/iris-connect/iris-documentation/blob/main/use_iris_as_Gesundheitsamt/GA_Installationsanleitung.md)|Deu||
 |2.2  |	[Installationsanleitung Client](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation.md)|Deu||
-|2.2.1|	[Docker Installation](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation-Docker-Compose.md)|Deu|1. Schritt (Docker wird empfohlen)|
-|2.2.2|	Standalone Installation ( Link wird heute (01.07.) bereit gestellt )|Deu|alternativer 1. Schritt ohne Docker|
-|2.2.3| Proxy|Deu|2. Schritt|
-|2.2.4| [Zertifikatsausstellung](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Certificate-Process-Staging.md)|Deu|3. Schritt|
+|2.2.1|	Zertifikatsausstellung Test |Deu|1. Schritt mit Zertifikaten für einen Testbetrieb|
+|2.2.2| Zertifikatsausstellung Live |Deu|1. Schritt mit Zertifikaten für den Livebetrieb|
+|2.2.3| Proxy Einstellungen |Deu| 2. Schritt (optional) Einstellungen für den Betrieb eines Proxy|
+|2.2.4| [Installation via Docker](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation-Docker-Compose.md)|Deu|3. Schritt (Docker wird empfohlen)|
+|2.2.5|	[Installation ohne Docker, Standalone] ( Link wird heute (01.07.) bereit gestellt )|Deu|alternativer 3. Schritt ohne Docker|
 |2.3  |	[Bedienungsanleitung für Endnutzer](https://docs.google.com/document/d/1--VHwB3q_Ci1b_LYtAhrvrWx5WNDSbpWWH_YrNIF7JM/edit#heading=h.u4qwc9teio72)|Deu|Dies ist die <B>Anleitung für die Mitarbeiter</B>, die die Kontaktverfolgung durchführen.|
 |2.4  |	[FAQ Gesundheitsämter](https://github.com/iris-connect/iris-documentation/blob/main/use_iris_as_Gesundheitsamt/FAQ_GA_IT-Verantwortliche.md)|Deu||
 ### Für Kontakterfassungs-Apps
