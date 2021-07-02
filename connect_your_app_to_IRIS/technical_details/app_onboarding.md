@@ -331,7 +331,7 @@ You need to provide a json-rpc endpoint on your server. The exact endpoint can b
         settings:
           endpoint: http://[your-host]:[your-port]/[your-endpoint]
           
-To receive incoming DataRequests, you need to implement a method `createDataRequest` on your Endpoint. The following request is an example the request generated on https://iris.staging.iris-gateway.de - the parameter _client.entry is left out here and contains certificates and fingerprints as well as provided services at the endpoint.
+To receive incoming DataRequests, you need to implement a method `createDataRequest` on your Endpoint. The following request is an example the request generated on https://client.test.iris-gateway.de - the parameter _client.entry is left out here and contains certificates and fingerprints as well as provided services at the endpoint.
 
 ```
 {
@@ -540,7 +540,7 @@ In short:
 
 ## 5 Test your implementation
 
-To test your implementation, visit https://iris.staging.iris-gateway.de 
+To test your implementation, visit https://client.test.iris-gateway.de 
 
 You can find the password and access data in the slack channel.
 
@@ -548,7 +548,7 @@ There you should find your pushed locations in the search when you start a new e
 
 ## Changelog
 
-### [0.0.10] - 2021-06-30
+### [0.0.10] - 2021-07-02
 
 #### Changed
 - New EPS Version. Please have a look especially at the configuration, docker-image, browser submission ports
