@@ -538,6 +538,8 @@ In short:
   - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
 - POST your request to `https://`[proxyEndpoint]`:32325/data-submission-rpc`
 
+**Please consider that health departments will use self-signed certificates on test environment.** 
+
 ## 5 Test your implementation
 
 To test your implementation, visit https://client.test.iris-gateway.de 
