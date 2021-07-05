@@ -17,5 +17,4 @@ However, if you have no experience with S/MIME and CAs, using PGP may be the eas
 
 ## Receive encrypted mails from the IRIS team
 To receive encrypted emails, send your PGP public key or S/MIME certificate as an attachment to [rollout@iris-gateway.de](mailto:rollout@iris-gateway.de?subject=My%20PGP%20key%20or%20S/MIME%20certificate). 
-The email address you use must be included in the PGP key or S/MIME certificate. The sender address of the email will be ignored. Attached PGP keys must be set as Content-Type "application/pgp-keys". 
-You can do this by attaching and sending your PGP public key directly from your email program instead of going through a saved file. You will receive an email confirmation.
+The email address you use must be included in the PGP key or S/MIME certificate. The sender address of the email will be ignored. You will receive an email confirmation.
