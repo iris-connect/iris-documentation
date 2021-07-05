@@ -9,4 +9,4 @@ _Wie der IRIS-Client installiert wird, ist in der [Anleitung für die Installati
 Zur Absicherung der übertragenen Daten benötigt der IRIS-Client digitale Zertifikate. Diese werden vom jeweiligen Gesundheitsamt, ggf. in Kooperation mit einer Landesbehörde, bei der Bundesdruckerei beantragt.
 Dies entspricht in etwa dem Verfahren für die Deutsche Einreise Anmeldung (DEA), die über die Bundesdruckerei als Webanwendung ausgerollt wurde.
 
-_Wie die Zertifikate beantragt werden, ist in der [Anleitung für das Beantragen der Zertifikate](https://github.com/iris-connect/iris-client/blob/certificates/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) beschrieben._
+_Wie die Zertifikate beantragt werden, ist in der [Anleitung für das Beantragen der Zertifikate](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) beschrieben._
