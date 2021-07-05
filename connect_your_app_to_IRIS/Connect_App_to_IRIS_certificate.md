@@ -6,14 +6,14 @@ To get a certificate that allows you to connect your app to IRIS you need to go 
 4. Accept some terms and conditions
 
 ## Request the certificate
-To request the certificate, you, the certificate applicant, must email the IRIS rollout team (rollout@iris-gateway.de). We recommend securing all email communication using [PGP or S/MIME (TODO: upload)]().
+To request the certificate, you, the certificate applicant, must email the IRIS rollout team (rollout@iris-gateway.de). We recommend securing all email communication using [PGP or S/MIME](https://github.com/iris-connect/iris-documentation/blob/main/send_secure_email_to_iris/README_secure_email.md).
 
 The certificate applicant is always a natural person who submits a certificate request either on behalf of himself or on behalf of a legal entity for which he is authorized to represent.
 
 Please provide this information in your email:
 1. A certificate request as a CSR file. See [here](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/technical_details/app_onboarding.md) how to generate it.
 2. Your personal identification information (full name, birthdate and address according to your ID card, passport or residence permit)
-3. If you request on behalf of a legal entity (e.g., GmbH, e.V., Ltd.), you must proof your right to represent (Vertretungsberechtigung). Therefore, you can use this [power of attorney template (TODO: create template)]( ). It must be signed by an individual who is authorized to represent the organization and whose identity can be verified and validated based on publicly available information (see below).
+3. If you request on behalf of a legal entity (e.g., GmbH, e.V., Ltd.), you must proof your right to represent (Vertretungsberechtigung). For example, you can use a power of attorney for this purpose. It must be signed by an individual who is authorized to represent the organization and whose identity can be verified and validated based on publicly available information (see below).
 
 ## Validation
 The IRIS CA operator must validate the claimed identity and, if applicable, your right to represent.
@@ -22,11 +22,11 @@ The IRIS CA operator must validate the claimed identity and, if applicable, your
 The IRIS CA operator must be able to validate your right to represent on the basis of publicly available information. This includes public registers, e.g. commercial register (Handelsregister) or register of associations (Vereinsregister). If you decide to file a power of attorney, It must be signed by a member of your organization who is authorized to represent and whose identity can be verified and validated based on publicly available information. Alternatively, the IRIS CA operator an call your organization to get a verbal confirmation of your right to represent as stated in your request.
 
 ### Validate your identity
-You will receive an email asking you to prove your legal identity. The validation will be carried out by our partner **TODO: FILL_NAME_HERE**. You can choose one of these alternatives:
+You will receive an email asking you to prove your legal identity. The validation will be carried out by our partners d.velop and D-Trust. You can choose freely between these two alternatives. The identification will be free of charge for you in any case.
 1. Video-Ident or
 2. the eID function of your ID card (see eID feature of German national ID card [English](https://www.personalausweisportal.de/Webs/PA/EN/citizens/electronic-identification/electronic-identification-node.html) / [German](https://www.personalausweisportal.de/Webs/PA/DE/buergerinnen-und-buerger/online-ausweisen/das-brauchen-sie/das-brauchen-sie-node.html))
 
-If you or your organisation own a TLS certificate with Extended Validation (OV/EV) trust level, you can shortcut the next identity validation step (Video-Ident/eID-Ident). See below for details.
+If you or your organisation own a TLS certificate with Extended Validation (EV) trust level, you can shortcut the next identity validation step (Video-Ident/eID-Ident). See below for details.
 
 Next, we will email you a commitment form. Please click the link to digitally sign it. We use [qualified electronic signatures](https://en.wikipedia.org/wiki/Qualified_electronic_signature) (QES) for digital signing. QES is considered as digital equivalent to handwritten signatures according to EU regulations. After you have signed, the form will be automatically sent back to the IRIS CA operator.
 
