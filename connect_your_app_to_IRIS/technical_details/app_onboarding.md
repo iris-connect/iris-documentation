@@ -203,13 +203,13 @@ We will update the list of possible errors as they come around.
 
 ### 3.2 Destinations and methods
 
-|Destination|Methodname|Annotations|
-|-|-|-|
-| ls-1 | [postLocationsToSearchIndex](#411-postlocationstosearchindex) | Publish managed locations to IRIS connect, for which health departments may request contact data.
-| ls-1 | [getProviderLocations](#412-getproviderlocations) | Verify which locations managed by your app are published to IRIS connect.
-| ls-1 | [deleteLocationFromSearchIndex](#413-deletelocationfromsearchindex) | Remove a managed location if the location canceled using your app etc.
-| - | [createDataRequest](#42-process-iris-client-data-requests) | This method has to be an endpoint of your app to receive the details for an data request.
-| hd-xyz | [submitGuestList](#431-send-data-from-app-backend) | After getting a data request, the data is send to the hd-endpoint given in _client.name in the request.
+|Destination Test|Destination Live|Methodname|Annotations|
+|-|-|-|-|
+| ls-1 | locations-production-1 | [postLocationsToSearchIndex](#411-postlocationstosearchindex) | Publish managed locations to IRIS connect, for which health departments may request contact data.
+| ls-1 | locations-production-1 | [getProviderLocations](#412-getproviderlocations) | Verify which locations managed by your app are published to IRIS connect.
+| ls-1 | locations-production-1 | [deleteLocationFromSearchIndex](#413-deletelocationfromsearchindex) | Remove a managed location if the location canceled using your app etc.
+| - | - | [createDataRequest](#42-process-iris-client-data-requests) | This method has to be an endpoint of your app to receive the details for an data request.
+| hd-xyz | hd-xyz | [submitGuestList](#431-send-data-from-app-backend) | After getting a data request, the data is send to the hd-endpoint given in _client.name in the request.
 
 
 ## 4 Integration of EPS Methods in your App
