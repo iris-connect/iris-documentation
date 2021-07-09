@@ -132,7 +132,7 @@ If you are on Linux command line and defined it above, you could simply use the 
 
 You can start a local eps with
 
-    docker run --name iris-eps -p 5556:5556 -p 4444:4444 -v "/data/eps/certs:/app/settings/certs" :ro --env-file .env inoeg/app-eps:latest
+    docker run --name iris-eps -p 5556:5556 -p 4444:4444 -v "/data/eps/certs:/app/settings/certs":ro --env-file .env inoeg/app-eps:latest
 
 Port 4444, 4443 or 443 are valid for test environment. 
 
