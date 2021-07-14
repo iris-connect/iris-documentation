@@ -61,21 +61,23 @@ For the CN, please use your app's name (for example, CN=smartmeeting). *Don't us
 
 *Example of commands issued to create a valid CSR*
 
+    CN=[yourappname]
     O="COSYNUS GmbH"
-    ST="Europaplatz 5"
-    L="64293 Darmstadt"
+    STREET="Europaplatz 5"
+    L="Darmstadt"
+    postalCode="64293"
+    ST="Hessen"
     C="DE"
     OU="IT"
-    CN=[yourappname]
     # using less than 1024 here will result in a TLS handshake failure in Go
     # using less than 2048 will cause e.g. 'curl' to complain that the ciper is too weak
-    LEN="2048"
+    LEN="4096"
 
 
     # We require 4096 bit keys for production environment
     openssl genrsa -out "[yourappname].key" 4096;
   	openssl rsa -in "[yourappname].key" -pubout -out "[yourappname].pub";
-  	openssl req -new -sha256 -key "[yourappname].key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:[yourappname],DNS:*.[yourappname].local" -out "[yourappname].csr";
+  	openssl req -new -utf8 -sha256 -key "[yourappname].key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:[yourappname],DNS:*.[yourappname].local" -out "[yourappname].csr";
 
 
 ### 1.2 Request the Certificate
