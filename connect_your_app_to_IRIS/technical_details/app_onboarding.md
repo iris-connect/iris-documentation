@@ -57,28 +57,26 @@ IRIS offers a test environment and a production environment. The process of crea
 
 Generate your certificate signing request using the ```openssl``` command.
 
-For the CN, please use your app's name (for example, CN=smartmeeting). *Don't use spaces and use lower-case letters only*.
+For the CN, please use your app's name (for example, CN=smartmeeting). *Don't use spaces and use lower-case letters only*. You can use German umlauts 'ä','ö','ü' and also 'ß' directly without encoding them separately by hand. This is handled by the `-utf8` flag of `openssl`.
 
 *Example of commands issued to create a valid CSR*
 
-    CN=[yourappname]
+    yourAppName=[yourappname]
     O="COSYNUS GmbH"
-    STREET="Europaplatz 5"
-    L="Darmstadt"
+    OU="IT"
+    street="Darmstädter Straße 5"
     postalCode="64293"
+    L="Darmstadt"
     ST="Hessen"
     C="DE"
-    OU="IT"
-    # using less than 1024 here will result in a TLS handshake failure in Go
-    # using less than 2048 will cause e.g. 'curl' to complain that the ciper is too weak
+    CN=${yourAppName}
+    # We require 4096 bit keys for production environment
     LEN="4096"
 
 
-    # We require 4096 bit keys for production environment
-    openssl genrsa -out "[yourappname].key" 4096;
-  	openssl rsa -in "[yourappname].key" -pubout -out "[yourappname].pub";
-  	openssl req -new -utf8 -sha256 -key "[yourappname].key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:[yourappname],DNS:*.[yourappname].local" -out "[yourappname].csr";
-
+    openssl genrsa -out "${yourAppName}.key" ${LEN};
+  	openssl rsa -in "${yourAppName}.key" -pubout -out "${yourAppName}.pub";
+  	openssl req -new -utf8 -sha256 -key "${yourAppName}.key" -subj "/C=${C}/ST=${ST}/L=${L}/postalCode=${postalCode}/street=${STREET}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:${yourAppName},DNS:*.${yourAppName}.local" -out "${yourAppName}.csr";
 
 ### 1.2 Request the Certificate
 The process differs depending on whether the app is to be connected to the production or the test environment.
@@ -122,7 +120,7 @@ The certificate issued by IRIS based on your CSR and the corresponding key must 
 
 You will then need to adapt the `.env` file to your environment.
 
-`APP_CN` must be set to the common name you used for your certificate. Also the certificate .key and .crt files need to be named accordingly. 
+`APP_CN` must be set to the common name you used for your certificate. Also, the certificate .key and .crt files need to be named accordingly. 
 
 `APP_BACKEND_ENDPOINT` specifies the endpoint of your local JSON-RPC server.
 
