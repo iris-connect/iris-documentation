@@ -26,7 +26,7 @@ You will receive an email asking you to prove your legal identity. You can choos
 1. Video-Ident or
 2. the eID function of your ID card (see eID feature of German national ID card [English](https://www.personalausweisportal.de/Webs/PA/EN/citizens/electronic-identification/electronic-identification-node.html) / [German](https://www.personalausweisportal.de/Webs/PA/DE/buergerinnen-und-buerger/online-ausweisen/das-brauchen-sie/das-brauchen-sie-node.html))
 
-If you or your organisation own a TLS certificate with Extended Validation (EV) trust level, you can shortcut the identity validation step (Video-Ident/eID-Ident). See below for details. If for some reason neither Video-Ident, nor eID-Ident, nor EV-Ident are possible for you, please reach out to us to discuss alternatives.  
+If for some reason neither Video-Ident, nor eID-Ident are possible for you, please reach out to us to discuss alternatives.
 
 Next, we will email you a commitment form which you need to sign by means of a [qualified electronic signature](https://en.wikipedia.org/wiki/Qualified_electronic_signature) (QES). QES is considered as digital equivalent to handwritten signatures according to EU regulations.
 Please click the link to sign it. Our partner D-Trust (sign-me) will guide you through registration and validation steps. After you have signed, the form will be automatically mailed back to the IRIS CA operator and you.
@@ -35,21 +35,3 @@ Please click the link to sign it. Our partner D-Trust (sign-me) will guide you t
 As soon as the validation has been completed, you will receive your certificate via signed email (also encrypted if you provided us a PGP key or S/MIME certificate). 
 At the same time, the IRIS rollout team will activate your certificate. This is done by publishing the public key in the service directory (public-key pinning). 
 We ask for your understanding if there are some hours time difference between both processes.
-
-#### Proof-of-Identity Shortcut
-If you or your organization have a TLS certificate with the Extended Validation (EV) trust level, you can skip the Video-Ident/eID-Ident step of the identity verification process. To do this, you must include the domain of the EV certificate in the CSR. Note that you do not need to own/control a domain per se to use IRIS. However, if you have one, it can be used for this shortcut.
-
-An IRIS CA operator verifies that you control the domain. You can choose to do this either by email or DNS.
-
-1. Validation by email:
-The IRIS rollout team sends emails to several typical email addresses for the specified domain:
-    * administrator@your_domain_name
-    * hostmaster@your_domain_name
-    * postmaster@your_domain_name
-    * webmaster@your_domain_name
-    * admin@your_domain_name
-2. Validation by DNS:  
-The IRIS rollout team provides you with a key-value pair that you set up as DNS TXT record for the domain. This record serves as proof of domain control.
-
-In both cases, report back to the IRIS rollout team so that it can check the DNS record, or email code, respectively.
-

@@ -3,12 +3,17 @@
 # How to connect your App to IRIS
 
 
-In this document we describe how apps can be connected to the IRIS system.  
+In this document we describe how apps can be connected to IRIS.  
 
 
 ## Overview
 
-The IRIS System consists of different actors that form trust relationships with each other based on certificates. These actors are 1) IRIS Central services 2) Contact Tracing Applications (you) and 3) Health Departments. Actors use the [IRIS endpointserver](https://github.com/iris-gateway/eps) in order to exchange messages with other actors. Each actor is registered in the public IRIS service directory alongside with its corresponding role on the IRIS system.
+The IRIS system consists of different actors that form trust relationships with each other based on digital certificates. These actors are 
+1. IRIS services
+2. Contact Tracing Applications (you)
+3. health departments 
+
+Actors use [IRIS endpoint servers (EPS)](https://github.com/iris-gateway/eps) in order to exchange messages with other actors. Each actor is registered in the public IRIS service directory alongside with its corresponding role on the IRIS system.
 
 Please find below and overview of the IRIS system and its actors as well as the flows that are relevant for your application. 
 
@@ -16,11 +21,11 @@ Please find below and overview of the IRIS system and its actors as well as the 
 
 |Step|Description|
 |-|-|
-|1|You need to send a certificate signing request (csr) to the [IRIS rollout team](mailto:rollout@iris-gateway.de). The rollout team will provide you with a certificate in return. You need to configure your EPS to use that certificate.|
-|2|The IRIS rollout team registers your app and the endpoint domain in the service direcory.|
-|3|Your app pushes the locations for those it is responsible for into the central locations service. This is a frequent process and depends on the lifecycle of the locations that are managed within by app|
+|1|You need to send a certificate signing request (CSR) to the IRIS rollout team. It will provide you with a certificate in return. You need to configure your EPS to use that certificate.|
+|2|The IRIS rollout team registers your app and your endpoint's domain in the IRIS service directory.|
+|3|Your app pushes the locations it manages to the IRIS locations service. This is a frequent process and depends on the lifecycle of the locations that are managed within by app|
 |4|The health authority employees can use the IRIS client (having ints own EPS) in order to search for locations.|
-|5|The IRIS client connects to your app through the EPS layer and requests guest lists for a specific date and time. In order to know the endpoint IRIS internally keeps a record of which location is owned by which app. Your app returns the contact information using EPS.|
+|5|The IRIS client connects to your app through the EPS layer and requests guest lists for a specific date and time frame. In order to know the endpoint IRIS internally keeps a record of which location is managed by which app. Your app returns the contact information using the EPS.|
 
 ---
 
@@ -35,170 +40,107 @@ This guide will show step by step technically integrating an app to IRIS connect
 - [Listen to data requests of the health department submitted to the EPS](#42-process-iris-client-data-requests)
 - [Transmit requested data to the health department using EPS](#43-send-data-submissions)
 
-You need to open port 4444 for incoming connections. 
+You need to open port 4444, 4443 or 443 for incoming connections for test environment. 
 
-The EPS installed on your server needs to be reached on port 4444, this will not be changed (yet).
+The EPS installed on your server needs to be reached on port 4444, 4443 or 443 for the test environment.
 
-You will need openssl to create the certificate and preferably docker to run the EPS.
+This guide uses the ```openssl``` command line tool to create the certificate signing request. Also, we recomend using ```docker``` to run the EPS.
 
 ---
 
 ## 1 Certificate Generation and Enrollment
+To connect your app to IRIS, you need a digital certificate to protect communication between your app, IRIS services and IRIS clients of the health departments. This certificate will be issued and signed by an IRIS connect certificate authority (CA).
 
-A unique certificate for your app is needed to achieve trust for communication reaching out from your local EPS to remote EPS of IRIS central services or IRIS clients.
+IRIS offers a test environment and a production environment. The process of creating a certificate signing request (CSR) is the same for both environments. However, your private key for the production environment must be better protected compared to the test environment. Therefore, we strongly recommend generating a separate private key and CSR for the production environment and not reusing test keys.
 
-The certificate is signed by IRIS connect with a root certificate. The root certificate itself delivers trust for the local EPS for incoming communication.
+### 1.1 Generate a Certificate Signing Request
 
-### 1.1 Generate Certificate Signing Request
+Generate your certificate signing request using the ```openssl``` command.
 
-Generate your certificate signing request (csr) using openssl for the IRIS Connect staging server.
-When switching to production, you will need a separate certificate. We skip this for now, but we will provide it later in this documentation as soon as we set IRIS connect to productive use.
+For the CN, please use your app's name (for example, CN=smartmeeting). *Don't use spaces and use lower-case letters only*. You can use German umlauts 'ä','ö','ü' and also 'ß' directly without encoding them separately by hand. This is handled by the `-utf8` flag of `openssl`.
 
-Please use your app name as CN (for example CN=smartmeeting). *Don't use spaces*.
+*Example of commands issued to create a valid CSR*
 
+    yourAppName=[yourappname]
     O="COSYNUS GmbH"
-    ST="Europaplatz 5"
-    L="64293 Darmstadt"
-    C="DE"
     OU="IT"
-    CN=[yourappname]
-    # using less than 1024 here will result in a TLS handshake failure in Go
-    # using less than 2048 will cause e.g. 'curl' to complain that the ciper is too weak
-    LEN="2048"
+    street="Darmstädter Straße 5"
+    postalCode="64293"
+    L="Darmstadt"
+    ST="Hessen"
+    C="DE"
+    CN=${yourAppName}
+    # We require 4096 bit keys for production environment
+    LEN="4096"
 
 
-    openssl genrsa -out "[yourappname].key" 2048;
-  	openssl rsa -in "[yourappname].key" -pubout -out "[yourappname].pub";
-  	openssl req -new -sha256 -key "[yourappname].key" -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:[yourappname],DNS:*.[yourappname].local" -out "[yourappname].csr";
+    openssl genrsa -out "${yourAppName}.key" ${LEN};
+  	openssl rsa -in "${yourAppName}.key" -pubout -out "${yourAppName}.pub";
+  	openssl req -new -utf8 -sha256 -key "${yourAppName}.key" -subj "/C=${C}/ST=${ST}/L=${L}/postalCode=${postalCode}/street=${STREET}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:${yourAppName},DNS:*.${yourAppName}.local" -out "${yourAppName}.csr";
 
 ### 1.2 Request the Certificate
+The process differs depending on whether the app is to be connected to the production or the test environment.
 
-Send the .csr and your domain to [IRIS rollout team](mailto:rollout@iris-gateway.de) and get your .crt file back from us.
+For the **production environment**, some regulatory requirements must be met. [Continue here](../Connect_App_to_IRIS_certificate.md).
+Also, you need to demonstrate a fully functional connection to the test environment.
+
+For the **test environment**, read on.
+
+Send the .csr file and your domain to [IRIS rollout team](mailto:rollout@iris-connect.de). It will provide you a test certificate (.crt file) in return. Please make sure to tell us which environment (test or production) you are requesting a certificate for.
 
 Example
     
     Hi IRIS Team,
 
-    I provide the csr for api.test.perkiot.com:4444 (staging).
-    Prod is at api.perkiot.com:4444.
+    I provide the csr for api.test.perkiot.com:4444 (test environment).
 
-    BR
+    Best regards
     Mic
-
-For production use it will be neccessary to generate a different csr, and that will be done after integration; the production uri is not needed in this step, just for information (and the IRIS team can maybe do some preparation).
 
 ## 2 Install and configure EPS
 
-The EPS (IRIS EndPointService) does all the magic in a black box:
-- encryption of the data send to the IRIS clients requesting the contact lists
-- ensure trust for IRIS and your app
-- dealing with p2p networking to eliminate bottlenecks
+The IRIS EPS does all the magic for you in the background:
+- encrypting and mutual authentication of the data channel to the IRIS clients requesting the contact lists
+- ensuring trust for IRIS and your app
+- dealing with P2P networking to eliminate bottlenecks
 
-To be able to act, the EPS needs to be configured and trusted, which means it needs the trusted and unique certificate signed from the [csr](#11-generate-certificate-signing-request) you have send to IRIS team, and it must be made known to IRIS, that is the step IRIS team does with the provided URI before issuing the certificate.
+The certificate must be configured in your EPS instance. Also, its endpoint URI must be announced to the IRIS team, so it can be configured in the IRIS services.
 
 ### 2.1 Artifacts needed to start
 
 You need the following:
-- a local settings directory
-- the IRIS staging-root.crt
-- your [certificate](#11-generate-certificate-signing-request)
-- docker image inoeg/eps
+- your certificate (see above)
+- docker image inoeg/app-eps
 
 ### 2.2 Local Settings
 
-The settings folders in the IRIS connect documentation repository below [eps-config](./eps-config) must be copied to your own server.
+The EPS config is mainly done by `ENVIRONMENT` variables. Please create a directory that holds your configuration. For example `/data/eps/`. Please copy the `.env.sample` file as `.env` to this local path.
 
-We show two different possibilities to get your local settings done: on [Linux command line](#221-linux-command-line) or with your prefered [Desktop GUI](#222-desktop-usage).
+The certificate issued by IRIS based on your CSR and the corresponding key must be stored in the `certs/` folder. In our example the certificate and key would be stored in `/data/eps/certs`.
 
-#### 2.2.1 Linux Command Line
+You will then need to adapt the `.env` file to your environment.
 
-We could set some helpful environment variables here to use it in the following steps, change the base dir of $SETTINGS_PATH to match your needs:
+`APP_CN` must be set to the common name you used for your certificate. Also, the certificate .key and .crt files need to be named accordingly. 
 
-    export APP_NAME="[yourapp]"
-    export APP_ENDPOINT="http://[your-host]:[your-port]/[your-endpoint]"
-    export SETTINGS_PATH="/path/to/settings"
-    mkdir -p $SETTINGS_PATH
+`APP_BACKEND_ENDPOINT` specifies the endpoint of your local JSON-RPC server.
 
-Where:
-- the APP_NAME is the name provided by you as CN in the [certificate signing request](#11-generate-certificate-signing-request)
-- the APP_ENDPOINT is the api endpoint of your app that will be called by EPS to submit data requests
-- /path/to/settings is the absolute path to the settings on your machine
-
-**Be aware that you have to ensure to open this api endpoint for your local EPS only!**
-
-There are only two relevant files, and you can copy them one by one and put them in the corresponding folder.
-
-    mkdir -p "$SETTINGS_PATH/staging/roles/$APP_NAME"
-
-    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/roles/yourapp/001_default.yml
-
-    mkdir -p "$SETTINGS_PATH/staging/certs"
-    
-    wget https://raw.githubusercontent.com/iris-connect/iris-documentation/main/connect_your_app_to_IRIS/technical_details/eps-config/settings/staging/certs/staging-root.crt -P "$SETTINGS_PATH/staging/certs/"
-
-The certificate issued by IRIS based on your signing request and the corresponding key must be stored in the certs folder.
-
-    mv /path/to/your/cert/$APP_NAME.crt "$SETTINGS_PATH/staging/certs"
-    mv /path/to/your/cert/$APP_NAME.key "$SETTINGS_PATH/staging/certs"
-
-The settings file must be adapted according to this document and the comments in the respective files. If you followed the instructions exporting the variables, you can just do it with this command:
-
-    envsubst < 001_default.yml > "$SETTINGS_PATH/staging/roles/$APP_NAME/001_default.yml"
-
-    rm 001_default.yml # cleanup template
-
-Well, you are ready to [start your EPS](#23-start-your-eps), skip the desktop usage section.
-
-#### 2.2.2 Desktop usage
-
-To use a browser for download, you can get a [zip compressed archive here](https://downgit.github.io/#/home?url=https://github.com/iris-connect/iris-documentation/tree/main/connect_your_app_to_IRIS/technical_details/eps-config/settings) and unzip it to the folder $SETTINGS_PATH.
-
-The [settings yaml file](./technical_details/eps-config/settings/staging/roles/yourapp/001_default.yml) is placed in a directory naming your app, so be aware to change it accordingly to something like "/data/eps/settings/staging/roles/$APP_NAME"
-
-The IRIS certificate staging-root.crt is available in [certs directory](.technical_details/eps-config/settings/staging/certs) and will be in your certs dir at the right place if folder structure was copied from there.
-
-The certificate issued by IRIS based on your signing request and the corresponding key must be stored in the certs folder.
-
-The settings file must be adapted according to this document and the comments in the respective files. Search and replace $APP_NAME with your app's name and $APP_ENDPOINT with the endpoint address of your app, that is (or will be) open for requests from your local EPS.
-
-    name: $APP_NAME
-    directory:
-    type: api
-    settings:
-        jsonrpc_client:
-        tls:
-            certificate_file: "$DIR/../../certs/$APP_NAME.crt"
-            key_file: "$DIR/../../certs/$APP_NAME.key"
-    [...]
-    - name: main JSON-RPC client # creates outgoing JSONRPC connections to deliver and receive messages
-        type: jsonrpc_client
-        settings:
-        endpoint: http://$APP_ENDPOINT
-    - name: main gRPC client
-        type: grpc_client
-        settings:
-        tls:
-            ca_certificate_files: [ "$DIR/../../certs/staging-root.crt" ]
-            certificate_file: "$DIR/../../certs/$APP_NAME.crt"
-            key_file: "$DIR/../../certs/$APP_NAME.key"
-
-Service directory location will be set in your settings 001_default.yml - currently we provide a staging environment service-directory. When production is available, you will need to generate new certificates and change the service-directory uri. Below is the URI for staging as used in the provided settings.
-
-    directory:
-      settings:
-        endpoints: [ "https://iris.staging.iris-gateway.de:3322/jsonrpc" ] 
+`EPS_SETTINGS` is set to `settings/roles/test/app` for test environment or `settings/roles/prod/app` for production. Caution: Do not replace `app` in this string. It's meant to be `app`.
         
 ### 2.3 Start your EPS
 
-The settings folder is then referenced in the docker call as ``$SETTINGS_PATH`` as an absolute path. If you are on Linux command line and defined it above, you could simply use the statement as is.
+If you are on Linux command line and defined it above, you could simply use the statement as is.
 
 You can start a local eps with
 
-    docker run --name iris-eps --expose 5556 --expose 4444 -p 5556:5556 -p 4444:4444 -v "$SETTINGS_PATH:/app/settings" -e EPS_SETTINGS="settings/staging/roles/$APP_NAME" inoeg/eps:v0.1.13 --level trace server run
- 
-Again, `$APP_NAME` corresponds to the app name you chose for CN in your certificate. 
+    docker run --name iris-eps -p 5556:5556 -p 4444:4444 -v "/data/eps/certs:/app/settings/certs":ro --env-file .env inoeg/app-eps:latest
 
-Port 4444 is mandatory for staging environment. You can change port 5556 to your needs. Requests of your app, that shall reach out to IRIS Connect, will then be sent to `POST https://localhost:5556/jsonrpc` (or your local URL within your own network).
+Port 4444, 4443 or 443 are valid for test environment. 
+
+Ports 4444 and 443 can be used for the production environment.
+
+You can change port 5556 to your needs. Requests of your app, that shall reach out to IRIS Connect, will then be sent to `POST https://localhost:5556/jsonrpc` (or your local URL within your own network).
+
+To change the ports, simply replace the port before the colon.
 
 ## 3 Interacting with EPS
 
@@ -218,9 +160,9 @@ Sending messages to IRIS is done with JSON-RPC.
         "jsonrpc": "2.0"
     }
     
-You can find the specification of the respective methods and destinations [here](#destinations-and-methods).
+You can find the specification of the respective methods and destinations [here](#32-destinations-and-methods).
 
-To test, we will simply send a test location to IRIS staging:
+To test, we will simply send a test location to IRIS test:
 
     curl --header "Content-Type: application/json" --request POST --insecure --data '
     {
@@ -263,14 +205,13 @@ We will update the list of possible errors as they come around.
 
 ### 3.2 Destinations and methods
 
-|Destination|Methodname|Annotations|
-|-|-|-|
-| ls-1 | [postLocationsToSearchIndex](#411-postlocationstosearchindex) | Publish managed locations to IRIS connect, for which health departments may request contact data.
-| ls-1 | [getProviderLocations](#412-getproviderlocations) | Verify which locations managed by your app are published to IRIS connect.
-| ls-1 | [deleteLocationFromSearchIndex](#413-deletelocationfromsearchindex) | Remove a managed location if the location canceled using your app etc.
-| - | [createDataRequest](#42-process-iris-client-data-requests) | This method has to be an endpoint of your app to receive the details for an data request.
-| hd-xyz | [submitGuestList](#431-send-data-from-app-backend) | After getting a data request, the data is send to the hd-endpoint given in _client.name in the request.
-
+|Destination Test|Destination Live|Methodname|Annotations|
+|-|-|-|-|
+| ls-1 | locations-production-1 | [postLocationsToSearchIndex](#411-postlocationstosearchindex) | Publish managed locations to IRIS connect, for which health departments may request contact data.
+| ls-1 | locations-production-1 | [getProviderLocations](#412-getproviderlocations) | Verify which locations managed by your app are published to IRIS connect.
+| ls-1 | locations-production-1 | [deleteLocationFromSearchIndex](#413-deletelocationfromsearchindex) | Remove a managed location if the location canceled using your app etc.
+| - | - | [createDataRequest](#42-process-iris-client-data-requests) | This method has to be an endpoint of your app to receive the details for an data request.
+| hd-xyz | hd-xyz | [submitGuestList](#432-send-data-from-app-backend) | After getting a data request, the data is send to the hd-endpoint given in _client.name in the request.
 
 ## 4 Integration of EPS Methods in your App
 
@@ -391,7 +332,7 @@ You need to provide a json-rpc endpoint on your server. The exact endpoint can b
         settings:
           endpoint: http://[your-host]:[your-port]/[your-endpoint]
           
-To receive incoming DataRequests, you need to implement a method `createDataRequest` on your Endpoint. The following request is an example a the request generated on https://iris.staging.iris-gateway.de - the parameter _client.entry is left out here and contains certificates and fingerprints as well as provided services at the endpoint.
+To receive incoming DataRequests, you need to implement a method `createDataRequest` on your Endpoint. The following request is an example the request generated on https://client.test.iris-gateway.de - the parameter _client.entry is left out here and contains certificates and fingerprints as well as provided services at the endpoint.
 
 ```
 {
@@ -458,7 +399,7 @@ There are two ways to submit data to IRIS. The two ways result from the two diff
 
 Apps that can provide data unencrypted in the backend can send data directly to IRIS via EPS from the backend. Deliver your data to your local EPS after collection.
 
-If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption. In this case the data submission has to be posted to the URL provided in the createDataRequest parameter `proxyEndpoint`. For this scenario, you add a "_client":{"name":"$APP_NAME"} to the params, where $APP_NAME is the name for your app as used in the "CN" field of your certificate from the [csr](#11-generate-certificate-signing-request).
+If the user data must first be decrypted by the operator or another authority in the browser, it can then be transmitted directly from the browser via end-to-end encryption. In this case the data submission has to be posted to the URL provided in the createDataRequest parameter `proxyEndpoint`. For this scenario, you add a "_client":{"name":"$APP_NAME"} to the params, where $APP_NAME is the name for your app as used in the "CN" field of your certificate from the [csr](#11-generate-a-certificate-signing-request).
 
 __Please note, that the timeframe in the request (startDate to endDate) has to be evaluated as: attendFrom is earlier than endDate AND attendTo is later than startDate. This way all visits that overlap start or end are included.__ In full pseudocode, the boolean evaluation should be like `Visit.Entry <= Request.End && Visit.Exit >= Request.Start`.
 
@@ -577,7 +518,7 @@ In short:
 - collect the data and pump it in an array of `guests`
 - build a `guestList` object with `start` and `end` from [createDataRequest](#42-process-iris-client-data-requests)
 - build your data submission POST request with method `[hdEndpoint].submitGuestList` and following params:
-  - `_client` (optional) with your app's CN from [your signing request](#11-generate-certificate-signing-request)
+  - `_client` (optional) with your app's CN from [your signing request](#11-generate-a-certificate-signing-request)
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
   - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
 - POST your request to your local EPS
@@ -586,27 +527,34 @@ In short:
 
 The data is sent to the proxyEndpoint from createDataRequest via JSON-RPC, in detail: `params.dataRequest.proxyEndpoint`. The method name used is `submitGuestList`. **Do not include [hdEnpoint] in method name as when sending to a local EPS.**
 
-The URL for the submission is build as `https://`[proxyEndpoint]`:4433/data-submission-rpc`.
+The URL for the submission is build as `https://`[proxyEndpoint]`:32325/data-submission-rpc`.
 
 In short:
 - build a `dataProvider` object with your own contact details
 - collect the data and pump it in an array of `guests`
 - build a `guestList` object with `start` and `end` from [createDataRequest](#42-process-iris-client-data-requests)
 - build your data submission POST request with method `submitGuestList` and following params:
-  - `_client` (required) with your app's CN from [your signing request](#11-generate-certificate-signing-request)
+  - `_client` (required) with your app's CN from [your signing request](#11-generate-a-certificate-signing-request)
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
   - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
-- POST your request to `https://`[proxyEndpoint]`:4433/data-submission-rpc`
+- POST your request to `https://`[proxyEndpoint]`:32325/data-submission-rpc`
+
+**Please consider that health departments will use self-signed certificates on test environment.** 
 
 ## 5 Test your implementation
 
-To test your implementation, visit https://iris.staging.iris-gateway.de 
+To test your implementation, visit https://client.test.iris-gateway.de 
 
 You can find the password and access data in the slack channel.
 
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
 ## Changelog
+
+### [0.0.10] - 2021-07-02
+
+#### Changed
+- New EPS Version. Please have a look especially at the configuration, docker-image, browser submission ports
 
 ### [0.0.9] - 2021-06-16
 

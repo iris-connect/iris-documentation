@@ -96,7 +96,7 @@ Betriebsmodus Java: Die singulären Strukturen können problemlos auf VMs betrie
 Wir präferieren ein Container Deployment, Betriebsmodus Java ist möglich.
 
 ### Wie bekommte ich das entsprechende Zertifikat für die Registrierung eines Gesundheitsamtes?
-Es gibt einen gesonderten Prozeß, der die [Bestellung und Einrichtung des Zertifikats](https://github.com/iris-connect/iris-client/blob/certificates/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) von der Bundesdruckerei (Public-Key-Infrastruktur, PKI) beschreibt. Der Prozess ist in der [Installationsanleitung](https://github.com/iris-connect/iris-client/blob/certificates/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) beschrieben.
+Es gibt einen gesonderten Prozeß, der die [Bestellung und Einrichtung des Zertifikats](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) von der Bundesdruckerei (Public-Key-Infrastruktur, PKI) beschreibt. Der Prozess ist in der [Installationsanleitung-Zertifikate](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Certificate-Process_Prod_organizational.md) beschrieben.
 
 ### Wird für die Pilotierung Java oder Container System genutzt?
 In der Pilotierung werden Container für das Staging System genutzt, wir sind aber offen für andere Vorschläge.
