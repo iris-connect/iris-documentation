@@ -213,6 +213,8 @@ We will update the list of possible errors as they come around.
 | - | - | [createDataRequest](#42-process-iris-client-data-requests) | This method has to be an endpoint of your app to receive the details for an data request.
 | hd-xyz | hd-xyz | [submitGuestList](#432-send-data-from-app-backend) | After getting a data request, the data is send to the hd-endpoint given in _client.name in the request.
 
+Be aware that destinations shall not be hard-coded, since they vary at different environments (staging, prod). The only destination which you need to configure on your side is the location service, others are submitted in the corresponding request to your app.
+
 ## 4 Integration of EPS Methods in your App
 
 As described above, you have to 
@@ -222,9 +224,15 @@ As described above, you have to
 
 ### 4.1 Location search index
 
-Location search index can be reached at `ls-1`.
+Location search index on test environment can be reached at `ls-1` - live destination is `locations-production-1`.
 
 ### 4.1.1 postLocationsToSearchIndex
+
+**Locations should be pushed once a day** to be safe to have valid data in IRISconnect location service at any time. Although IRISconnect has a persisted location index with backup and restore maintenance, we want to ensure availability of every location by that.
+
+Changes to locations can be pushed at any time, key for updates is the location`s id.
+
+You should check the response to have the result "ok". Otherwise the location or update will not be accepted and you should check why. Please consider to include checks of the EPS log in your daily maintenance.
 
 ##### Request
 
@@ -345,11 +353,11 @@ To receive incoming DataRequests, you need to implement a method `createDataRequ
     },
     "dataRequest": {
       "dataAuthorizationToken": "8f4b3c3a-61e1-4e87-954e-5c6ba4f0e051",
-      "end": "2021-06-09T16:00:00Z",
+      "end": "2021-06-09T16:00:00.000Z",
       "locationId": "d1abc",
       "proxyEndpoint": "d9e2f1c1-ee8d-48e2-be03-e36fb647222d.proxy.test-gesundheitsamt.de",
       "requestDetails": "",
-      "start": "2021-06-09T09:00:00Z"
+      "start": "2021-06-09T09:00:00.000Z"
     }
   },
   "id": "visits.createDataRequest(44693335)"
@@ -466,8 +474,8 @@ GuestList object:
 
 | Parameter | Description | Required | Annotations |
 | --- | --- | --- | --- |   
-| `startDate` | GuestList starts | true | As given in the createDataRequest in time format "yyyy-MM-ddTHH:mm:ssZ" |  
-| `endDate` | GuestList ends | true | As given in the createDataRequest in time format "yyyy-MM-ddTHH:mm:ssZ" | 
+| `startDate` | GuestList starts | true | As given in the createDataRequest in time format "Zulu": "yyyy-MM-ddTHH:mm:ss.SSSZ" |  
+| `endDate` | GuestList ends | true | As given in the createDataRequest in time format "Zulu": "yyyy-MM-ddTHH:mm:ss.SSSZ" | 
 | `additionalInformation` | Additional information | true | Can be left empty for now - is not displayed |
 | `dataProvider` | DataProvider object | true | This is identifying you as the app provider! |
 | `guests` | List of guest objects | true | Could of cause be empty, but must be provided |
@@ -505,8 +513,8 @@ AttendanceInformation object:
 
 | Parameter | Description | Required | Annotations |
 | --- | --- | --- | --- |       
-| `attendFrom` | Attend from | true | Time format "yyyy-MM-ddTHH:mm:ssZ"  
-| `attendTo` | Attend to | true | Time format "yyyy-MM-ddTHH:mm:ssZ"
+| `attendFrom` | Attend from | true | Time format "Zulu": "yyyy-MM-ddTHH:mm:ss.SSSZ"  
+| `attendTo` | Attend to | true | Time format "Zulu": "yyyy-MM-ddTHH:mm:ss.SSSZ"
 | `additionalInformation` | Additional attendance information | false | For example table or area 
 
 ### 4.3.2 Send data from app backend
@@ -522,6 +530,9 @@ In short:
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
   - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
 - POST your request to your local EPS
+- repeat sending until the response has result: ok
+
+The app must react on the response, if the result is not "ok", sending shall be repeated until it is successful, e.g. every 10 minutes.
 
 ### 4.3.3 Send data from app in browser
 
@@ -538,6 +549,9 @@ In short:
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
   - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
 - POST your request to `https://`[proxyEndpoint]`:32325/data-submission-rpc`
+- present the response´s result to the user and keep the data request open until the result was "ok"
+
+The app must keep informing the user to send the data if the result was not yet "ok".
 
 **Please consider that health departments will use self-signed certificates on test environment.** 
 
@@ -550,6 +564,13 @@ You can find the password and access data in the slack channel.
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
 ## Changelog
+
+### [0.1.0] - 2021-07-22
+
+#### Changed
+- Recommondation to push locations regularly
+- Added requirement to repeat sending dataSubmission until it is received successfully by the GA client
+- Completed time format for zulu time with ".SSS" just to be correct
 
 ### [0.0.10] - 2021-07-02
 
