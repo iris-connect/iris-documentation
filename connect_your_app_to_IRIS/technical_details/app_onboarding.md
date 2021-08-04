@@ -76,7 +76,7 @@ For the CN, please use your app's name (for example, CN=smartmeeting). *Don't us
 
     openssl genrsa -out "${yourAppName}.key" ${LEN};
   	openssl rsa -in "${yourAppName}.key" -pubout -out "${yourAppName}.pub";
-  	openssl req -new -utf8 -sha256 -key "${yourAppName}.key" -subj "/C=${C}/ST=${ST}/L=${L}/postalCode=${postalCode}/street=${STREET}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:${yourAppName},DNS:*.${yourAppName}.local" -out "${yourAppName}.csr";
+  	openssl req -new -utf8 -sha256 -key "${yourAppName}.key" -subj "/C=${C}/ST=${ST}/L=${L}/postalCode=${postalCode}/street=${street}/O=${O}/OU=${OU}/CN=${CN}" -addext "subjectAltName = DNS:${yourAppName},DNS:*.${yourAppName}.local" -out "${yourAppName}.csr";
 
 ### 1.2 Request the Certificate
 The process differs depending on whether the app is to be connected to the production or the test environment.
