@@ -563,6 +563,12 @@ You can find the password and access data in the slack channel.
 
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
+# Provide a demo-location
+
+To make your installation more testable for health departments and us, it is desired that you provide a demo location. In addition, you can ensure that the health departments can reach you and that your data is received correctly.
+
+To do this, please load a location "IRIS Demo ([AppName])" into the location service on both test and production. For example, "IRIS Demo (SmartMeeting)". This location should then return three demo records. It is important to note that the request time does not matter. The same data can be used no matter what time the request is made for.
+
 ## Changelog
 
 ### [0.1.0] - 2021-07-22
