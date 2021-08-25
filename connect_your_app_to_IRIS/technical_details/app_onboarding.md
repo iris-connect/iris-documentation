@@ -538,7 +538,7 @@ The app must react on the response, if the result is not "ok", sending shall be 
 
 The data is sent to the proxyEndpoint from createDataRequest via JSON-RPC, in detail: `params.dataRequest.proxyEndpoint`. The method name used is `submitGuestList`. **Do not include [hdEnpoint] in method name as when sending to a local EPS.**
 
-The URL for the submission is build as `https://`[proxyEndpoint]`:32325/data-submission-rpc`.
+The URL for the submission is build as `https://`[proxyEndpoint]`:32325`.
 
 In short:
 - build a `dataProvider` object with your own contact details
@@ -548,7 +548,7 @@ In short:
   - `_client` (required) with your app's CN from [your signing request](#11-generate-a-certificate-signing-request)
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
   - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
-- POST your request to `https://`[proxyEndpoint]`:32325/data-submission-rpc`
+- POST your request to `https://`[proxyEndpoint]`:32325`
 - present the response´s result to the user and keep the data request open until the result was "ok"
 
 The app must keep informing the user to send the data if the result was not yet "ok".
@@ -563,13 +563,19 @@ You can find the password and access data in the slack channel.
 
 There you should find your pushed locations in the search when you start a new event tracking. If you send the request, you should receive a data request. 
 
-# Provide a demo-location
+### 5.1 Provide a demo-location
 
 To make your installation more testable for health departments and us, it is desired that you provide a demo location. In addition, you can ensure that the health departments can reach you and that your data is received correctly.
 
 To do this, please load a location "IRIS Demo ([AppName])" into the location service on both test and production. For example, "IRIS Demo (SmartMeeting)". This location should then return three demo records. It is important to note that the request time does not matter. The same data can be used no matter what time the request is made for.
 
 ## Changelog
+
+### [0.1.1] - 2021-08-25
+
+#### Changed
+- Data submission does not need path /data-submission-rpc anymore
+- Please provide a [demo location](51-provide-a-demo-location)
 
 ### [0.1.0] - 2021-07-22
 
