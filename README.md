@@ -14,7 +14,7 @@ Die [Bedienungsanleitung für Mitarbeitende im Gesundheitsamt](https://uploads-s
 |1.3.1| [Architektur (inkl. Client)](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Architektur.md) |Eng||
 |1.3.2| [Gateway](https://github.com/iris-connect/iris-gateway/blob/develop/README.adoc)|Eng||
 |1.3.3| [EPS](https://github.com/iris-connect/eps/blob/master/README.md)|Eng||
-|1.3.4| [IT- Sicherheitskonzept](https://github.com/iris-connect/iris-security/blob/master/Doc%20Sicherheitskonzept/Sicherheitskonzept.md)|Deu||
+|1.3.4| [Technische Sicherheitsdokumentation](https://github.com/iris-connect/iris-documentation/blob/main/Technische_Sicherheitsdokumentation/Technische_Sicherheitsdokumentation.md)|Deu||
 |1.3.5| Datenschutzkonzept
 |1.4  |	[Changelog](https://github.com/iris-connect/iris-client/blob/develop/CHANGELOG.md)|||
 ### Für Gesundheitsämter
