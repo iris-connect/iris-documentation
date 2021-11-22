@@ -504,10 +504,10 @@ Address object:
 
 | Parameter | Description | Required | Annotations |
 | --- | --- | --- | --- |       
-| `street` | Street | false |   
-| `houseNumber` | House number | false |
-| `zipCode` | Zip code | false | 
-| `city` | City | false |
+| `street` | Street | true |   
+| `houseNumber` | House number | true |
+| `zipCode` | Zip code | true | 
+| `city` | City | true |
 
 AttendanceInformation object:
 
@@ -528,7 +528,7 @@ In short:
 - build your data submission POST request with method `[hdEndpoint].submitGuestList` and following params:
   - `_client` (optional) with your app's CN from [your signing request](#11-generate-a-certificate-signing-request)
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
-  - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
+  - `guestList`
 - POST your request to your local EPS
 - repeat sending until the response has result: ok
 
@@ -547,7 +547,7 @@ In short:
 - build your data submission POST request with method `submitGuestList` and following params:
   - `_client` (required) with your app's CN from [your signing request](#11-generate-a-certificate-signing-request)
   - `dataAuthorizationToken` taken from [createDataRequest](#42-process-iris-client-data-requests)
-  - `guestList` (be aware that `additionalInformation` is required and must at least be an empty string)
+  - `guestList`
 - POST your request to `https://`[proxyEndpoint]`:32325`
 - present the response´s result to the user and keep the data request open until the result was "ok"
 
@@ -570,6 +570,12 @@ To make your installation more testable for health departments and us, it is des
 To do this, please load a location "IRIS Demo ([AppName])" into the location service on both test and production. For example, "IRIS Demo (SmartMeeting)". This location should then return three demo records. It is important to note that the request time does not matter. The same data can be used no matter what time the request is made for.
 
 ## Changelog
+
+### [0.2.0] - 2021-11-22
+
+#### Changed
+- Fields of address object descriped as required. (This has long been implemented in the release.)
+- Removes the note that `additionalInformation` is required, since it is not and thus contradictory information is included.
 
 ### [0.1.1] - 2021-08-25
 
