@@ -22,22 +22,20 @@ Die [Bedienungsanleitung für Mitarbeitende im Gesundheitsamt](https://uploads-s
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
 |2.1  | [Prozessbeschreibung Anbindung](https://github.com/iris-connect/iris-documentation/blob/main/use_iris_as_Gesundheitsamt/GA_Installationsanleitung.md)|Deu||
 |2.2  |	[Installationsanleitung Client](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation.md)|Deu||
-|2.2.1|	[Docker Installation](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation-Docker-Compose.md)|Deu|1. Schritt (Docker wird empfohlen)|
-|2.2.2|	Standalone Installation ( Link wird heute (01.07.) bereit gestellt )|Deu|alternativer 1. Schritt ohne Docker|
-|2.2.3| Proxy|Deu|2. Schritt|
-|2.2.4| [Zertifikatsausstellung](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Certificate-Process-Staging.md)|Deu|3. Schritt|
+|2.2.1|	Zertifikatsausstellung Test |Deu|1. Schritt mit Zertifikaten für einen Testbetrieb|
+|2.2.2| Zertifikatsausstellung Live |Deu|1. Schritt mit Zertifikaten für den Livebetrieb|
+|2.2.3| Proxy Einstellungen |Deu| 2. Schritt (optional) Einstellungen für den Betrieb eines Proxy|
+|2.2.4| [Installation via Docker](https://github.com/iris-connect/iris-client/blob/develop/infrastructure/deployment/docs/Installation-Docker-Compose.md)|Deu|3. Schritt (Docker wird empfohlen)|
+|2.2.5|	[Installation ohne Docker, Standalone] ( Link wird heute (01.07.) bereit gestellt )|Deu|alternativer 3. Schritt ohne Docker|
 |2.3  |	[Bedienungsanleitung für Endnutzer](https://docs.google.com/document/d/1--VHwB3q_Ci1b_LYtAhrvrWx5WNDSbpWWH_YrNIF7JM/edit#heading=h.u4qwc9teio72)|Deu|Dies ist die <B>Anleitung für die Mitarbeiter</B>, die die Kontaktverfolgung durchführen.|
 |2.4  |	[FAQ Gesundheitsämter](https://github.com/iris-connect/iris-documentation/blob/main/use_iris_as_Gesundheitsamt/FAQ_GA_IT-Verantwortliche.md)|Deu||
 ### Für Kontakterfassungs-Apps
 |     | Name und Link             | Sprache    | Beschreibung                                                      |
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
-|3.1	|	[Prozessbeschreibung Anbindung (technischer Teil)](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/technical_details/app_onboarding.md)|Eng||
-|3.2	| [Term and Conditions bzw. AGB](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/Connect_App_to_IRIS_administration.md) | Eng | noch nachzuliefernde AGB
-|3.3  | [Code of Conduct for Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/Code_of_Conduct_Apps_for_IRIS_draft.md)|Eng|1. Schritt|
-|3.4	|	Zertifikatsausstellung||2.Schritt|
-|3.5  | EPS||3. Schritt|
-|3.6	|	Schnittstellenbeschreibung||4. Schritt|		
-|3.7	|	[FAQ Kontakterfassungs-Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/apps_FAQ.md)|||
+|3.1	|	[Prozessbeschreibung App- und System.Anbindung](https://github.com/iris-connect/iris-documentation/tree/app-certificate/connect_your_app_to_IRIS)|Eng||
+|3.2	| [Non-Technical Workstream](https://github.com/iris-connect/iris-documentation/blob/app-certificate/connect_your_app_to_IRIS/Connect_App_to_IRIS_certificate.md) | Eng | 1. Schritt: nicht-technische Voraussetzungen |
+|3.3  | [Technical Workstream](Non-Technical Workstream)| Eng | 2. Schritt: technische Voraussetzungen|
+|3.4	|	[FAQ Kontakterfassungs-Apps](https://github.com/iris-connect/iris-documentation/blob/main/connect_your_app_to_IRIS/apps_FAQ.md)|||
 ### Community and Open Development
 |     | Name und Link             | Sprache    | Beschreibung                                                      |
 | --- | ------------------------- | ---------- | ----------------------------------------------------------------- |
