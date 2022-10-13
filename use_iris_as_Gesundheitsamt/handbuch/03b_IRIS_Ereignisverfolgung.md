@@ -15,7 +15,7 @@ _Starten einer Ereignis-Nachverfolgung (Screenshot enthält Beispiel- oder Testd
 
 Nach dem Starten einer neuen Ereignis-Nachverfolgung können Mitarbeitende im Gesundheitsamt eine einfach zu nutzende Suchfunktion zum Auffinden der Einrichtungen aufrufen.
 
-Alle Einrichtungen, die digital über die angeschlossenen Lösungsanbieter Kontaktdaten erfassen, sind in einem digitalen Verzeichnis hinterlegt. Entsprechend genügen wenige Buchstaben, um eine Liste verfügbarer Orte anzeigen zu lassen. Beispiel: „Eiscafe Venezia“ könnte merhmals gelistet sein.
+Alle Einrichtungen, die digital über die angeschlossenen Lösungsanbieter Kontaktdaten erfassen, sind in einem digitalen Verzeichnis hinterlegt. Entsprechend genügen wenige Buchstaben, um eine Liste verfügbarer Orte anzeigen zu lassen. Beispiel: „Eiscafe Venezia“ könnte mehrmals gelistet sein.
 
 ![IRIS_event_looking_for_location](images/IRIS_event_looking_for_location.png "Suche nach einem Betrieb (Screenshot enthält Beispiel- oder Testdaten)")
 _Suche nach einem Betrieb (Screenshot enthält Beispiel- oder Testdaten)_
@@ -48,7 +48,7 @@ _Offene Ereignis-Nachverfolgungen (Screenshot enthält Beispiel- oder Testdaten)
 
 Die freigegebenen Daten einer Einrichtung können in IRIS connect zur Voransicht geöffnet werden.
 
-* In der Voransicht hat der Mitarbeitende des Gesundheitsamts die Möglichkeit, die enthaltenen Kontakte manuell an- oder abzuwählen. Dies ist deshalb erforderlich, weil es z.B. doppelte Einträge oder andere Unstimmigkeiten geben kann. So kann das Gesundheitsamt eine übersichtliche Vorauswahl treffen.
+* In der Voransicht haben Mitarbeitende des Gesundheitsamts die Möglichkeit, die enthaltenen Kontakte manuell an- oder abzuwählen. Dies ist deshalb erforderlich, weil es z.B. doppelte Einträge oder andere Unstimmigkeiten geben kann. So kann das Gesundheitsamt eine übersichtliche Vorauswahl treffen.
 
 * Insbesondere ist eine Abwahl wichtig, da nicht alle zum selben Zeitpunkt anwesenden Personen automatisch Kontakte ersten oder zweiten Grades sind. In der Regel sind Einrichtungen in Bereiche (z.B. Tische bei der Gastronomie) unterteilt. Hier liegt es im Ermessen des Gesundheitsamtsmitarbeitenden zu entscheiden, welche Daten ins nachgelagerte System übernommen werden sollten. Es steht natürlich auch frei, alle Einträge der Liste zu übernehmen.
 
