@@ -52,8 +52,8 @@ Die freigegebenen Daten einer Einrichtung können in IRIS connect zur Voransicht
 
 * Insbesondere ist eine Abwahl wichtig, da nicht alle zum selben Zeitpunkt anwesenden Personen automatisch relevante Kontakte z.B. ersten oder zweiten Grades sind. In der Regel sind Einrichtungen in Bereiche (z.B. Tische bei der Gastronomie) unterteilt. Hier liegt es im Ermessen des Fachpersonals zu entscheiden, welche Daten ins nachgelagerte System übernommen werden sollten. Es steht natürlich auch frei, alle Einträge der Liste zu übernehmen.
 
-* Nach der Anwahl der zu übernehmenden Daten können diese an die nachgelagerte Fachanwendung übergeben werden.
-* Hier stehen als Optionen derzeit eine Schnittstelle mit SORMAS und ein JSON/CSV-Export zur Verfügung. In Planung sind mögliche Anbindungen an weitere Systeme wie bspw. Octoware,  Äskulab21, ISGA, Mikado, o.a. bzw. Eigenentwicklungen, sofern diese Anwendungen entsprechende Funktionen haben oder entwickeln.
+* Nach der Anwahl der zu übernehmenden Daten können diese an die nachgelagerte Fachanwendung mittels Schnittstelle oder per csv-ex/import übergeben werden.
+* Hier stehen als Optionen derzeit Schnittstellen mit SORMAS und Octoware, sowie ein json/csv-Export zur Verfügung. Weitere Anbindungen an Systeme wie bspw. Äskulab21, ISGA, Mikado, o.a. bzw. Eigenentwicklungen sind mit geringem Aufwand möglich, sofern diese Anwendungen entsprechende (Import-)Funktionen haben oder entwickeln.
 * In SORMAS werden automatisch die entsprechenden Aufgaben für die Kontaktnachverfolgung zur Weitergabe an entsprechende weitere Mitarbeitende erstellt.Dies erleichtert ggf. die Koordinierung innerhalb des Gesundheitsamts.
 
 ![IRIS_event_details](images/IRIS_event_details.png "Datenauswahl zur Übernahme in die Fachanwendung (Screenshot enthält Beispiel- oder Testdaten)")
