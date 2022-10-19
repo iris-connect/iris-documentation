@@ -54,7 +54,7 @@ Die freigegebenen Daten einer Einrichtung können in IRIS connect zur Voransicht
 
 * Nach der Anwahl der zu übernehmenden Daten können diese an die nachgelagerte Fachanwendung mittels Schnittstelle oder per csv-ex/import übergeben werden.
 * Hier stehen als Optionen derzeit Schnittstellen mit SORMAS und Octoware, sowie ein json/csv-Export zur Verfügung. Weitere Anbindungen an Systeme wie bspw. Äskulab21, ISGA, Mikado, o.a. bzw. Eigenentwicklungen sind mit geringem Aufwand möglich, sofern diese Anwendungen entsprechende (Import-)Funktionen haben oder entwickeln.
-* In SORMAS werden automatisch die entsprechenden Aufgaben für die Kontaktnachverfolgung zur Weitergabe an entsprechende weitere Mitarbeitende erstellt.Dies erleichtert ggf. die Koordinierung innerhalb des Gesundheitsamts.
+* In SORMAS werden automatisch die entsprechenden Aufgaben für die Kontaktnachverfolgung zur Weitergabe an entsprechende weitere Mitarbeitende erstellt. Dies erleichtert ggf. die Koordinierung innerhalb des Gesundheitsamts.
 
 ![IRIS_event_details](images/IRIS_event_details.png "Datenauswahl zur Übernahme in die Fachanwendung (Screenshot enthält Beispiel- oder Testdaten)")
 _Datenauswahl zur Übernahme in die Fachanwendung (Screenshot enthält Beispiel- oder Testdaten)_
