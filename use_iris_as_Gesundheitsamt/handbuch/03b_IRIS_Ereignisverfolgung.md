@@ -4,7 +4,7 @@ Im Bereich Ereignis-Nachverfolgung bietet IRIS connect die Möglichkeiten:
 
 * Eine neue Ereignis-Nachverfolgung zu starten
 * Offene Ereignis-Nachverfolgungen einzusehen
-* Übertragene Daten aus einer Ereignis-Nachverfolgung zur Weiterbearbeitung zu übernehmen
+* Übertragene Daten aus einer Ereignis-Nachverfolgung zur Weiterbearbeitung in eine andere Fachanwendung mit entsprechender Schnittstelle oder per csv-Import zu übernehmen
 
 ![IRIS_event_start_request](images/IRIS_event_start_request.png "Starten einer Ereignis-Nachverfolgung (Screenshot enthält Beispiel- oder Testdaten)")
 _Starten einer Ereignis-Nachverfolgung (Screenshot enthält Beispiel- oder Testdaten)_
@@ -22,8 +22,8 @@ _Suche nach einem Betrieb (Screenshot enthält Beispiel- oder Testdaten)_
 
 
 
-* Durch Anzeige der Adresse des Betriebs/der Einrichtung kann in IRIS connect der passende Eintrag ausgewählt werden. 
-* Zur Abfrage müssen zusätzlich Datum und Zeitfenster der zu übermittelnden Gästeliste eingegeben werden, optional kann auch noch eine Textnachricht an den Betrieb übermittelt werden. 
+* Durch Anzeige der Adresse des Betriebs/der Einrichtung kann in IRIS connect der passende Eintrag ausgewählt werden.
+* Zur Abfrage müssen zusätzlich Datum und Zeitfenster der zu übermittelnden Gästeliste eingegeben werden, optional kann auch noch eine Textnachricht an den Betrieb übermittelt werden.
 
 ![IRIS_event_request_location](images/IRIS_event_request_location.png "image_tooltip")
 _Anfrage bei einem Betrieb (Screenshot enthält Beispiel- oder Testdaten)_
@@ -31,12 +31,12 @@ _Anfrage bei einem Betrieb (Screenshot enthält Beispiel- oder Testdaten)_
 
 
 * Durch Anklicken von „Absenden“ wird die Einrichtung zur Herausgabe der Daten aufgefordert (Dies passiert im Hintergrund durch eine Anfrage an den Lösungsanbieter, der die Daten verschlüsselt speichert. Der Lösungsanbieter leitet die Anfrage an die Einrichtung weiter – damit dieser eine Freigabe erteilen kann. Hier wird transparent die Information weitergereicht, dass die Anfrage von einem Gesundheitsamt gestartet wurde.)
-* Die Einrichtung muss die Datenfreigabe erteilen und ermöglicht dadurch dem Lösungsanbieter die Verschlüsselung der Daten für das anfragende Gesundheitsamt anzupassen, so dass nur dieses die Daten auch wieder entschlüsseln kann. 
+* Die Einrichtung muss die Datenfreigabe erteilen und ermöglicht dadurch dem Lösungsanbieter die Verschlüsselung der Daten für das anfragende Gesundheitsamt anzupassen, so dass nur dieses die Daten auch wieder entschlüsseln kann.
 
 
 ### Prüfen offener Ereignis-Nachverfolgungen
 
-* In einer übersichtlichen Liste werden gerade alle vom Gesundheitsamt angefragten Ereignis-Nachverfolgungen gelistet. 
+* In einer übersichtlichen Liste werden gerade alle vom Gesundheitsamt angefragten Ereignis-Nachverfolgungen gelistet.
 * Hier ändert sich der Status eines Eintrags, sobald eine angefragte  Einrichtung die Daten für das Gesundheitsamt freigegeben hat.
 * Eine Filter- und Sortierfunktion erleichtert die Übersicht.
 
@@ -58,5 +58,3 @@ Die freigegebenen Daten einer Einrichtung können in IRIS connect zur Voransicht
 
 ![IRIS_event_details](images/IRIS_event_details.png "Datenauswahl zur Übernahme in die Fachanwendung (Screenshot enthält Beispiel- oder Testdaten)")
 _Datenauswahl zur Übernahme in die Fachanwendung (Screenshot enthält Beispiel- oder Testdaten)_
-
-
